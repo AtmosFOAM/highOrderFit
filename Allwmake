@@ -9,5 +9,6 @@ set -e
     exit 1
 }
 
+wmake src
 wmake test
 testHighOrderFit

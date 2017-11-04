@@ -35,6 +35,6 @@ override_dh_auto_install:
 	$(INSTALL) -d $(DESTDIR)$(libdir)
 	$(INSTALL) -d $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) -D $(FOAM_USER_APPBIN)/* $(DESTDIR)$(bindir)
-	$(INSTALL_PROGRAM) -D $(FOAM_USER_LIBBIN)/* $(DESTDIR)$(libdir)
+	#$(INSTALL_PROGRAM) -D $(FOAM_USER_LIBBIN)/* $(DESTDIR)$(libdir)
 	$(RM) $(DESTDIR)$(bindir)/testHighOrderFit
 	debian/install_lnInclude.sh src $(DESTDIR)$(includedir)
