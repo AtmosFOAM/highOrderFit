@@ -9,7 +9,7 @@ bindir := $(exec_prefix)/bin
 libdir := $(exec_prefix)/lib
 includedir := $(exec_prefix)/include
 sharedir := $(exec_prefix)/share
-DESTDIR := debian/atmosfoam
+DESTDIR := debian/highorderfit
 
 export FOAM_BASHRC = /opt/openfoam-dev/etc/bashrc
 export DH_ROOT_DIR = $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
