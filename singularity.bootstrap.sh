@@ -15,4 +15,4 @@ VERSION=$1
 CODENAME=$2
 
 VERSION=$VERSION envsubst < Singularity > Singularity.$CODENAME
-sudo singularity build $CODENAME.img Singularity.$CODENAME
+sudo singularity build --writable $CODENAME.img Singularity.$CODENAME
