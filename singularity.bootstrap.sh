@@ -15,5 +15,4 @@ VERSION=$1
 CODENAME=$2
 
 VERSION=$VERSION envsubst < Singularity > Singularity.$CODENAME
-sudo singularity create --size 2048 $CODENAME.img
-sudo singularity bootstrap $CODENAME.img Singularity.$CODENAME
+sudo singularity build $CODENAME.img Singularity.$CODENAME
