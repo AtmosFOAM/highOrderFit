@@ -116,3 +116,12 @@ doc/Doxygen/DTAGS
 *.exe
 *.out
 *.app
+
+# Debian build files
+debian/build
+debian/changelog
+debian/debhelper-build-stamp
+debian/files
+debian/highorderfit.debhelper.log
+debian/highorderfit.substvars
+debian/highorderfit
