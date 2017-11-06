@@ -13,7 +13,7 @@ DESTDIR := debian/highorderfit
 
 export FOAM_BASHRC = /opt/openfoam-dev/etc/bashrc
 export DH_ROOT_DIR = $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-export HIGHORDERFIT_SRC = $(shell pwd)/src
+export HIGHORDERFIT_DIR = $(shell pwd)
 
 FOAM_USER_APPBIN := $(DH_ROOT_DIR)/build/bin
 
