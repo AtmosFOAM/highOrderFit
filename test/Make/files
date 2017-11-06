@@ -1,3 +1,4 @@
+test_highOrderFit.C
 testHighOrderFit.C
 
 EXE = $(FOAM_USER_APPBIN)/testHighOrderFit
