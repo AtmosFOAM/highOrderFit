@@ -1,0 +1,14 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+[ -n "$FOAM_EXT_LIBBIN" ] || {
+    echo "Allwmake error: FOAM_EXT_LIBBIN not set"
+    echo "    Check the OpenFOAM entries in your dot-files and source them."
+    exit 1
+}
+
+wmake -j
+blockMesh -case resources/cartesian4x3Mesh
+testHighOrderFit
+
+#------------------------------------------------------------------------------

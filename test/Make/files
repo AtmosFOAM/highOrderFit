@@ -1,3 +1,5 @@
+checks.C
+interpolation.C
 test_highOrderFit.C
 testHighOrderFit.C
 

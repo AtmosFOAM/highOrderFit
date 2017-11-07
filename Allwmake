@@ -9,12 +9,11 @@ set -e
     exit 1
 }
 
-[ -d "$HIGHORDERFIT_SRC" ] || {
-    echo "Error: HIGHORDERFIT_SRC directory does not exist"
+[ -d "$HIGHORDERFIT_DIR" ] || {
+    echo "Error: HIGHORDERFIT_DIR directory does not exist"
     echo "    Check the OpenFOAM entries in your dot-files and source them."
     exit 1
 }
 
 wmake -j -a src
-wmake -j test
-testHighOrderFit
+wmake -j -a test

@@ -21,64 +21,13 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Class
-    Foam::dummy
-
-Description
-
-SourceFiles
-    dummy.C
-
 \*---------------------------------------------------------------------------*/
 
-#ifndef dummy_H
-#define dummy_H
-
-#include "fvCFD.H"
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include "highOrderFit.H"
 
 namespace Foam
 {
-
-/*---------------------------------------------------------------------------*\
-                         Class dummy Declaration
-\*---------------------------------------------------------------------------*/
-
-class dummy
-{
-
-    // Private Member Functions
-
-        //- Disallow default bitwise copy construct
-        dummy(const dummy&);
-
-        //- Disallow default bitwise assignment
-        void operator=(const dummy&);
-
-
-public:
-
-    // Constructors
-
-        //- Construct null
-        dummy();
-
-    //- Destructor
-    ~dummy();
-
-    // Member Functions
-
-        void hello();
-
-};
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif
+    makeSurfaceInterpolationScheme(highOrderFit);
+}
 
 // ************************************************************************* //
