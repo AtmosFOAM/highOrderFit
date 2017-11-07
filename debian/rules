@@ -29,13 +29,14 @@ override_dh_auto_build:
 	debian/override_dh_auto_build.sh
 
 override_dh_auto_test:
-	debian/override_dh.sh $(FOAM_USER_APPBIN)/testHighOrderFit --use-colour yes
+	(cd test && ../debian/override_dh.sh ./makeResources.sh)
+	(cd test && ../debian/override_dh.sh $(FOAM_USER_APPBIN)/testHighOrderFit --use-colour yes)
 
 override_dh_auto_install:
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -d $(DESTDIR)$(libdir)
 	$(INSTALL) -d $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) -D $(FOAM_USER_APPBIN)/* $(DESTDIR)$(bindir)
-	#$(INSTALL_PROGRAM) -D $(FOAM_USER_LIBBIN)/* $(DESTDIR)$(libdir)
+	$(INSTALL_PROGRAM) -D $(FOAM_USER_LIBBIN)/* $(DESTDIR)$(libdir)
 	$(RM) $(DESTDIR)$(bindir)/testHighOrderFit
 	debian/install_lnInclude.sh src $(DESTDIR)$(includedir)

@@ -1,5 +1,6 @@
 checks.C
 interpolation.C
+mesh.C
 test_highOrderFit.C
 testHighOrderFit.C
 
