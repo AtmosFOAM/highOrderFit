@@ -125,3 +125,6 @@ debian/files
 debian/highorderfit.debhelper.log
 debian/highorderfit.substvars
 debian/highorderfit
+
+# Generated test resources
+polyMesh
