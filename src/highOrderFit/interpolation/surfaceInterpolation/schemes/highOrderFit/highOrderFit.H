@@ -34,7 +34,9 @@ SourceFiles
 #ifndef highOrderFit_H
 #define highOrderFit_H
 
+#include "extendedUpwindCellToFaceStencil.H"
 #include "upwind.H"
+#include "upwindCPCCellToFaceStencilObject.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -56,6 +58,9 @@ class highOrderFit
         //- for constructing the upwind-biased stencil
         const scalar minOpposedness_ = 0.5;
 
+        //- Surface flux that determines the upwind direction for the
+        //- upwind-biased stencil
+        const surfaceScalarField& faceFlux_; 
 
     // Private Member Functions
 
@@ -65,12 +70,10 @@ class highOrderFit
         //- Disallow default bitwise assignment
         void operator=(const highOrderFit&);
 
-
 public:
 
     //- Runtime type information
     TypeName("highOrderFit");
-
 
     // Constructors
 
@@ -80,7 +83,8 @@ public:
             (
                 mesh,
                 mesh.lookupObject<surfaceScalarField>(word(is))
-            )
+            ),
+            faceFlux_(mesh.lookupObject<surfaceScalarField>(word(is)))
         {}
 
         highOrderFit
@@ -90,7 +94,8 @@ public:
             Istream& is
         )
         :
-            upwind<Type>(mesh, faceFlux)
+            upwind<Type>(mesh, faceFlux),
+            faceFlux_(faceFlux)
         {}
 
 
@@ -109,30 +114,45 @@ public:
         ) const
         {
             const fvMesh& mesh = this->mesh();
-            tmp<GeometricField<Type, fvsPatchField, surfaceMesh>> tsfCorr
+
+			const extendedUpwindCellToFaceStencil& stencils = upwindCPCCellToFaceStencilObject::New
             (
-                new GeometricField<Type, fvsPatchField, surfaceMesh>
-                (
-                    IOobject
-                    (
-                        vf.name(),
-                        mesh.time().timeName(),
-                        mesh,
-                        IOobject::NO_READ,
-                        IOobject::NO_WRITE,
-                        false
-                    ),
-                    mesh,
-                    dimensioned<Type>
-                    (
-                        vf.name(),
-                        vf.dimensions(),
-                        Zero
-                    )
-                )
+                mesh,
+                false, // not pure upwind
+                minOpposedness_
             );
 
-            return tsfCorr; 
+            scalarListList ownerWeights(mesh.nFaces());
+            for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
+            {
+                const labelList& stencil = stencils.ownStencil()[faceI];
+                scalarList& weights = ownerWeights[faceI];
+                weights.setSize(stencil.size());
+                forAll(stencil, i)
+                {
+                    weights[i] = 0.0;
+                }
+            }
+
+            scalarListList neighbourWeights(mesh.nFaces());
+            for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
+            {
+                const labelList& stencil = stencils.ownStencil()[faceI];
+                scalarList& weights = neighbourWeights[faceI];
+                weights.setSize(stencil.size());
+                forAll(stencil, i)
+                {
+                    weights[i] = 0.0;
+                }
+            }
+
+            return stencils.weightedSum
+            (
+                faceFlux_,
+                vf,
+                ownerWeights,
+                neighbourWeights
+            );
         }
 
 };
