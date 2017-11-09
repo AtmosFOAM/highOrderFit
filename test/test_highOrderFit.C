@@ -57,20 +57,29 @@ TEST_CASE("highOrderFit_interpolates_constant_scalar_field")
     Test::checkEqual(Tf, expectedTf);
 }
 
-TEST_CASE("highOrderFit_exactly_reconstructs_linear_in_x_for_vertical_face",
-          "[!mayfail]")
+TEST_CASE("highOrderFit_exactly_reconstructs_linear_in_x_for_vertical_face")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
-    forAll(highOrderFit.T(), cellI)
-    {
-        highOrderFit.T()[cellI] = 3*highOrderFit.mesh().C()[cellI].x() + 4;
-    }
+    highOrderFit.setTlinearInX();
 
     const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
 
     const label faceI = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
     CHECK(Tf()[faceI] == Test::approx(13.0));
+}
+
+TEST_CASE("highOrderFit_exactly_reconstructs_linear_in_x_for_reversed_wind")
+{
+    Test::interpolation highOrderFit("cartesian4x3Mesh");
+    highOrderFit.negateFaceFlux();
+    const Test::mesh testMesh(highOrderFit.mesh());
+    highOrderFit.setTlinearInX();
+
+    const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
+
+    const label faceI = testMesh.indexOfFaceWithCentreAt(point(1, 1.5, 0));
+    CHECK(Tf()[faceI] == Test::approx(7.0));
 }
 
 }

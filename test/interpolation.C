@@ -31,7 +31,7 @@ using namespace Foam;
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 const tmp<Foam::surfaceScalarField>
-Test::interpolation::initialisePhi()
+Test::interpolation::initialiseFaceFlux()
 {
     const surfaceVectorField Uf
     (
@@ -45,12 +45,12 @@ Test::interpolation::initialisePhi()
         mesh_
     );
 
-    const tmp<surfaceScalarField> tPhi
+    const tmp<surfaceScalarField> tFaceFlux
     (
         new surfaceScalarField(Uf & mesh_.Sf())
     );
 
-    return tPhi;
+    return tFaceFlux;
 }
 
 const tmp<surfaceInterpolationScheme<scalar>>
@@ -63,7 +63,7 @@ Test::interpolation::initialiseScheme
     return surfaceInterpolationScheme<scalar>::New
         (
             mesh_,
-            phi_,
+            faceFlux_,
             schemeNameStream
         );
 }
@@ -91,7 +91,7 @@ mesh_
         IOobject::MUST_READ
     )
 ),
-phi_(initialisePhi()),
+faceFlux_(initialiseFaceFlux()),
 scheme_(initialiseScheme(schemeName)),
 T_
 (
@@ -127,6 +127,19 @@ const Foam::tmp<Foam::surfaceScalarField>
 Test::interpolation::interpolateT() const
 {
     return scheme_().interpolate(T_);
+}
+
+void Test::interpolation::negateFaceFlux()
+{
+    faceFlux_.ref() == -faceFlux_();
+}
+
+void Test::interpolation::setTlinearInX(scalar m, scalar c)
+{
+    forAll(T_, cellI)
+    {
+        T_[cellI] = m*mesh_.C()[cellI].x() + c;
+    }
 }
 
 // ************************************************************************* //

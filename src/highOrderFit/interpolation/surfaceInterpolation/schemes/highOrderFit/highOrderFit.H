@@ -126,9 +126,12 @@ public:
             for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
             {
                 const labelList& stencil = stencils.ownStencil()[faceI];
+                Info << "owner stencil " << faceI << ": " << stencil << endl;
                 scalarList& weights = ownerWeights[faceI];
                 weights.setSize(stencil.size());
-                forAll(stencil, i)
+                weights[0] = -0.5;
+                weights[1] = 0.5;
+                for (label i = 2; i < weights.size(); i++)
                 {
                     weights[i] = 0.0;
                 }
@@ -137,10 +140,13 @@ public:
             scalarListList neighbourWeights(mesh.nFaces());
             for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
             {
-                const labelList& stencil = stencils.ownStencil()[faceI];
+                const labelList& stencil = stencils.neiStencil()[faceI];
+                Info << "neighbour stencil " << faceI << ": " << stencil << endl;
                 scalarList& weights = neighbourWeights[faceI];
                 weights.setSize(stencil.size());
-                forAll(stencil, i)
+                weights[0] = -0.5;
+                weights[1] = 0.5;
+                for (label i = 2; i < weights.size(); i++)
                 {
                     weights[i] = 0.0;
                 }

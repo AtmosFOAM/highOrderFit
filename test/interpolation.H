@@ -55,7 +55,7 @@ class interpolation
 
         const Foam::Time runTime_;
         const Foam::fvMesh mesh_;
-        const Foam::tmp<Foam::surfaceScalarField> phi_;
+        const Foam::tmp<Foam::surfaceScalarField> faceFlux_;
         const Foam::tmp
         <
             Foam::surfaceInterpolationScheme<Foam::scalar>
@@ -65,7 +65,7 @@ class interpolation
 
     // Private Member Functions
 
-        const Foam::tmp<Foam::surfaceScalarField> initialisePhi();
+        const Foam::tmp<Foam::surfaceScalarField> initialiseFaceFlux();
 
         const Foam::tmp
         <
@@ -73,13 +73,11 @@ class interpolation
         >
         initialiseScheme(const Foam::word& schemeName);
 
-
         //- Disallow default bitwise copy construct
         interpolation(const interpolation&);
 
         //- Disallow default bitwise assignment
         void operator=(const interpolation&);
-
 
 public:
 
@@ -98,6 +96,11 @@ public:
         Foam::volScalarField& T();
         const Foam::tmp<Foam::surfaceScalarField> interpolateT() const;
 
+        //- reverse the velocity field.  This is useful for testing owner
+        //- and neighbour sides for the upwind-biased stencil.
+        void negateFaceFlux();
+
+        void setTlinearInX(Foam::scalar m=3, Foam::scalar c=4);
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
