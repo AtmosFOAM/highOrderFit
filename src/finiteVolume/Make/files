@@ -1,0 +1,7 @@
+extendedStencil = fvMesh/extendedStencil
+
+cellToFace = $(extendedStencil)/cellToFace
+$(cellToFace)/extendedUpwindCellToFaceStencil.C
+$(cellToFace)/MeshObjects/upwindCPCCellToFaceStencilObject.C
+
+LIB = $(FOAM_USER_LIBBIN)/libfiniteVolumeHighOrderFit
