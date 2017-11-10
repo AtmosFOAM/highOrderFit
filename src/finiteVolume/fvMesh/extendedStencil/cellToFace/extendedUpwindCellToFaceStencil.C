@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -151,13 +151,32 @@ void Foam::extendedUpwindCellToFaceStencil::transportStencil
         }
     }
 
-    // Add my owner and neighbour first.
+    // Add my owner and neighbour first
+    // (owner first for linearCorr, upwind cell first for linearCorr=false)
     if (stencilHasNeighbour)
     {
         transportedStencil.setSize(faceStencilSet.size()+2);
         label n = 0;
-        transportedStencil[n++] = globalOwn;
-        transportedStencil[n++] = globalNei;
+        if (linearCorr_)
+        {
+            transportedStencil[n++] = globalOwn;
+            transportedStencil[n++] = globalNei;
+        }
+        else
+        {
+            label localOwn = mesh_.faceOwner()[facei];
+
+            if (celli == localOwn)
+            {
+                transportedStencil[n++] = globalOwn;
+                transportedStencil[n++] = globalNei;
+            }
+            else
+            {
+                transportedStencil[n++] = globalNei;
+                transportedStencil[n++] = globalOwn;
+            }
+        }
 
         forAllConstIter(labelHashSet, faceStencilSet, iter)
         {
@@ -380,40 +399,14 @@ Foam::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
 (
     const cellToFaceStencil& stencil,
     const bool pureUpwind,
-    const scalar minOpposedness
+    const scalar minOpposedness,
+    const bool linearCorr
 )
 :
     extendedCellToFaceStencil(stencil.mesh()),
-    pureUpwind_(pureUpwind)
+    pureUpwind_(pureUpwind),
+    linearCorr_(linearCorr)
 {
-    //forAll(stencil, facei)
-    //{
-    //    const labelList& fCells = stencil[facei];
-    //
-    //    Pout<< "Face:" << facei << " at:" << mesh_.faceCentres()[facei]
-    //        << endl;
-    //
-    //    forAll(fCells, i)
-    //    {
-    //        label globalI = fCells[i];
-    //
-    //        if (globalI < mesh_.nCells())
-    //        {
-    //            Pout<< "    cell:" << globalI
-    //                << " at:" << mesh_.cellCentres()[globalI] << endl;
-    //        }
-    //        else
-    //        {
-    //            label facei = globalI-mesh_.nCells() + mesh_.nInternalFaces();
-    //
-    //            Pout<< "    boundary:" << facei
-    //                << " at:" << mesh_.faceCentres()[facei] << endl;
-    //        }
-    //    }
-    //}
-    //Pout<< endl << endl;
-
-
     // Transport centred stencil to upwind/downwind face
     transportStencils
     (
@@ -526,7 +519,8 @@ Foam::extendedUpwindCellToFaceStencil::extendedUpwindCellToFaceStencil
 )
 :
     extendedCellToFaceStencil(stencil.mesh()),
-    pureUpwind_(true)
+    pureUpwind_(true),
+    linearCorr_(false)
 {
     // Calculate stencil points with full stencil
 

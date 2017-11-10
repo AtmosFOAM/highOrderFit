@@ -121,14 +121,14 @@ public:
             (
                 mesh,
                 false, // not pure upwind
-                minOpposedness_
+                minOpposedness_,
+                false // not a correction on linear
             );
 
             scalarListList ownerWeights(mesh.nFaces());
             for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
             {
                 const labelList& stencil = stencils.ownStencil()[faceI];
-                Info << "owner stencil " << faceI << ": " << stencil << endl;
                 scalarList& weights = ownerWeights[faceI];
                 weights.setSize(stencil.size());
                 weights[0] = -0.5;
@@ -143,7 +143,6 @@ public:
             for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
             {
                 const labelList& stencil = stencils.neiStencil()[faceI];
-                Info << "neighbour stencil " << faceI << ": " << stencil << endl;
                 scalarList& weights = neighbourWeights[faceI];
                 weights.setSize(stencil.size());
                 weights[0] = -0.5;

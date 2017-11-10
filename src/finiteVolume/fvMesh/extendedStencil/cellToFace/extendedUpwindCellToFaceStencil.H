@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -27,6 +27,10 @@ Class
 Description
     Creates upwind stencil by shifting a centred stencil to upwind and downwind
     faces and optionally removing all non-(up/down)wind faces ('pureUpwind').
+    The version using linearCorr_ = true (the default) is for schemes that are a
+    correction on linear so that the owner cell is the first in the stencil. The
+    version using linearCorr_ = false is for schemes that are a correction on
+    upwind so that the upwind cell is first in the stencil.
 
     Note: the minOpposedness parameter is to decide which upwind and
     downwind faces to combine the stencils from. If myArea is the
@@ -65,6 +69,9 @@ class extendedUpwindCellToFaceStencil
 
         //- Does stencil contain upwind points only
         const bool pureUpwind_;
+        
+        //- Does the stencil include the owner cell first or the upwind cell
+        const bool linearCorr_;
 
         //- Swap map for getting neigbouring data
         autoPtr<mapDistribute> ownMapPtr_;
@@ -131,7 +138,8 @@ public:
         (
             const cellToFaceStencil&,
             const bool pureUpwind,
-            const scalar minOpposedness
+            const scalar minOpposedness,
+            const bool linearCorr = true
         );
 
         //- Construct from mesh and uncompacted centred face stencil. Splits
@@ -147,6 +155,11 @@ public:
         bool pureUpwind() const
         {
             return pureUpwind_;
+        }
+        
+        bool linearCorr() const
+        {
+            return linearCorr_;
         }
 
         //- Return reference to the parallel distribution map
@@ -179,8 +192,8 @@ public:
         (
             const surfaceScalarField& phi,
             const GeometricField<Type, fvPatchField, volMesh>& fld,
-            const List<List<scalar>>& ownWeights,
-            const List<List<scalar>>& neiWeights
+            const scalarListList& ownWeights,
+            const scalarListList& neiWeights
         ) const;
 
 };

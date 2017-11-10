@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -68,7 +68,8 @@ public:
         (
             const fvMesh& mesh,
             const bool pureUpwind,
-            const scalar minOpposedness
+            const scalar minOpposedness,
+            const bool linearCorr = true
         )
         :
             MeshObject
@@ -81,7 +82,8 @@ public:
             (
                 CPCCellToFaceStencil(mesh),
                 pureUpwind,
-                minOpposedness
+                minOpposedness,
+                linearCorr
             )
         {
             if (extendedCellToFaceStencil::debug)

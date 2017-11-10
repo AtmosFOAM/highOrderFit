@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -72,7 +72,7 @@ Foam::extendedUpwindCellToFaceStencil::weightedSum
     // Internal faces
     for (label facei = 0; facei < mesh.nInternalFaces(); facei++)
     {
-        if (phi[facei] > 0)
+        if (phi[facei] >= 0)
         {
             // Flux out of owner. Use upwind (= owner side) stencil.
             const List<Type>& stField = ownFld[facei];
@@ -110,7 +110,7 @@ Foam::extendedUpwindCellToFaceStencil::weightedSum
 
             forAll(pSfCorr, i)
             {
-                if (phi.boundaryField()[patchi][i] > 0)
+                if (phi.boundaryField()[patchi][i] >= 0)
                 {
                     // Flux out of owner. Use upwind (= owner side) stencil.
                     const List<Type>& stField = ownFld[facei];
