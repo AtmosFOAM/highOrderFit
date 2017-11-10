@@ -25,6 +25,8 @@ Class
     Foam::highOrderFit
 
 Description
+    A high-order approximation for interpolating surface fluxes from an
+    upwind-biased stencil of cell averages.
 
 SourceFiles
     highOrderFit.C
@@ -100,13 +102,13 @@ public:
 
 
     // Member Functions
-        //- Return true if this scheme uses an explicit correction
+        //- Returns `true` since the scheme applies a high-order correction
         virtual bool corrected() const
         {
             return true;
         }
 
-        //- Return the explicit correction to the face-interpolate
+        //- Explicit correction to the surface flux interpolate
         virtual tmp<GeometricField<Type, fvsPatchField, surfaceMesh> >
         correction
         (
