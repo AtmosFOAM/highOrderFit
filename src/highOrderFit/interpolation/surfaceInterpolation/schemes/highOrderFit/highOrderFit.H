@@ -60,10 +60,6 @@ class highOrderFit
         //- for constructing the upwind-biased stencil
         const scalar minOpposedness_ = 0.5;
 
-        //- Surface flux that determines the upwind direction for the
-        //- upwind-biased stencil
-        const surfaceScalarField& faceFlux_; 
-
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
@@ -79,16 +75,21 @@ public:
 
     // Constructors
 
+        //- Construct using the configuration provided by the \c Istream \c is.
+        // @param[in] is an fvSchemes configuration string.
+        //               The first word identifies the \c faceFlux
+        //               \c surfaceScalarField.
         highOrderFit(const fvMesh& mesh, Istream& is)
         :
             upwind<Type>
             (
                 mesh,
                 mesh.lookupObject<surfaceScalarField>(word(is))
-            ),
-            faceFlux_(mesh.lookupObject<surfaceScalarField>(word(is)))
+            )
         {}
 
+        //- Construct a highOrderFit using the specified \c faceFlux
+        // @param[in] faceFlux determines the upwind direction for each face
         highOrderFit
         (
             const fvMesh& mesh,
@@ -96,13 +97,12 @@ public:
             Istream& is
         )
         :
-            upwind<Type>(mesh, faceFlux),
-            faceFlux_(faceFlux)
+            upwind<Type>(mesh, faceFlux)
         {}
 
 
     // Member Functions
-        //- Returns `true` since the scheme applies a high-order correction
+        //- Returns \c true since a high-order correction on upwind is applied.
         virtual bool corrected() const
         {
             return true;
@@ -155,7 +155,7 @@ public:
 
             return stencils.weightedSum
             (
-                faceFlux_,
+                upwind<Type>::faceFlux_,
                 vf,
                 ownerWeights,
                 neighbourWeights
