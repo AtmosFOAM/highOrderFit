@@ -96,8 +96,9 @@ public:
         Foam::volScalarField& T();
         const Foam::tmp<Foam::surfaceScalarField> interpolateT() const;
 
-        //- reverse the velocity field.  This is useful for testing owner
-        //- and neighbour sides for the upwind-biased stencil.
+        //- reverse the velocity field.
+        //  This is useful for testing owner and neighbour sides for the
+        //  upwind-biased stencil.
         void negateFaceFlux();
 
         void setTlinearInX(Foam::scalar m=3, Foam::scalar c=4);

@@ -36,14 +36,19 @@ using namespace Foam;
 namespace Test
 {
 
-TEST_CASE("highOrderFitWeightsField_has_same_size_as_stencil_field")
+static void initialiseStencilCellsList(labelListList& stencilCellsList)
 {
-    Test::interpolation highOrderFit("cartesian4x3Mesh");
-    labelListList stencilCellsList(55);
     forAll(stencilCellsList, i)
     {
         stencilCellsList[i].setSize(2);
     }
+}
+
+TEST_CASE("highOrderFitWeightsField_has_same_size_as_stencil_field")
+{
+    Test::interpolation highOrderFit("cartesian4x3Mesh");
+    labelListList stencilCellsList(55);
+    Test::initialiseStencilCellsList(stencilCellsList);
 
     highOrderFitStencilField stencils(highOrderFit.mesh(), stencilCellsList);
     highOrderFitWeightsField weights(stencils);
@@ -58,10 +63,7 @@ TEST_CASE("highOrderFitWeightsField_has_weight_for_each_cell_in_stencil")
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
     
     labelListList stencilCellsList(55);
-    forAll(stencilCellsList, i)
-    {
-        stencilCellsList[i].setSize(2);
-    }
+    Test::initialiseStencilCellsList(stencilCellsList);
     stencilCellsList[facei].setSize(12);
 
     highOrderFitStencilField stencils(highOrderFit.mesh(), stencilCellsList);
@@ -77,10 +79,7 @@ TEST_CASE("highOrderFitWeightsField_linear_interpolates_upwind_downwind_cells")
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
     
     labelListList stencilCellsList(55);
-    forAll(stencilCellsList, i)
-    {
-        stencilCellsList[i].setSize(2);
-    }
+    Test::initialiseStencilCellsList(stencilCellsList);
     stencilCellsList[facei].setSize(12);
 
     highOrderFitStencilField stencils(highOrderFit.mesh(), stencilCellsList);
