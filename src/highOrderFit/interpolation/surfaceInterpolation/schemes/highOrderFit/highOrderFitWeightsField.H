@@ -25,6 +25,7 @@ Class
     Foam::highOrderFitWeightsField
 
 Description
+    A list of surface interpolation weights indexed by face.
 
 SourceFiles
     highOrderFitWeightsField.C
@@ -65,7 +66,7 @@ public:
 
     // Constructors
 
-        //- Construct from components
+        //- Construct from the specified stencil field.
         highOrderFitWeightsField(const highOrderFitStencilField& stencils);
 
 

@@ -25,6 +25,7 @@ Class
     Foam::highOrderFitStencilField
 
 Description
+    Stencils of cells for cellToFace surface interpolation indexed by face.
 
 SourceFiles
     highOrderFitStencilField.C
@@ -67,7 +68,7 @@ public:
 
     // Constructors
 
-        //- Construct from components
+        //- Construct from a specified list of stencils of cell labels.
         highOrderFitStencilField
         (
             const fvMesh& mesh,
