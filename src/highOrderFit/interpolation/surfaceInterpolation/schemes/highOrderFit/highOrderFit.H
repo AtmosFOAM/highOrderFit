@@ -129,15 +129,15 @@ public:
 
             highOrderFitStencilField ownerStencils
             (
-                mesh,
-                stencils.ownStencil()
+                stencils.ownStencil(),
+                mesh
             );
             highOrderFitWeightsField ownerWeights(ownerStencils);
 
             highOrderFitStencilField neighbourStencils
             (
-                mesh,
-                stencils.neiStencil()
+                stencils.neiStencil(),
+                mesh
             );
             highOrderFitWeightsField neighbourWeights(neighbourStencils);
 

@@ -31,12 +31,12 @@ License
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 Foam::highOrderFitStencilField::highOrderFitStencilField
 (
-    const fvMesh& mesh,
-    const labelListList& stencilCellsList
+    const labelListList& stencilCellsList,
+    const fvMesh& mesh
 )
 :
-    mesh_(mesh),
-    labelListList(stencilCellsList)
+    labelListList(stencilCellsList),
+    mesh_(mesh)
 {}
 
 

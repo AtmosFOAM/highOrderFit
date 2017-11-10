@@ -71,8 +71,8 @@ public:
         //- Construct from a specified list of stencils of cell labels.
         highOrderFitStencilField
         (
-            const fvMesh& mesh,
-            const labelListList& stencilCellsList
+            const labelListList& stencilCellsList,
+            const fvMesh& mesh
         );
 
 
