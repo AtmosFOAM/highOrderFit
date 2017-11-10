@@ -1,0 +1,70 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2017 OpenFOAM Foundation
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+License
+    This file is part of OpenFOAM.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
+#include "highOrderFitWeightsField.H"
+
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+
+
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
+Foam::highOrderFitWeightsField::highOrderFitWeightsField
+(
+    const highOrderFitStencilField& stencils
+)
+:
+    scalarListList(stencils.size())
+{
+    for (label facei = 0; facei < stencils.mesh().nInternalFaces(); facei++)
+    {
+        scalarList& weights = (*this)[facei];
+        weights.setSize(stencils[facei].size());
+		if (weights.size() < 2)
+		{
+			FatalErrorInFunction
+	            << "stencil for facei " << facei << " has fewer than two cells"
+                << abort(FatalError);
+		}
+
+		weights[0] = -0.5;
+		weights[1] = 0.5;
+		for (label i = 2; i < weights.size(); i++)
+		{
+			weights[i] = 0.0;
+		}
+    }
+}
+
+
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+Foam::highOrderFitWeightsField::~highOrderFitWeightsField()
+{}
+
+
+// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+
+// ************************************************************************* //

@@ -28,60 +28,67 @@ License
 #include "interpolation.H"
 #include "mesh.H"
 
-#include "IOobject.H"
-#include "tmp.H"
+#include "highOrderFitStencilField.H"
+#include "highOrderFitWeightsField.H"
 
 using namespace Foam;
 
 namespace Test
 {
 
-TEST_CASE("highOrderFit_interpolates_constant_scalar_field")
+TEST_CASE("highOrderFitWeightsField_has_same_size_as_stencil_field")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
-    highOrderFit.T() = dimensionedScalar("T", dimless, scalar(1));
-    const surfaceScalarField expectedTf
-    (
-        IOobject
-        (
-            "expectedTf",
-            highOrderFit.runTime().timeName(),
-            highOrderFit.mesh()
-        ),
-        highOrderFit.mesh(),
-        dimensionedScalar("expectedTf", dimless, scalar(1))
-    );
+    labelListList stencilCellsList(55);
+    forAll(stencilCellsList, i)
+    {
+        stencilCellsList[i].setSize(2);
+    }
 
-    const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
+    highOrderFitStencilField stencils(highOrderFit.mesh(), stencilCellsList);
+    highOrderFitWeightsField weights(stencils);
 
-    Test::checkEqual(Tf, expectedTf);
+    CHECK( weights.size() == 55 );
 }
 
-TEST_CASE("highOrderFit_exactly_reconstructs_linear_in_x_for_vertical_face")
+TEST_CASE("highOrderFitWeightsField_has_weight_for_each_cell_in_stencil")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
-    highOrderFit.setTlinearInX();
-
-    const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
-
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
-    CHECK(Tf()[facei] == Test::approx(13.0));
+    
+    labelListList stencilCellsList(55);
+    forAll(stencilCellsList, i)
+    {
+        stencilCellsList[i].setSize(2);
+    }
+    stencilCellsList[facei].setSize(12);
+
+    highOrderFitStencilField stencils(highOrderFit.mesh(), stencilCellsList);
+    highOrderFitWeightsField weights(stencils);
+
+    CHECK( weights[facei].size() == 12 );
 }
 
-TEST_CASE("highOrderFit_exactly_reconstructs_linear_in_x_for_reversed_wind")
+TEST_CASE("highOrderFitWeightsField_linear_interpolates_upwind_downwind_cells")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
-    highOrderFit.negateFaceFlux();
     const Test::mesh testMesh(highOrderFit.mesh());
-    highOrderFit.setTlinearInX();
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    
+    labelListList stencilCellsList(55);
+    forAll(stencilCellsList, i)
+    {
+        stencilCellsList[i].setSize(2);
+    }
+    stencilCellsList[facei].setSize(12);
 
-    const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
+    highOrderFitStencilField stencils(highOrderFit.mesh(), stencilCellsList);
+    highOrderFitWeightsField weights(stencils);
 
-    const label facei = testMesh.indexOfFaceWithCentreAt(point(1, 1.5, 0));
-    CHECK(Tf()[facei] == Test::approx(7.0));
+    const label upwind = 0, downwind = 1;
+    CHECK( weights[facei][upwind] == Test::approx(-0.5) );
+    CHECK( weights[facei][downwind] == Test::approx(0.5) );
 }
 
 }
-
-// ************************************************************************* //

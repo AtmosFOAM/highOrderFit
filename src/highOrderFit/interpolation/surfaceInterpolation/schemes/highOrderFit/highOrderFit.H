@@ -37,6 +37,8 @@ SourceFiles
 #define highOrderFit_H
 
 #include "extendedUpwindCellToFaceStencil.H"
+#include "highOrderFitStencilField.H"
+#include "highOrderFitWeightsField.H"
 #include "upwind.H"
 #include "upwindCPCCellToFaceStencilObject.H"
 
@@ -125,33 +127,19 @@ public:
                 false // not a correction on linear
             );
 
-            scalarListList ownerWeights(mesh.nFaces());
-            for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
-            {
-                const labelList& stencil = stencils.ownStencil()[faceI];
-                scalarList& weights = ownerWeights[faceI];
-                weights.setSize(stencil.size());
-                weights[0] = -0.5;
-                weights[1] = 0.5;
-                for (label i = 2; i < weights.size(); i++)
-                {
-                    weights[i] = 0.0;
-                }
-            }
+            highOrderFitStencilField ownerStencils
+            (
+                mesh,
+                stencils.ownStencil()
+            );
+            highOrderFitWeightsField ownerWeights(ownerStencils);
 
-            scalarListList neighbourWeights(mesh.nFaces());
-            for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
-            {
-                const labelList& stencil = stencils.neiStencil()[faceI];
-                scalarList& weights = neighbourWeights[faceI];
-                weights.setSize(stencil.size());
-                weights[0] = -0.5;
-                weights[1] = 0.5;
-                for (label i = 2; i < weights.size(); i++)
-                {
-                    weights[i] = 0.0;
-                }
-            }
+            highOrderFitStencilField neighbourStencils
+            (
+                mesh,
+                stencils.neiStencil()
+            );
+            highOrderFitWeightsField neighbourWeights(neighbourStencils);
 
             return stencils.weightedSum
             (
