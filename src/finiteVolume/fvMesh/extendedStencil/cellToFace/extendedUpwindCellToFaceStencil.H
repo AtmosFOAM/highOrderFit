@@ -25,19 +25,24 @@ Class
     Foam::extendedUpwindCellToFaceStencil
 
 Description
-    Creates upwind stencil by shifting a centred stencil to upwind and downwind
-    faces and optionally removing all non-(up/down)wind faces ('pureUpwind').
-    The version using linearCorr_ = true (the default) is for schemes that are a
-    correction on linear so that the owner cell is the first in the stencil. The
-    version using linearCorr_ = false is for schemes that are a correction on
-    upwind so that the upwind cell is first in the stencil.
+    Creates an upwind-biased stencil by shifting a centred stencil to upwind
+    and downwind faces.
+    
+    If <tt>pureUpwind=true</tt> then all non-(up/down)wind faces are removed.
+    The version using <tt>linearCorr_=true</tt> (the default) is for schemes
+    that are a correction on linear so that the owner cell is the first in the
+    stencil.
+    The version using <tt>linearCorr_=false</tt> is for schemes that are a
+    correction on upwind so that the upwind cell is first in the stencil.
 
-    Note: the minOpposedness parameter is to decide which upwind and
-    downwind faces to combine the stencils from. If myArea is the
-    local area and upwindArea
-    the area of the possible upwind candidate it will be included if
+    The \c minOpposedness parameter is to decide which upwind and
+    downwind faces to combine the stencils from. If \c myArea is the
+    local area and \c upwindArea the area of the possible upwind candidate it
+    will be included if
+    \code
         (upwindArea & myArea)/magSqr(myArea) > minOpposedness
-    so this includes both cosine and area. WIP.
+    \endcode
+    so this includes both cosine and area.
 
 SourceFiles
     extendedUpwindCellToFaceStencil.C
@@ -132,7 +137,7 @@ public:
     // Constructors
 
         //- Construct from mesh and uncompacted centred face stencil.
-        //  Transports facestencil to create owner and neighbour versions.
+        //  Transports face stencil to create owner and neighbour versions.
         //  pureUpwind to remove any remaining downwind cells.
         extendedUpwindCellToFaceStencil
         (
@@ -142,8 +147,8 @@ public:
             const bool linearCorr = true
         );
 
-        //- Construct from mesh and uncompacted centred face stencil. Splits
-        //  stencil into owner and neighbour (so always pure upwind)
+        //- Construct from mesh and uncompacted centred face stencil.
+        // Splits stencil into owner and neighbour (so always pure upwind)
         extendedUpwindCellToFaceStencil
         (
             const cellToFaceStencil&
