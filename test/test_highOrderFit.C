@@ -67,7 +67,7 @@ TEST_CASE("highOrderFit_averages_values_in_stencil_for_vertical_face")
     const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
 
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
-    CHECK(Tf()[facei] == Test::approx(10.0));
+    CHECK( Tf()[facei] == Test::approx(10.0) );
 }
 
 TEST_CASE("highOrderFit_averages_values_in_stencil_for_reversed_wind")
@@ -80,7 +80,24 @@ TEST_CASE("highOrderFit_averages_values_in_stencil_for_reversed_wind")
     const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
 
     const label facei = testMesh.indexOfFaceWithCentreAt(point(1, 1.5, 0));
-    CHECK(Tf()[facei] == Test::approx(10.0));
+    CHECK( Tf()[facei] == Test::approx(10.0) );
+}
+
+TEST_CASE("highOrderFit_ignores_boundary_values")
+{
+    Test::interpolation highOrderFit("cartesian4x3Mesh");
+    const Test::mesh testMesh(highOrderFit.mesh());
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(1, 1.5, 0));
+
+    const Foam::highOrderFit<scalar>& scheme =
+        dynamic_cast<const Foam::highOrderFit<scalar>&>
+        (
+            highOrderFit.scheme()
+        );
+
+    const highOrderFitDiagnostic<scalar>& diagnostic =
+        scheme.diagnose(facei, highOrderFit.T());
+    CHECK( diagnostic.size() == 6 );
 }
 
 }

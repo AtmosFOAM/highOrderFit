@@ -1,5 +1,8 @@
 extendedStencil = fvMesh/extendedStencil
 
+cellToCell = $(extendedStencil)/cellToCell
+$(cellToCell)/globalIndexStencils/cellToCellStencil.C
+
 cellToFace = $(extendedStencil)/cellToFace
 $(cellToFace)/extendedUpwindCellToFaceStencil.C
 $(cellToFace)/MeshObjects/upwindCPCCellToFaceStencilObject.C

@@ -105,10 +105,10 @@ public:
 
     // Member Functions
 
-        // Access
-        // Check
-        // Edit
-        // Write
+        label size() const
+        {
+            return weights_.size();
+        }
 
 
     // IOstream Operators
