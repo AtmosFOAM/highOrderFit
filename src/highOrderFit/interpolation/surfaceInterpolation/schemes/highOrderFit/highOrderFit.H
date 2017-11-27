@@ -36,7 +36,9 @@ SourceFiles
 #ifndef highOrderFit_H
 #define highOrderFit_H
 
+#include "autoPtr.H"
 #include "extendedUpwindCellToFaceStencil.H"
+#include "highOrderFitDiagnostic.H"
 #include "highOrderFitStencilField.H"
 #include "highOrderFitWeightsField.H"
 #include "upwind.H"
@@ -150,11 +152,6 @@ public:
 
 
     // Member Functions
-    
-        const highOrderFitWeightsField& ownerWeights() const
-        {
-            return ownerWeights_;
-        }
 
         //- Returns \c true since a high-order correction on upwind is applied.
         virtual bool corrected() const
@@ -175,6 +172,25 @@ public:
                 vf,
                 ownerWeights_,
                 neighbourWeights_
+            );
+        }
+
+        autoPtr<highOrderFitDiagnostic> diagnose
+        (
+            const label facei,
+            const GeometricField<Type, fvPatchField, volMesh>& field
+        ) const
+        {
+            const surfaceScalarField& phi = upwind<Type>::faceFlux_;
+            const bool owner = (phi[facei] >= 0);
+
+            return autoPtr<highOrderFitDiagnostic>
+            (
+                new highOrderFitDiagnostic
+                (
+                    facei,
+                    owner
+                )
             );
         }
 
