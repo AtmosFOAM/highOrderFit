@@ -36,6 +36,7 @@ Foam::highOrderFitDiagnostic<Type>::highOrderFitDiagnostic
     const Foam::label facei,
     const Foam::GeometricField<Type, fvPatchField, volMesh>& field,
     const Foam::surfaceScalarField& faceFlux,
+    const Foam::fvMesh& mesh,
     const Foam::extendedUpwindCellToFaceStencil& stencils,
     const Foam::highOrderFitWeightsField& ownerWeights,
     const Foam::highOrderFitWeightsField& neighbourWeights
@@ -50,6 +51,14 @@ Foam::highOrderFitDiagnostic<Type>::highOrderFitDiagnostic
         owner_ ? stencils.ownStencil() : stencils.neiStencil(),
         field,
         values_
+    );
+
+    stencils.collectData
+    (
+        owner_ ? stencils.ownMap() : stencils.neiMap(),
+        owner_ ? stencils.ownStencil() : stencils.neiStencil(),
+        mesh.C(),
+        cellCentres_
     );
 
     weights_ = owner_ ? ownerWeights[facei_] : neighbourWeights[facei_];
@@ -88,8 +97,8 @@ Foam::Ostream& Foam::operator<<
     for (label i = 0; i < diagnostic.weights_.size(); i++)
     {
         os << (i == 0 ? diagnostic.weights_[i] + 1 : diagnostic.weights_[i])
-           << "*"
-           << diagnostic.values_[facei][i];
+           << "*" << diagnostic.values_[facei][i]
+           << "@" << diagnostic.cellCentres_[facei][i];
         if (i < diagnostic.weights_.size() - 1)
         {
             os << " + ";

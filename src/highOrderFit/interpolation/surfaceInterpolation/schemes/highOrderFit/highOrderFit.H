@@ -64,6 +64,7 @@ class highOrderFit
         //- for constructing the upwind-biased stencil
         const scalar minOpposedness_ = 0.5;
 
+        const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
         const highOrderFitStencilField ownerStencils_;
         const highOrderFitWeightsField ownerWeights_;
@@ -110,6 +111,7 @@ public:
                 mesh,
                 mesh.lookupObject<surfaceScalarField>(word(is))
             ),
+            mesh_(mesh),
             stencils_(initialiseStencils(mesh)),
             ownerStencils_
             (
@@ -135,6 +137,7 @@ public:
         )
         :
             upwind<Type>(mesh, faceFlux),
+            mesh_(mesh),
             stencils_(initialiseStencils(mesh)),
             ownerStencils_
             (
@@ -189,13 +192,13 @@ public:
                     facei,
                     field,
                     upwind<Type>::faceFlux_,
+                    mesh_,
                     stencils_,
                     ownerWeights_,
                     neighbourWeights_
                 )
             );
         }
-
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

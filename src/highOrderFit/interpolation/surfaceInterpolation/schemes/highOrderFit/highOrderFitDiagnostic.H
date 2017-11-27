@@ -71,6 +71,7 @@ class highOrderFitDiagnostic
         const label facei_;
         const bool owner_;
         List<List<Type>> values_;
+        List<List<point>> cellCentres_;
         scalarList weights_;
 
     // Private Member Functions
@@ -91,6 +92,7 @@ public:
             const label facei,
             const GeometricField<Type, fvPatchField, volMesh>& field,
             const surfaceScalarField& faceFlux,
+            const fvMesh& mesh,
             const extendedUpwindCellToFaceStencil& stencils,
             const highOrderFitWeightsField& ownerWeights,
             const highOrderFitWeightsField& neighbourWeights
