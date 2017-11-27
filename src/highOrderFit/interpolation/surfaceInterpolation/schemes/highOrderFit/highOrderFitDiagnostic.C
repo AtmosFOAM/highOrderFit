@@ -25,35 +25,51 @@ License
 
 #include "highOrderFitDiagnostic.H"
 
-
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFitDiagnostic::highOrderFitDiagnostic
+template<class Type>
+Foam::highOrderFitDiagnostic<Type>::highOrderFitDiagnostic
 (
     const Foam::label facei,
-    const bool owner
+    const Foam::GeometricField<Type, fvPatchField, volMesh>& field,
+    const Foam::surfaceScalarField& faceFlux,
+    const Foam::extendedUpwindCellToFaceStencil& stencils,
+    const Foam::highOrderFitWeightsField& ownerWeights,
+    const Foam::highOrderFitWeightsField& neighbourWeights
 )
 :
     facei_(facei),
-    owner_(owner)
-{}
+    owner_(faceFlux[facei] >= 0)
+{
+    stencils.collectData
+    (
+        owner_ ? stencils.ownMap() : stencils.neiMap(),
+        owner_ ? stencils.ownStencil() : stencils.neiStencil(),
+        field,
+        values_
+    );
+
+    weights_ = owner_ ? ownerWeights[facei_] : neighbourWeights[facei_];
+}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFitDiagnostic::~highOrderFitDiagnostic()
+template<class Type>
+Foam::highOrderFitDiagnostic<Type>::~highOrderFitDiagnostic<Type>()
 {}
 
 
 // * * * * * * * * * * * * * * * IOstream Operators  * * * * * * * * * * * * //
 
+template<class Type>
 Foam::Ostream& Foam::operator<<
 (
     Foam::Ostream& os,
-    const highOrderFitDiagnostic& diagnostic
+    const highOrderFitDiagnostic<Type>& diagnostic
 )
 {
     // Check state of Ostream
@@ -63,8 +79,24 @@ Foam::Ostream& Foam::operator<<
         "const Foam::highOrderFitDiagnostic&)"
     );
 
-    os << "highOrderFit[facei=" << diagnostic.facei_ << ", "
-       << (diagnostic.owner_ ? "owner" : "neighbour") << "]";
+    const label facei = diagnostic.facei_;
+
+    os << "highOrderFit[facei=" << facei << ", "
+       << (diagnostic.owner_ ? "owner" : "neighbour")
+       << ", ";
+
+    for (label i = 0; i < diagnostic.weights_.size(); i++)
+    {
+        os << (i == 0 ? diagnostic.weights_[i] + 1 : diagnostic.weights_[i])
+           << "*"
+           << diagnostic.values_[facei][i];
+        if (i < diagnostic.weights_.size() - 1)
+        {
+            os << " + ";
+        }
+    }
+       
+    os << "]";
 
     return os;
 }

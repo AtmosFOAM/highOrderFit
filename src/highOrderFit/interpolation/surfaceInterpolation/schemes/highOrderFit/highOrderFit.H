@@ -175,21 +175,23 @@ public:
             );
         }
 
-        autoPtr<highOrderFitDiagnostic> diagnose
+        autoPtr<highOrderFitDiagnostic<Type>> diagnose
         (
             const label facei,
             const GeometricField<Type, fvPatchField, volMesh>& field
         ) const
         {
-            const surfaceScalarField& phi = upwind<Type>::faceFlux_;
-            const bool owner = (phi[facei] >= 0);
 
-            return autoPtr<highOrderFitDiagnostic>
+            return autoPtr<highOrderFitDiagnostic<Type>>
             (
-                new highOrderFitDiagnostic
+                new highOrderFitDiagnostic<Type>
                 (
                     facei,
-                    owner
+                    field,
+                    upwind<Type>::faceFlux_,
+                    stencils_,
+                    ownerWeights_,
+                    neighbourWeights_
                 )
             );
         }

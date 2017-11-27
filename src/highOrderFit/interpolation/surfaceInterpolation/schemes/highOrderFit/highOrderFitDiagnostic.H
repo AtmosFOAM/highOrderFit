@@ -38,7 +38,9 @@ SourceFiles
 #define highOrderFitDiagnostic_H
 
 #include "label.H"
+#include "highOrderFitWeightsField.H"
 #include "IOstreams.H"
+#include "surfaceFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -49,20 +51,27 @@ namespace Foam
  class Ostream;
 
 // Forward declaration of friend functions and operators
-class highOrderFitDiagnostic;
-Ostream& operator<<(Ostream&, const highOrderFitDiagnostic&);
+template<class Type> class highOrderFitDiagnostic;
+template<class Type> Ostream& operator<<
+(
+    Ostream&,
+    const highOrderFitDiagnostic<Type>&
+);
 
 
 /*---------------------------------------------------------------------------*\
                          Class highOrderFitDiagnostic Declaration
 \*---------------------------------------------------------------------------*/
 
+template<class Type>
 class highOrderFitDiagnostic
 {
     // Private data
 
         const label facei_;
         const bool owner_;
+        List<List<Type>> values_;
+        scalarList weights_;
 
     // Private Member Functions
 
@@ -80,7 +89,11 @@ public:
         highOrderFitDiagnostic
         (
             const label facei,
-            const bool owner
+            const GeometricField<Type, fvPatchField, volMesh>& field,
+            const surfaceScalarField& faceFlux,
+            const extendedUpwindCellToFaceStencil& stencils,
+            const highOrderFitWeightsField& ownerWeights,
+            const highOrderFitWeightsField& neighbourWeights
         );
 
 
@@ -98,10 +111,10 @@ public:
 
     // IOstream Operators
 
-        friend Ostream& operator<<
+        friend Ostream& operator<< <Type>
         (
             Ostream& os,
-            const highOrderFitDiagnostic& diagnostic
+            const highOrderFitDiagnostic<Type>& diagnostic
         );
 };
 
@@ -109,6 +122,12 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#ifdef NoRepository
+    #include "highOrderFitDiagnostic.C"
+#endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
