@@ -72,7 +72,7 @@ TEST_CASE("highOrderFitWeightsField_has_weight_for_each_cell_in_stencil")
     CHECK( weights[facei].size() == 12 );
 }
 
-TEST_CASE("highOrderFitWeightsField_linear_interpolates_upwind_downwind_cells")
+TEST_CASE("highOrderFitWeightsField_averages_all_cells_in_stencil")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
@@ -85,9 +85,12 @@ TEST_CASE("highOrderFitWeightsField_linear_interpolates_upwind_downwind_cells")
     highOrderFitStencilField stencils(stencilCellsList, highOrderFit.mesh());
     highOrderFitWeightsField weights(stencils);
 
-    const label upwind = 0, downwind = 1;
-    CHECK( weights[facei][upwind] == Test::approx(-0.5) );
-    CHECK( weights[facei][downwind] == Test::approx(0.5) );
+    const label upwind = 0;
+    CHECK( weights[facei][upwind] == Test::approx(-11.0/12.0) );
+    for (label celli = 1; celli < 12; celli++)
+    {
+        CHECK( weights[facei][celli] == Test::approx(1.0/12.0) );
+    }
 }
 
 }

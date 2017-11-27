@@ -62,6 +62,12 @@ class highOrderFit
         //- for constructing the upwind-biased stencil
         const scalar minOpposedness_ = 0.5;
 
+        const extendedUpwindCellToFaceStencil& stencils_;
+        const highOrderFitStencilField ownerStencils_;
+        const highOrderFitWeightsField ownerWeights_;
+        const highOrderFitStencilField neighbourStencils_;
+        const highOrderFitWeightsField neighbourWeights_;
+
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
@@ -69,6 +75,20 @@ class highOrderFit
 
         //- Disallow default bitwise assignment
         void operator=(const highOrderFit&);
+
+        const extendedUpwindCellToFaceStencil& initialiseStencils
+        (
+            const fvMesh& mesh
+        )
+        {
+            return upwindCPCCellToFaceStencilObject::New
+            (
+                mesh,
+                false, // not pure upwind
+                minOpposedness_,
+                false // not a correction on linear
+            );
+        }
 
 public:
 
@@ -87,7 +107,20 @@ public:
             (
                 mesh,
                 mesh.lookupObject<surfaceScalarField>(word(is))
-            )
+            ),
+            stencils_(initialiseStencils(mesh)),
+            ownerStencils_
+            (
+                stencils_.ownStencil(),
+                mesh
+            ),
+            ownerWeights_(ownerStencils_),
+            neighbourStencils_
+            (
+                stencils_.neiStencil(),
+                mesh
+            ),
+            neighbourWeights_(neighbourStencils_)
         {}
 
         //- Construct a highOrderFit using the specified \c faceFlux
@@ -99,11 +132,30 @@ public:
             Istream& is
         )
         :
-            upwind<Type>(mesh, faceFlux)
+            upwind<Type>(mesh, faceFlux),
+            stencils_(initialiseStencils(mesh)),
+            ownerStencils_
+            (
+                stencils_.ownStencil(),
+                mesh
+            ),
+            ownerWeights_(ownerStencils_),
+            neighbourStencils_
+            (
+                stencils_.neiStencil(),
+                mesh
+            ),
+            neighbourWeights_(neighbourStencils_)
         {}
 
 
     // Member Functions
+    
+        const highOrderFitWeightsField& ownerWeights() const
+        {
+            return ownerWeights_;
+        }
+
         //- Returns \c true since a high-order correction on upwind is applied.
         virtual bool corrected() const
         {
@@ -117,36 +169,12 @@ public:
             const GeometricField<Type, fvPatchField, volMesh>& vf
         ) const
         {
-            const fvMesh& mesh = this->mesh();
-
-			const extendedUpwindCellToFaceStencil& stencils = upwindCPCCellToFaceStencilObject::New
-            (
-                mesh,
-                false, // not pure upwind
-                minOpposedness_,
-                false // not a correction on linear
-            );
-
-            highOrderFitStencilField ownerStencils
-            (
-                stencils.ownStencil(),
-                mesh
-            );
-            highOrderFitWeightsField ownerWeights(ownerStencils);
-
-            highOrderFitStencilField neighbourStencils
-            (
-                stencils.neiStencil(),
-                mesh
-            );
-            highOrderFitWeightsField neighbourWeights(neighbourStencils);
-
-            return stencils.weightedSum
+            return stencils_.weightedSum
             (
                 upwind<Type>::faceFlux_,
                 vf,
-                ownerWeights,
-                neighbourWeights
+                ownerWeights_,
+                neighbourWeights_
             );
         }
 

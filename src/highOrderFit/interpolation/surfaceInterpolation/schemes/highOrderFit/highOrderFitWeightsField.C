@@ -48,12 +48,11 @@ Foam::highOrderFitWeightsField::highOrderFitWeightsField
                 << abort(FatalError);
 		}
 
-		weights[0] = -0.5;
-		weights[1] = 0.5;
-		for (label i = 2; i < weights.size(); i++)
+		for (label i = 0; i < weights.size(); i++)
 		{
-			weights[i] = 0.0;
+			weights[i] = 1.0/weights.size();
 		}
+        weights[0] -= 1;
     }
 }
 

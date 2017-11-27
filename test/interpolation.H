@@ -94,6 +94,11 @@ public:
         const Foam::Time& runTime() const;
         const Foam::fvMesh& mesh() const;
         Foam::volScalarField& T();
+        const Foam::surfaceInterpolationScheme<Foam::scalar>& scheme()
+        {
+            return scheme_();
+        }
+
         const Foam::tmp<Foam::surfaceScalarField> interpolateT() const;
 
         //- reverse the velocity field.

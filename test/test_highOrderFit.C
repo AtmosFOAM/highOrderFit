@@ -25,6 +25,7 @@ License
 
 #include "catch.hpp"
 #include "checks.H"
+#include "highOrderFit.H"
 #include "interpolation.H"
 #include "mesh.H"
 
@@ -67,6 +68,10 @@ TEST_CASE("highOrderFit_exactly_reconstructs_linear_in_x_for_vertical_face")
 
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
     CHECK(Tf()[facei] == Test::approx(13.0));
+
+    const Foam::highOrderFit<scalar>& scheme =
+        dynamic_cast<const Foam::highOrderFit<scalar>&>(highOrderFit.scheme());
+    scheme.ownerWeights();//.diagnose(highOrderFit.T(), facei);
 }
 
 TEST_CASE("highOrderFit_exactly_reconstructs_linear_in_x_for_reversed_wind")
