@@ -1,4 +1,4 @@
-interpolation/surfaceInterpolation/schemes/highOrderFit/highOrderFit.C
+interpolation/surfaceInterpolation/schemes/highOrderFit/highOrderFitScheme.C
 interpolation/surfaceInterpolation/schemes/highOrderFit/highOrderFitStencilField.C
 interpolation/surfaceInterpolation/schemes/highOrderFit/highOrderFitWeightsField.C
 

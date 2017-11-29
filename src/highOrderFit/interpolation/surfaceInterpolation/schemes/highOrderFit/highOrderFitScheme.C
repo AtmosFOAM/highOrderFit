@@ -23,11 +23,11 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "highOrderFit.H"
+#include "highOrderFitScheme.H"
 
 namespace Foam
 {
-    makeSurfaceInterpolationScheme(highOrderFit);
+    makeSurfaceInterpolationScheme(highOrderFitScheme);
 }
 
 // ************************************************************************* //

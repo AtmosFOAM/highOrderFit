@@ -22,19 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit
+    Foam::highOrderFitScheme
 
 Description
     A high-order approximation for interpolating surface fluxes from an
     upwind-biased stencil of cell averages.
 
 SourceFiles
-    highOrderFit.C
+    highOrderFitScheme.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef highOrderFit_H
-#define highOrderFit_H
+#ifndef highOrderFitScheme_H
+#define highOrderFitScheme_H
 
 #include "autoPtr.H"
 #include "extendedUpwindCellToFaceStencil.H"
@@ -52,11 +52,11 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class highOrderFit Declaration
+                         Class highOrderFitScheme Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class Type>
-class highOrderFit
+class highOrderFitScheme
 :
     public upwind<Type>
 {
@@ -76,10 +76,10 @@ class highOrderFit
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        highOrderFit(const highOrderFit&);
+        highOrderFitScheme(const highOrderFitScheme&);
 
         //- Disallow default bitwise assignment
-        void operator=(const highOrderFit&);
+        void operator=(const highOrderFitScheme&);
 
         const extendedUpwindCellToFaceStencil& initialiseStencils
         (
@@ -110,7 +110,7 @@ public:
         // @param[in] is an fvSchemes configuration string.
         //               The first word identifies the \c faceFlux
         //               \c surfaceScalarField.
-        highOrderFit(const fvMesh& mesh, Istream& is)
+        highOrderFitScheme(const fvMesh& mesh, Istream& is)
         :
             upwind<Type>
             (
@@ -133,9 +133,9 @@ public:
             neighbourWeights_(neighbourStencils_)
         {}
 
-        //- Construct a highOrderFit using the specified \c faceFlux
+        //- Construct a highOrderFitScheme using the specified \c faceFlux
         // @param[in] faceFlux determines the upwind direction for each face
-        highOrderFit
+        highOrderFitScheme
         (
             const fvMesh& mesh,
             const surfaceScalarField& faceFlux,
@@ -184,16 +184,16 @@ public:
             );
         }
 
-        autoPtr<Diagnostic<Type>> diagnose
+        autoPtr<highOrderFit::Diagnostic<Type>> diagnose
         (
             const label facei,
             const GeometricField<Type, fvPatchField, volMesh>& field
         ) const
         {
 
-            return autoPtr<Diagnostic<Type>>
+            return autoPtr<highOrderFit::Diagnostic<Type>>
             (
-                new Diagnostic<Type>
+                new highOrderFit::Diagnostic<Type>
                 (
                     facei,
                     field,

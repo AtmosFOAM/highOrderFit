@@ -31,7 +31,7 @@ License
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Type>
-Foam::Diagnostic<Type>::Diagnostic
+Foam::highOrderFit::Diagnostic<Type>::Diagnostic
 (
     const Foam::label facei,
     const Foam::GeometricField<Type, fvPatchField, volMesh>& field,
@@ -68,7 +68,7 @@ Foam::Diagnostic<Type>::Diagnostic
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template<class Type>
-Foam::Diagnostic<Type>::~Diagnostic<Type>()
+Foam::highOrderFit::Diagnostic<Type>::~Diagnostic<Type>()
 {}
 
 
@@ -78,7 +78,7 @@ template<class Type>
 Foam::Ostream& Foam::operator<<
 (
     Foam::Ostream& os,
-    const Diagnostic<Type>& d
+    const Foam::highOrderFit::Diagnostic<Type>& d
 )
 {
     // Check state of Ostream

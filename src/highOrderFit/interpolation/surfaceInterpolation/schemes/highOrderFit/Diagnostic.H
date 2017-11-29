@@ -37,6 +37,7 @@ SourceFiles
 #define Diagnostic_H
 
 #include "label.H"
+#include "extendedUpwindCellToFaceStencil.H"
 #include "highOrderFitWeightsField.H"
 #include "IOstreams.H"
 #include "surfaceFields.H"
@@ -44,6 +45,11 @@ SourceFiles
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
+{
+ 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+namespace highOrderFit
 {
 
 // Forward declaration of classes                                               
@@ -119,6 +125,10 @@ public:
         );
 };
 
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace highOrderFit
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
