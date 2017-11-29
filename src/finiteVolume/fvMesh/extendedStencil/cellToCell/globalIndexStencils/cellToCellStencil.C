@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "cellToCellStencil.H"
-#include "stencilBoundaryExclusion.H"
+#include "stencilBoundaryInclusion.H"
 #include "syncTools.H"
 #include "SortableList.H"
 #include "emptyPolyPatch.H"
@@ -322,12 +322,21 @@ Foam::labelList Foam::cellToCellStencil::calcFaceCells
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::cellToCellStencil::cellToCellStencil(const polyMesh& mesh)
+Foam::cellToCellStencil::cellToCellStencil
+(
+    const polyMesh& mesh,
+    autoPtr<stencilBoundaryPolicy> boundaryPolicy
+)
 :
     mesh_(mesh),
-    boundaryPolicy_(new stencilBoundaryExclusion()),
+    boundaryPolicy_(boundaryPolicy),
     globalNumbering_(mesh_.nCells()+mesh_.nFaces()-mesh_.nInternalFaces())
-{}
+{
+    if (boundaryPolicy_.empty())
+    {
+        boundaryPolicy_.set(new stencilBoundaryInclusion());
+    }
+}
 
 
 // ************************************************************************* //

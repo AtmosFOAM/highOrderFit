@@ -60,7 +60,7 @@ class cellToCellStencil
     // Private data
 
         const polyMesh& mesh_;
-        const autoPtr<stencilBoundaryPolicy> boundaryPolicy_;
+        autoPtr<stencilBoundaryPolicy> boundaryPolicy_;
 
         //- Global numbering for cells and boundary faces
         const globalIndex globalNumbering_;
@@ -122,8 +122,11 @@ public:
 
     // Constructors
 
-        //- Construct from mesh
-        explicit cellToCellStencil(const polyMesh&);
+        explicit cellToCellStencil
+        (
+            const polyMesh&,
+            autoPtr<stencilBoundaryPolicy> boundaryPolicy = autoPtr<stencilBoundaryPolicy>()
+        );
 
 
     // Member Functions
