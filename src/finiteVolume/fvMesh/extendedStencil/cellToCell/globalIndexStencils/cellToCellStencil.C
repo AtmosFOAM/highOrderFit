@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "cellToCellStencil.H"
+#include "stencilBoundaryExclusion.H"
 #include "syncTools.H"
 #include "SortableList.H"
 #include "emptyPolyPatch.H"
@@ -167,7 +168,7 @@ void Foam::cellToCellStencil::merge
 
 void Foam::cellToCellStencil::validBoundaryFaces(boolList& isValidBFace) const
 {
-    boundaryPolicy_.applyTo(mesh(), isValidBFace);
+    boundaryPolicy_->applyTo(mesh(), isValidBFace);
 }
 
 
@@ -324,6 +325,7 @@ Foam::labelList Foam::cellToCellStencil::calcFaceCells
 Foam::cellToCellStencil::cellToCellStencil(const polyMesh& mesh)
 :
     mesh_(mesh),
+    boundaryPolicy_(new stencilBoundaryExclusion()),
     globalNumbering_(mesh_.nCells()+mesh_.nFaces()-mesh_.nInternalFaces())
 {}
 

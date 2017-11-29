@@ -35,6 +35,7 @@ SourceFiles
 #define stencilBoundaryExclusion_H
 
 #include "polyMesh.H"
+#include "stencilBoundaryPolicy.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -46,6 +47,8 @@ namespace Foam
 \*---------------------------------------------------------------------------*/
 
 class stencilBoundaryExclusion
+:
+    public stencilBoundaryPolicy
 {
 
     // Private Member Functions
