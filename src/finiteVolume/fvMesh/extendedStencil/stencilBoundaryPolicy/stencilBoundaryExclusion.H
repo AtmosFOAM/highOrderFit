@@ -76,7 +76,7 @@ public:
         void applyTo
         (
             const polyMesh& mesh,
-            boolList& includeBoundaryFaces
+            boolList& includedBoundaryFaces
         ) const;
 
 };

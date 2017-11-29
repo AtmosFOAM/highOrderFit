@@ -4,6 +4,7 @@ mesh.C
 test_highOrderFit.C
 test_highOrderFitWeightsField.C
 test_stencilBoundaryExclusion.C
+test_stencilBoundaryInclusion.C
 testCase.C
 testHighOrderFit.C
 

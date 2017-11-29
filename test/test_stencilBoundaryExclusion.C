@@ -38,11 +38,11 @@ TEST_CASE("stencilBoundaryExclusion_excludes_all_boundary_faces")
     const Test::testCase c("cartesian4x3Mesh");
     const stencilBoundaryExclusion policy;
 
-    boolList includeBoundaryFaces;
-    policy.applyTo(c.mesh(), includeBoundaryFaces);
+    boolList includedBoundaryFaces;
+    policy.applyTo(c.mesh(), includedBoundaryFaces);
 
-    CHECK( includeBoundaryFaces.size() == 38 );
-    Test::checkEqual(includeBoundaryFaces, false);
+    CHECK( includedBoundaryFaces.size() == 38 );
+    Test::checkEqual(includedBoundaryFaces, false);
 }
 
 }

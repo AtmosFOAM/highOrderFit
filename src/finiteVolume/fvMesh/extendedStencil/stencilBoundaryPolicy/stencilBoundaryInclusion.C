@@ -23,37 +23,51 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "checks.H"
-#include "label.H"
+#include "stencilBoundaryInclusion.H"
+#include "emptyPolyPatch.H"
 
-template<class Type>
-void Test::checkEqual
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
+Foam::stencilBoundaryInclusion::stencilBoundaryInclusion()
+{}
+
+
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+Foam::stencilBoundaryInclusion::~stencilBoundaryInclusion()
+{}
+
+
+// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+void Foam::stencilBoundaryInclusion::applyTo
 (
-    const Foam::List<Type>& actual,
-    const Type expected
-)
+    const Foam::polyMesh& mesh,
+    Foam::boolList& includedBoundaryFaces
+) const
 {
-    forAll(actual, i)
-    {
-        CHECK( actual[i] == expected );
-    }
-}
+	const polyBoundaryMesh& patches = mesh.boundaryMesh();
 
-template<class Type>
-Foam::label Test::countMatches
-(
-    const Foam::List<Type>& list,
-    const Type item
-)
-{
-    Foam::label matches = 0;
+    includedBoundaryFaces.setSize
+    (
+        mesh.nFaces() - mesh.nInternalFaces(),
+        true
+    );
 
-    forAll(list, i)
+	forAll(patches, patchi)
     {
-        if (list[i] == item) matches++;
+        const polyPatch& pp = patches[patchi];
+
+        if (pp.coupled() || isA<emptyPolyPatch>(pp))
+        {
+            label bFacei = pp.start()-mesh.nInternalFaces();
+            forAll(pp, i)
+            {                                                                   
+                includedBoundaryFaces[bFacei++] = false;
+            }
+        }
     }
-     
-    return matches;
+
 }
 
 // ************************************************************************* //

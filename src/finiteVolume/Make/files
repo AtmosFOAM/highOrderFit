@@ -10,6 +10,7 @@ $(cellToFace)/extendedUpwindCellToFaceStencil.C
 $(cellToFace)/MeshObjects/upwindCPCCellToFaceStencilObject.C
 
 stencilBoundaryPolicy = $(extendedStencil)/stencilBoundaryPolicy
+$(stencilBoundaryPolicy)/stencilBoundaryInclusion.C
 $(stencilBoundaryPolicy)/stencilBoundaryExclusion.C
 
 LIB = $(FOAM_USER_LIBBIN)/libfiniteVolumeHighOrderFit

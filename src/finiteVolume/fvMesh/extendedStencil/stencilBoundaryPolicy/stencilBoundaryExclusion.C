@@ -42,10 +42,10 @@ Foam::stencilBoundaryExclusion::~stencilBoundaryExclusion()
 void Foam::stencilBoundaryExclusion::applyTo
 (
     const Foam::polyMesh& mesh,
-    Foam::boolList& includeBoundaryFaces
+    Foam::boolList& includedBoundaryFaces
 ) const
 {
-    includeBoundaryFaces.setSize
+    includedBoundaryFaces.setSize
     (
         mesh.nFaces() - mesh.nInternalFaces(),
         false

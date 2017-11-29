@@ -22,60 +22,69 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::checks
+    Foam::stencilBoundaryInclusion
 
 Description
-    A collection of assertions for use in the Catch test suite
 
 SourceFiles
-    checks.C
-    checksTemplates.C
+    stencilBoundaryInclusion.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef checks_H
-#define checks_H
+#ifndef stencilBoundaryInclusion_H
+#define stencilBoundaryInclusion_H
 
-#include "catch.hpp"
-#include "GeometricField.H"
-#include "scalar.H"
-#include "scalarList.H"
+#include "polyMesh.H"
+#include "stencilBoundaryPolicy.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-namespace Test
+namespace Foam
 {
 
-    static Approx approx = Approx::custom().epsilon(Foam::SMALL);
+/*---------------------------------------------------------------------------*\
+                         Class stencilBoundaryInclusion Declaration
+\*---------------------------------------------------------------------------*/
 
-    void checkEqual
-    (
-        const Foam::scalarList& actual,
-        const Foam::scalarList& expected,
-        Approx approx = Approx::custom().epsilon(Foam::SMALL)
-    );
+class stencilBoundaryInclusion
+:
+    public stencilBoundaryPolicy
+{
 
-    template<class Type>
-    void checkEqual
-    (
-        const Foam::List<Type>& actual,
-        const Type expected
-    );
+    // Private Member Functions
 
-    template<class Type>
-    Foam::label countMatches
-    (
-        const Foam::List<Type>& list,
-        const Type item
-    );
+        //- Disallow default bitwise copy construct
+        stencilBoundaryInclusion(const stencilBoundaryInclusion&);
 
-} // End namespace Foam
+        //- Disallow default bitwise assignment
+        void operator=(const stencilBoundaryInclusion&);
+
+
+public:
+
+    // Constructors
+
+        stencilBoundaryInclusion();
+
+
+    //- Destructor
+    ~stencilBoundaryInclusion();
+
+
+    // Member Functions
+
+        void applyTo
+        (
+            const polyMesh& mesh,
+            boolList& includedBoundaryFaces
+        ) const;
+
+};
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#ifdef NoRepository
-    #include "checksTemplates.C"
-#endif
+} // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

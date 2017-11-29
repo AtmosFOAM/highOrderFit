@@ -23,37 +23,28 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+#include "catch.hpp"
 #include "checks.H"
-#include "label.H"
+#include "stencilBoundaryInclusion.H"
+#include "testCase.H"
 
-template<class Type>
-void Test::checkEqual
-(
-    const Foam::List<Type>& actual,
-    const Type expected
-)
+using namespace Foam;
+
+namespace Test
 {
-    forAll(actual, i)
-    {
-        CHECK( actual[i] == expected );
-    }
+
+TEST_CASE("stencilBoundaryInclusion_excludes_empty_boundary_faces")
+{
+    const Test::testCase c("cartesian4x3Mesh");
+    const stencilBoundaryInclusion policy;
+
+    boolList includedBoundaryFaces;
+    policy.applyTo(c.mesh(), includedBoundaryFaces);
+
+    CHECK( includedBoundaryFaces.size() == 38 );
+    CHECK( Test::countMatches(includedBoundaryFaces, true) == 14 );
 }
 
-template<class Type>
-Foam::label Test::countMatches
-(
-    const Foam::List<Type>& list,
-    const Type item
-)
-{
-    Foam::label matches = 0;
-
-    forAll(list, i)
-    {
-        if (list[i] == item) matches++;
-    }
-     
-    return matches;
 }
 
 // ************************************************************************* //
