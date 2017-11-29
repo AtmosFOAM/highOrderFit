@@ -167,7 +167,7 @@ void Foam::cellToCellStencil::merge
 
 void Foam::cellToCellStencil::validBoundaryFaces(boolList& isValidBFace) const
 {
-    isValidBFace.setSize(mesh().nFaces()-mesh().nInternalFaces(), false);
+    boundaryPolicy_.applyTo(mesh(), isValidBFace);
 }
 
 

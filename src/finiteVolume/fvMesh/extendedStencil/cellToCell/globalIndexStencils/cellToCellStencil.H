@@ -40,6 +40,7 @@ SourceFiles
 #include "boolList.H"
 #include "HashSet.H"
 #include "indirectPrimitivePatch.H"
+#include "stencilBoundaryExclusion.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -59,6 +60,7 @@ class cellToCellStencil
     // Private data
 
         const polyMesh& mesh_;
+        const stencilBoundaryExclusion boundaryPolicy_;
 
         //- Global numbering for cells and boundary faces
         const globalIndex globalNumbering_;

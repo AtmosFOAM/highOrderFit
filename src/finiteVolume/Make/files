@@ -3,8 +3,10 @@ $(extendedStencil)/stencilBoundaryExclusion.C
 
 cellToCell = $(extendedStencil)/cellToCell
 $(cellToCell)/globalIndexStencils/cellToCellStencil.C
+$(cellToCell)/globalIndexStencils/CPCCellToCellStencil.C
 
 cellToFace = $(extendedStencil)/cellToFace
+$(cellToFace)/globalIndexStencils/CPCCellToFaceStencil.C
 $(cellToFace)/extendedUpwindCellToFaceStencil.C
 $(cellToFace)/MeshObjects/upwindCPCCellToFaceStencilObject.C
 

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2017 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -22,19 +22,22 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::stencilBoundaryExclusion
+    Foam::CPCCellToCellStencil
 
 Description
 
 SourceFiles
-    stencilBoundaryExclusion.C
+    CPCCellToCellStencil.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef stencilBoundaryExclusion_H
-#define stencilBoundaryExclusion_H
+#ifndef CPCCellToCellStencil_H
+#define CPCCellToCellStencil_H
 
-#include "polyMesh.H"
+#include "cellToCellStencil.H"
+#include "boolList.H"
+#include "HashSet.H"
+#include "Map.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -42,39 +45,35 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class stencilBoundaryExclusion Declaration
+                    Class CPCCellToCellStencil Declaration
 \*---------------------------------------------------------------------------*/
 
-class stencilBoundaryExclusion
+class CPCCellToCellStencil
+:
+    public cellToCellStencil
 {
-
     // Private Member Functions
 
-        //- Disallow default bitwise copy construct
-        stencilBoundaryExclusion(const stencilBoundaryExclusion&);
+        //- Calculates per point the neighbour data (= pointCells)
+        void calcPointBoundaryData
+        (
+            const boolList& isValidBFace,
+            const labelList& boundaryPoints,
+            Map<labelList>& neiGlobal
+        ) const;
 
-        //- Disallow default bitwise assignment
-        void operator=(const stencilBoundaryExclusion&);
+        //- Calculates per cell the neighbour data
+        //  (= cell or boundary in global numbering).
+        //  First element is always cell itself!
+        void calcCellStencil(labelListList& globalCellCells) const;
 
 
 public:
 
     // Constructors
 
-        stencilBoundaryExclusion();
-
-
-    //- Destructor
-    ~stencilBoundaryExclusion();
-
-
-    // Member Functions
-
-        void applyTo
-        (
-            const polyMesh& mesh,
-            boolList& includeBoundaryFaces
-        ) const;
+        //- Construct from all cells and boundary faces
+        explicit CPCCellToCellStencil(const polyMesh&);
 
 };
 
