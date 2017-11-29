@@ -36,6 +36,7 @@ SourceFiles
 #include "extendedUpwindCellToFaceStencil.H"
 #include "CPCCellToFaceStencil.H"
 #include "MeshObject.H"
+#include "stencilBoundaryPolicy.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -69,7 +70,9 @@ public:
             const fvMesh& mesh,
             const bool pureUpwind,
             const scalar minOpposedness,
-            const bool linearCorr = true
+            const bool linearCorr = true,
+            const autoPtr<stencilBoundaryPolicy> boundaryPolicy
+                    = autoPtr<stencilBoundaryPolicy>()
         )
         :
             MeshObject
@@ -80,7 +83,7 @@ public:
             >(mesh),
             extendedUpwindCellToFaceStencil
             (
-                CPCCellToFaceStencil(mesh),
+                CPCCellToFaceStencil(mesh, boundaryPolicy),
                 pureUpwind,
                 minOpposedness,
                 linearCorr

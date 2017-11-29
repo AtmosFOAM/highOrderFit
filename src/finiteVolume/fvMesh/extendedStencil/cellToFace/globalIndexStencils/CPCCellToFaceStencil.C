@@ -30,12 +30,16 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::CPCCellToFaceStencil::CPCCellToFaceStencil(const polyMesh& mesh)
+Foam::CPCCellToFaceStencil::CPCCellToFaceStencil
+(
+    const polyMesh& mesh,
+    autoPtr<stencilBoundaryPolicy> boundaryPolicy
+)
 :
     cellToFaceStencil(mesh)
 {
     // Calculate per cell the (face) connected cells (in global numbering)
-    CPCCellToCellStencil globalCellCells(mesh);
+    CPCCellToCellStencil globalCellCells(mesh, boundaryPolicy);
 
     // Add stencils of neighbouring cells to create faceStencil
     labelListList faceStencil;

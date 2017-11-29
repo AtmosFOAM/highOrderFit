@@ -86,7 +86,7 @@ protected:
             labelList& cCells
         );
 
-        //- Valid boundary faces (not empty and not coupled)
+        //- Valid boundary faces
         void validBoundaryFaces(boolList& isValidBFace) const;
 
         //- Return patch of all coupled faces.
@@ -122,10 +122,10 @@ public:
 
     // Constructors
 
-        explicit cellToCellStencil
+        cellToCellStencil
         (
-            const polyMesh&,
-            autoPtr<stencilBoundaryPolicy> boundaryPolicy = autoPtr<stencilBoundaryPolicy>()
+            const polyMesh& mesh,
+            const autoPtr<stencilBoundaryPolicy> boundaryPolicy = autoPtr<stencilBoundaryPolicy>()
         );
 
 

@@ -36,6 +36,7 @@ SourceFiles
 #define CPCCellToFaceStencil_H
 
 #include "cellToFaceStencil.H"
+#include "stencilBoundaryPolicy.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -55,7 +56,11 @@ public:
     // Constructors
 
         //- Construct from all cells and boundary faces
-        explicit CPCCellToFaceStencil(const polyMesh&);
+        CPCCellToFaceStencil
+        (
+            const polyMesh& mesh,
+            const autoPtr<stencilBoundaryPolicy> boundaryPolicy = autoPtr<stencilBoundaryPolicy>()
+        );
 
 };
 

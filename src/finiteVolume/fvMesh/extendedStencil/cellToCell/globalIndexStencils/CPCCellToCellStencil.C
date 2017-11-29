@@ -151,9 +151,13 @@ void Foam::CPCCellToCellStencil::calcCellStencil
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::CPCCellToCellStencil::CPCCellToCellStencil(const polyMesh& mesh)
+Foam::CPCCellToCellStencil::CPCCellToCellStencil
+(
+    const polyMesh& mesh,
+    autoPtr<stencilBoundaryPolicy> boundaryPolicy
+)
 :
-    cellToCellStencil(mesh)
+    cellToCellStencil(mesh, boundaryPolicy)
 {
     // Calculate per cell the (point) connected cells (in global numbering)
     labelListList globalCellCells;

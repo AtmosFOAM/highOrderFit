@@ -73,7 +73,11 @@ public:
     // Constructors
 
         //- Construct from all cells and boundary faces
-        explicit CPCCellToCellStencil(const polyMesh&);
+        CPCCellToCellStencil
+        (
+            const polyMesh& mesh,
+            const autoPtr<stencilBoundaryPolicy> boundaryPolicy = autoPtr<stencilBoundaryPolicy>()
+        );
 
 };
 
