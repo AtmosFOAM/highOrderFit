@@ -22,20 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFitDiagnostic
+    Foam::Diagnostic
 
 Description
     A diagnostic object for a particular face and face flux which can be
     inserted into an Ostream.
 
 SourceFiles
-    highOrderFitDiagnostic.C
-    highOrderFitDiagnosticIO.C
+    Diagnostic.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef highOrderFitDiagnostic_H
-#define highOrderFitDiagnostic_H
+#ifndef Diagnostic_H
+#define Diagnostic_H
 
 #include "label.H"
 #include "highOrderFitWeightsField.H"
@@ -51,20 +50,20 @@ namespace Foam
  class Ostream;
 
 // Forward declaration of friend functions and operators
-template<class Type> class highOrderFitDiagnostic;
+template<class Type> class Diagnostic;
 template<class Type> Ostream& operator<<
 (
     Ostream&,
-    const highOrderFitDiagnostic<Type>&
+    const Diagnostic<Type>&
 );
 
 
 /*---------------------------------------------------------------------------*\
-                         Class highOrderFitDiagnostic Declaration
+                         Class Diagnostics Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class Type>
-class highOrderFitDiagnostic
+class Diagnostic
 {
     // Private data
 
@@ -77,17 +76,17 @@ class highOrderFitDiagnostic
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        highOrderFitDiagnostic(const highOrderFitDiagnostic&);
+        Diagnostic(const Diagnostic&);
 
         //- Disallow default bitwise assignment
-        void operator=(const highOrderFitDiagnostic&);
+        void operator=(const Diagnostic&);
 
 
 public:
 
     // Constructors
 
-        highOrderFitDiagnostic
+        Diagnostic
         (
             const label facei,
             const GeometricField<Type, fvPatchField, volMesh>& field,
@@ -100,7 +99,7 @@ public:
 
 
     //- Destructor
-    ~highOrderFitDiagnostic();
+    ~Diagnostic();
 
 
     // Member Functions
@@ -116,7 +115,7 @@ public:
         friend Ostream& operator<< <Type>
         (
             Ostream& os,
-            const highOrderFitDiagnostic<Type>& diagnostic
+            const Diagnostic<Type>& diagnostic
         );
 };
 
@@ -128,7 +127,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-    #include "highOrderFitDiagnostic.C"
+    #include "Diagnostic.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "highOrderFitDiagnostic.H"
+#include "Diagnostic.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
@@ -31,7 +31,7 @@ License
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Type>
-Foam::highOrderFitDiagnostic<Type>::highOrderFitDiagnostic
+Foam::Diagnostic<Type>::Diagnostic
 (
     const Foam::label facei,
     const Foam::GeometricField<Type, fvPatchField, volMesh>& field,
@@ -68,7 +68,7 @@ Foam::highOrderFitDiagnostic<Type>::highOrderFitDiagnostic
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template<class Type>
-Foam::highOrderFitDiagnostic<Type>::~highOrderFitDiagnostic<Type>()
+Foam::Diagnostic<Type>::~Diagnostic<Type>()
 {}
 
 
@@ -78,28 +78,28 @@ template<class Type>
 Foam::Ostream& Foam::operator<<
 (
     Foam::Ostream& os,
-    const highOrderFitDiagnostic<Type>& diagnostic
+    const Diagnostic<Type>& d
 )
 {
     // Check state of Ostream
     os.check
     (
         "Foam::Ostream& Foam::operator<<(Foam::Ostream&, "
-        "const Foam::highOrderFitDiagnostic&)"
+        "const Foam::Diagnostic&)"
     );
 
-    const label facei = diagnostic.facei_;
+    const label facei = d.facei_;
 
     os << "highOrderFit[facei=" << facei << ", "
-       << (diagnostic.owner_ ? "owner" : "neighbour")
+       << (d.owner_ ? "owner" : "neighbour")
        << ", ";
 
-    for (label i = 0; i < diagnostic.weights_.size(); i++)
+    for (label i = 0; i < d.weights_.size(); i++)
     {
-        os << (i == 0 ? diagnostic.weights_[i] + 1 : diagnostic.weights_[i])
-           << "*" << diagnostic.values_[facei][i]
-           << "@" << diagnostic.cellCentres_[facei][i];
-        if (i < diagnostic.weights_.size() - 1)
+        os << (i == 0 ? d.weights_[i] + 1 : d.weights_[i])
+           << "*" << d.values_[facei][i]
+           << "@" << d.cellCentres_[facei][i];
+        if (i < d.weights_.size() - 1)
         {
             os << " + ";
         }

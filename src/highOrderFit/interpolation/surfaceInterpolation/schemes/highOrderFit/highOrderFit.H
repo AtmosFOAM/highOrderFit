@@ -38,7 +38,7 @@ SourceFiles
 
 #include "autoPtr.H"
 #include "extendedUpwindCellToFaceStencil.H"
-#include "highOrderFitDiagnostic.H"
+#include "Diagnostic.H"
 #include "highOrderFitStencilField.H"
 #include "highOrderFitWeightsField.H"
 #include "stencilBoundaryPolicy.H"
@@ -184,16 +184,16 @@ public:
             );
         }
 
-        autoPtr<highOrderFitDiagnostic<Type>> diagnose
+        autoPtr<Diagnostic<Type>> diagnose
         (
             const label facei,
             const GeometricField<Type, fvPatchField, volMesh>& field
         ) const
         {
 
-            return autoPtr<highOrderFitDiagnostic<Type>>
+            return autoPtr<Diagnostic<Type>>
             (
-                new highOrderFitDiagnostic<Type>
+                new Diagnostic<Type>
                 (
                     facei,
                     field,

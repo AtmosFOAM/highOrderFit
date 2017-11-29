@@ -25,6 +25,7 @@ License
 
 #include "catch.hpp"
 #include "checks.H"
+#include "Diagnostic.H"
 #include "highOrderFit.H"
 #include "interpolation.H"
 #include "IOobject.H"
@@ -94,7 +95,7 @@ TEST_CASE("highOrderFit_ignores_boundary_values")
             highOrderFit.scheme()
         );
 
-    const highOrderFitDiagnostic<scalar>& diagnostic =
+    const Diagnostic<scalar>& diagnostic =
         scheme.diagnose(facei, highOrderFit.T());
     CHECK( diagnostic.size() == 6 );
 }
