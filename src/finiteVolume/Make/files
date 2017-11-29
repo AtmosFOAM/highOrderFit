@@ -1,4 +1,5 @@
 extendedStencil = fvMesh/extendedStencil
+$(extendedStencil)/stencilBoundaryExclusion.C
 
 cellToCell = $(extendedStencil)/cellToCell
 $(cellToCell)/globalIndexStencils/cellToCellStencil.C

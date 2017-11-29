@@ -21,57 +21,30 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Class
-    Foam::checks
-
-Description
-    A collection of assertions for use in the Catch test suite
-
-SourceFiles
-    checks.C
-    checksTemplates.C
-
 \*---------------------------------------------------------------------------*/
 
-#ifndef checks_H
-#define checks_H
-
 #include "catch.hpp"
-#include "GeometricField.H"
-#include "scalar.H"
-#include "scalarList.H"
+#include "checks.H"
+#include "interpolation.H"
+#include "stencilBoundaryExclusion.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+using namespace Foam;
 
 namespace Test
 {
 
-    static Approx approx = Approx::custom().epsilon(Foam::SMALL);
+TEST_CASE("stencilBoundaryExclusion_excludes_all_boundary_faces")
+{
+    const Test::interpolation highOrderFit("cartesian4x3Mesh");
+    const stencilBoundaryExclusion policy;
 
-    void checkEqual
-    (
-        const Foam::scalarList& actual,
-        const Foam::scalarList& expected,
-        Approx approx = Approx::custom().epsilon(Foam::SMALL)
-    );
+    boolList includeBoundaryFaces;
+    policy.applyTo(highOrderFit.mesh(), includeBoundaryFaces);
 
-    template<class Type>
-    void checkEqual
-    (
-        const Foam::List<Type>& actual,
-        const Type expected
-    );
+    CHECK( includeBoundaryFaces.size() == 38 );
+    Test::checkEqual(includeBoundaryFaces, false);
+}
 
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#ifdef NoRepository
-    #include "checksTemplates.C"
-#endif
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif
+}
 
 // ************************************************************************* //

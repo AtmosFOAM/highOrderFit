@@ -1,4 +1,5 @@
 EXE_INC = \
+    -I$(HIGHORDERFIT_DIR)/src/finiteVolume/lnInclude \
     -I$(HIGHORDERFIT_DIR)/src/highOrderFit/lnInclude \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude

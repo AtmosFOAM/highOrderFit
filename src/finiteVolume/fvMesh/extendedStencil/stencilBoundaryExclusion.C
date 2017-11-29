@@ -21,57 +21,35 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Class
-    Foam::checks
-
-Description
-    A collection of assertions for use in the Catch test suite
-
-SourceFiles
-    checks.C
-    checksTemplates.C
-
 \*---------------------------------------------------------------------------*/
 
-#ifndef checks_H
-#define checks_H
+#include "stencilBoundaryExclusion.H"
 
-#include "catch.hpp"
-#include "GeometricField.H"
-#include "scalar.H"
-#include "scalarList.H"
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Foam::stencilBoundaryExclusion::stencilBoundaryExclusion()
+{}
 
-namespace Test
+
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+Foam::stencilBoundaryExclusion::~stencilBoundaryExclusion()
+{}
+
+
+// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+void Foam::stencilBoundaryExclusion::applyTo
+(
+    const Foam::polyMesh& mesh,
+    Foam::boolList& includeBoundaryFaces
+) const
 {
-
-    static Approx approx = Approx::custom().epsilon(Foam::SMALL);
-
-    void checkEqual
+    includeBoundaryFaces.setSize
     (
-        const Foam::scalarList& actual,
-        const Foam::scalarList& expected,
-        Approx approx = Approx::custom().epsilon(Foam::SMALL)
+        mesh.nFaces() - mesh.nInternalFaces(),
+        false
     );
-
-    template<class Type>
-    void checkEqual
-    (
-        const Foam::List<Type>& actual,
-        const Type expected
-    );
-
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#ifdef NoRepository
-    #include "checksTemplates.C"
-#endif
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif
+}
 
 // ************************************************************************* //

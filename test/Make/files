@@ -3,6 +3,7 @@ interpolation.C
 mesh.C
 test_highOrderFit.C
 test_highOrderFitWeightsField.C
+test_stencilBoundaryExclusion.C
 testHighOrderFit.C
 
 EXE = $(FOAM_USER_APPBIN)/testHighOrderFit

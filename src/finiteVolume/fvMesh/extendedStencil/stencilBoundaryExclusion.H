@@ -22,53 +22,67 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::checks
+    Foam::stencilBoundaryExclusion
 
 Description
-    A collection of assertions for use in the Catch test suite
 
 SourceFiles
-    checks.C
-    checksTemplates.C
+    stencilBoundaryExclusion.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef checks_H
-#define checks_H
+#ifndef stencilBoundaryExclusion_H
+#define stencilBoundaryExclusion_H
 
-#include "catch.hpp"
-#include "GeometricField.H"
-#include "scalar.H"
-#include "scalarList.H"
+#include "polyMesh.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-namespace Test
+namespace Foam
 {
 
-    static Approx approx = Approx::custom().epsilon(Foam::SMALL);
+/*---------------------------------------------------------------------------*\
+                         Class stencilBoundaryExclusion Declaration
+\*---------------------------------------------------------------------------*/
 
-    void checkEqual
-    (
-        const Foam::scalarList& actual,
-        const Foam::scalarList& expected,
-        Approx approx = Approx::custom().epsilon(Foam::SMALL)
-    );
+class stencilBoundaryExclusion
+{
 
-    template<class Type>
-    void checkEqual
-    (
-        const Foam::List<Type>& actual,
-        const Type expected
-    );
+    // Private Member Functions
 
-} // End namespace Foam
+        //- Disallow default bitwise copy construct
+        stencilBoundaryExclusion(const stencilBoundaryExclusion&);
+
+        //- Disallow default bitwise assignment
+        void operator=(const stencilBoundaryExclusion&);
+
+
+public:
+
+    // Constructors
+
+        //- Construct null
+        stencilBoundaryExclusion();
+
+
+    //- Destructor
+    ~stencilBoundaryExclusion();
+
+
+    // Member Functions
+
+        void applyTo
+        (
+            const polyMesh& mesh,
+            boolList& includeBoundaryFaces
+        ) const;
+
+};
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#ifdef NoRepository
-    #include "checksTemplates.C"
-#endif
+} // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
