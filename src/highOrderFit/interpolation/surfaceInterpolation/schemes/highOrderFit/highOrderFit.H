@@ -41,6 +41,8 @@ SourceFiles
 #include "highOrderFitDiagnostic.H"
 #include "highOrderFitStencilField.H"
 #include "highOrderFitWeightsField.H"
+#include "stencilBoundaryPolicy.H"
+#include "stencilBoundaryExclusion.H"
 #include "upwind.H"
 #include "upwindCPCCellToFaceStencilObject.H"
 
@@ -89,7 +91,11 @@ class highOrderFit
                 mesh,
                 false, // not pure upwind
                 minOpposedness_,
-                false // not a correction on linear
+                false, // not a correction on linear
+                autoPtr<stencilBoundaryPolicy>
+                (
+                    new stencilBoundaryExclusion()
+                )
             );
         }
 
