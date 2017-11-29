@@ -38,16 +38,16 @@ Test::interpolation::initialiseFaceFlux()
         IOobject
         (
             "Uf",
-            runTime_.constant(),
-            mesh_,
+            c_.runTime().constant(),
+            c_.mesh(),
             IOobject::MUST_READ
         ),
-        mesh_
+        c_.mesh()
     );
 
     const tmp<surfaceScalarField> tFaceFlux
     (
-        new surfaceScalarField(Uf & mesh_.Sf())
+        new surfaceScalarField(Uf & c_.mesh().Sf())
     );
 
     return tFaceFlux;
@@ -62,7 +62,7 @@ Test::interpolation::initialiseScheme
     IStringStream schemeNameStream(schemeName);
     return surfaceInterpolationScheme<scalar>::New
         (
-            mesh_,
+            c_.mesh(),
             faceFlux_,
             schemeNameStream
         );
@@ -72,25 +72,11 @@ Test::interpolation::initialiseScheme
 
 Test::interpolation::interpolation
 (
-    const fileName& caseName,
+    const Foam::fileName& caseName,
     const word& schemeName
 )
 :
-runTime_(
-    Time::controlDictName,
-    "resources",
-    caseName
-),
-mesh_
-(
-    IOobject
-    (
-        fvMesh::defaultRegion,
-        runTime_.constant(),
-        runTime_,
-        IOobject::MUST_READ
-    )
-),
+c_(caseName),
 faceFlux_(initialiseFaceFlux()),
 scheme_(initialiseScheme(schemeName)),
 T_
@@ -98,30 +84,15 @@ T_
     IOobject
     (
         "T",
-        runTime_.timeName(),
-        mesh_
+        c_.runTime().timeName(),
+        c_.mesh()
     ),
-    mesh_,
+    c_.mesh(),
     dimensionedScalar("T", dimless, scalar(0))
 )
 {}
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-const Foam::Time& Test::interpolation::runTime() const
-{
-    return runTime_;
-}
-
-const Foam::fvMesh& Test::interpolation::mesh() const
-{
-    return mesh_;
-}
-
-Foam::volScalarField& Test::interpolation::T()
-{
-    return T_;
-}
 
 const Foam::tmp<Foam::surfaceScalarField>
 Test::interpolation::interpolateT() const
@@ -138,7 +109,7 @@ void Test::interpolation::setTlinearInX(scalar m, scalar c)
 {
     forAll(T_, cellI)
     {
-        T_[cellI] = m*mesh_.C()[cellI].x() + c;
+        T_[cellI] = m*c_.mesh().C()[cellI].x() + c;
     }
 }
 

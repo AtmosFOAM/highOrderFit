@@ -27,9 +27,8 @@ License
 #include "checks.H"
 #include "highOrderFit.H"
 #include "interpolation.H"
-#include "mesh.H"
-
 #include "IOobject.H"
+#include "mesh.H"
 #include "tmp.H"
 
 using namespace Foam;

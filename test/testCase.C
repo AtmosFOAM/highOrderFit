@@ -23,28 +23,37 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "catch.hpp"
-#include "checks.H"
-#include "stencilBoundaryExclusion.H"
 #include "testCase.H"
 
-using namespace Foam;
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-namespace Test
-{
+Test::testCase::testCase(const Foam::fileName& name)
+:
+runTime_(
+    Foam::Time::controlDictName,
+    "resources",
+    name
+),
+mesh_
+(
+    Foam::IOobject
+    (
+        Foam::fvMesh::defaultRegion,
+        runTime_.constant(),
+        runTime_,
+        Foam::IOobject::MUST_READ
+    )
+)
+{}
 
-TEST_CASE("stencilBoundaryExclusion_excludes_all_boundary_faces")
-{
-    const Test::testCase c("cartesian4x3Mesh");
-    const stencilBoundaryExclusion policy;
 
-    boolList includeBoundaryFaces;
-    policy.applyTo(c.mesh(), includeBoundaryFaces);
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-    CHECK( includeBoundaryFaces.size() == 38 );
-    Test::checkEqual(includeBoundaryFaces, false);
-}
+Test::testCase::~testCase()
+{}
 
-}
+
+// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
 
 // ************************************************************************* //

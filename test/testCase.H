@@ -22,24 +22,21 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Test::interpolation
+    Foam::testCase
 
 Description
-    Convenient test setup for testing the highOrderFit surfaceInterpolationScheme
 
 SourceFiles
-    interpolation.C
+    testCase.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef interpolation_H
-#define interpolation_H
+#ifndef testCase_H
+#define testCase_H
 
 #include "fileName.H"
-#include "IStringStream.H"
-#include "scalar.H"
-#include "surfaceInterpolationScheme.H"
-#include "testCase.H"
+#include "fvMesh.H"
+#include "Time.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -47,86 +44,56 @@ namespace Test
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class interpolation Declaration
+                       Class testCase Declaration
 \*---------------------------------------------------------------------------*/
 
-class interpolation
+class testCase
 {
     // Private data
 
-        const Test::testCase c_;
-        const Foam::tmp<Foam::surfaceScalarField> faceFlux_;
-        const Foam::tmp
-        <
-            Foam::surfaceInterpolationScheme<Foam::scalar>
-        >
-        scheme_;
-        Foam::volScalarField T_;
+        const Foam::Time runTime_;
+        const Foam::fvMesh mesh_;
 
 
     // Private Member Functions
 
-        const Foam::tmp<Foam::surfaceScalarField> initialiseFaceFlux();
-
-        const Foam::tmp
-        <
-            Foam::surfaceInterpolationScheme<Foam::scalar>
-        >
-        initialiseScheme(const Foam::word& schemeName);
-
         //- Disallow default bitwise copy construct
-        interpolation(const interpolation&);
+        testCase(const testCase&);
 
         //- Disallow default bitwise assignment
-        void operator=(const interpolation&);
+        void operator=(const testCase&);
 
 
 public:
 
     // Constructors
 
-        interpolation
-        (
-            const Foam::fileName& caseName,
-            const Foam::word& schemeName = "highOrderFit"
-        );
+        testCase(const Foam::fileName& name);
+
+
+    //- Destructor
+    ~testCase();
 
 
     // Member Functions
 
-        Foam::volScalarField& T()
-        {
-            return T_;
-        };
-
-        const Foam::surfaceInterpolationScheme<Foam::scalar>& scheme()
-        {
-            return scheme_();
-        }
-
         const Foam::Time& runTime() const
         {
-            return c_.runTime();
+            return runTime_;
         };
 
         const Foam::fvMesh& mesh() const
         {
-            return c_.mesh();
+            return mesh_;
         };
 
-        const Foam::tmp<Foam::surfaceScalarField> interpolateT() const;
 
-        //- reverse the velocity field.
-        //  This is useful for testing owner and neighbour sides for the
-        //  upwind-biased stencil.
-        void negateFaceFlux();
-
-        void setTlinearInX(Foam::scalar m=3, Foam::scalar c=4);
 };
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-} // End namespace Test
+} // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
