@@ -1,9 +1,12 @@
 highOrderFit = interpolation/surfaceInterpolation/schemes/highOrderFit
 
 $(highOrderFit)/highOrderFitScheme.C
-$(highOrderFit)/uniformMultipliers.C
 $(highOrderFit)/stencilField.C
 $(highOrderFit)/weights.C
 $(highOrderFit)/weightsField.C
+
+multipliers = $(highOrderFit)/multipliers
+$(multipliers)/inverseDistanceMultipliers.C
+$(multipliers)/uniformMultipliers.C
 
 LIB = $(FOAM_USER_LIBBIN)/libhighOrderFit

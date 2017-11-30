@@ -35,7 +35,6 @@ SourceFiles
 #define weights_H
 
 #include "scalarList.H"
-#include "uniformMultipliers.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -85,7 +84,7 @@ public:
         void calculate
         (
             scalarList& weights,
-            const uniformMultipliers& multipliers
+            const scalarList& multipliers
         ) const;
  
 

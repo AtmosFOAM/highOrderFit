@@ -44,20 +44,20 @@ Foam::highOrderFit::weights::~weights()
 void Foam::highOrderFit::weights::calculate
 (
     Foam::scalarList& weights,
-    const Foam::highOrderFit::uniformMultipliers& multipliers
+    const Foam::scalarList& multipliers
 ) const
 {
     scalarRectangularMatrix B(weights.size(), 1);
     for (label row = 0; row < B.m(); row++)
     {
-        B(row, 0) = 1.0;
+        B(row, 0) = 1.0 * multipliers[row];
     }
     const SVD svd(B);
     const scalarRectangularMatrix& Binv = svd.VSinvUt();
 
     for (label col = 0; col < Binv.n(); col++)
     {
-        weights[col] = Binv(0, col);
+        weights[col] = Binv(0, col) * multipliers[col];
     }
 }
 

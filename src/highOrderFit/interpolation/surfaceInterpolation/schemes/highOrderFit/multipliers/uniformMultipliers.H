@@ -22,68 +22,74 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::checks
+    Foam::uniformMultipliers
 
 Description
-    A collection of assertions for use in the Catch test suite
 
 SourceFiles
-    checks.C
-    checksTemplates.C
+    uniformMultipliers.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef checks_H
-#define checks_H
+#ifndef uniformMultipliers_H
+#define uniformMultipliers_H
 
-#include "catch.hpp"
-#include "GeometricField.H"
-#include "scalar.H"
 #include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-namespace Test
+namespace Foam
 {
-
-    static Foam::scalar epsilon = 1e-9;
-    static Approx approx = Approx::custom().epsilon(epsilon);
-
-    void checkEqual
-    (
-        const Foam::scalarList& actual,
-        const Foam::scalarList& expected,
-        Approx approx = Approx::custom().epsilon(epsilon)
-    );
-
-    template<class Type>
-    void checkEqual
-    (
-        const Foam::List<Type>& actual,
-        const Type expected
-    );
-
-    void checkEqual
-    (
-        const Foam::scalarList& actual,
-        const Foam::scalar expected,
-        Approx approx = Approx::custom().epsilon(epsilon)
-    );
-
-    template<class Type>
-    Foam::label countMatches
-    (
-        const Foam::List<Type>& list,
-        const Type item
-    );
-
-} // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#ifdef NoRepository
-    #include "checksTemplates.C"
-#endif
+namespace highOrderFit
+{
+
+/*---------------------------------------------------------------------------*\
+                         Class uniformMultipliers Declaration
+\*---------------------------------------------------------------------------*/
+
+class uniformMultipliers
+:
+    public scalarList
+{
+    // Private data
+
+
+    // Private Member Functions
+
+        //- Disallow default bitwise copy construct
+        uniformMultipliers(const uniformMultipliers&);
+
+        //- Disallow default bitwise assignment
+        void operator=(const uniformMultipliers&);
+
+
+public:
+
+    // Constructors
+
+        uniformMultipliers(const label size);
+
+
+    //- Destructor
+    ~uniformMultipliers();
+
+
+    // Member Functions
+
+
+};
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace highOrderFit
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

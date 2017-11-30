@@ -23,43 +23,29 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "catch.hpp"
-#include "checks.H"
 #include "inverseDistanceMultipliers.H"
-#include "uniformMultipliers.H"
-#include "weights.H"
 
-using namespace Foam;
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-namespace Test
+Foam::highOrderFit::inverseDistanceMultipliers::inverseDistanceMultipliers
+(
+    const label size
+)
+:
+    scalarList(size, 1.0)
 {
-
-TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
-{
-    scalarList w(12);
-    highOrderFit::uniformMultipliers multipliers(12);
-    highOrderFit::weights weights;
-
-    weights.calculate(w, multipliers);
-
-    checkEqual( w, 1.0/12.0 );
+    (*this)[0] = 1024.0;
+    (*this)[1] = 1024.0;
 }
 
-TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
-{
-    scalarList w(5);
-    highOrderFit::inverseDistanceMultipliers multipliers(5);
-    highOrderFit::weights weights;
 
-    weights.calculate(w, multipliers);
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-    const label upwind = 0, downwind = 1;
-    CHECK( w[upwind] == approx(0.4999992847) ); 
-    CHECK( w[downwind] == approx(0.4999992847) ); 
-}
+Foam::highOrderFit::inverseDistanceMultipliers::~inverseDistanceMultipliers()
+{}
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-} // End namespace Test
+// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
 
 // ************************************************************************* //

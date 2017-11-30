@@ -22,17 +22,17 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::uniformMultipliers
+    Foam::inverseDistanceMultipliers
 
 Description
 
 SourceFiles
-    uniformMultipliers.C
+    inverseDistanceMultipliers.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef uniformMultipliers_H
-#define uniformMultipliers_H
+#ifndef inverseDistanceMultipliers_H
+#define inverseDistanceMultipliers_H
 
 #include "scalarList.H"
 
@@ -46,12 +46,11 @@ namespace Foam
 namespace highOrderFit
 {
 
-
 /*---------------------------------------------------------------------------*\
-                         Class uniformMultipliers Declaration
+                         Class inverseDistanceMultipliers Declaration
 \*---------------------------------------------------------------------------*/
 
-class uniformMultipliers
+class inverseDistanceMultipliers
 :
     public scalarList
 {
@@ -61,21 +60,23 @@ class uniformMultipliers
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        uniformMultipliers(const uniformMultipliers&);
+        inverseDistanceMultipliers(const inverseDistanceMultipliers&);
 
         //- Disallow default bitwise assignment
-        void operator=(const uniformMultipliers&);
+        void operator=(const inverseDistanceMultipliers&);
 
 
 public:
 
+
     // Constructors
 
-        uniformMultipliers(const label size);
+        //- Construct from components
+        inverseDistanceMultipliers(const label size);
 
 
     //- Destructor
-    ~uniformMultipliers();
+    ~inverseDistanceMultipliers();
 
 
     // Member Functions
