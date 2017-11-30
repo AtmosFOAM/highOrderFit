@@ -72,7 +72,7 @@ TEST_CASE("weightsField_has_weight_for_each_cell_in_stencil")
     CHECK( weights[facei].size() == 12 );
 }
 
-TEST_CASE("weightsField_averages_all_cells_in_stencil")
+TEST_CASE("weightsField_calculates_correction_on_upwind")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
@@ -87,10 +87,10 @@ TEST_CASE("weightsField_averages_all_cells_in_stencil")
 
     const label upwind = 0;
     CHECK( weights[facei][upwind] == Test::approx(-11.0/12.0) );
-    for (label celli = 1; celli < 12; celli++)
-    {
-        CHECK( weights[facei][celli] == Test::approx(1.0/12.0) );
-    }
 }
 
-}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Test
+
+// ************************************************************************* //

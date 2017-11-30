@@ -23,46 +23,35 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "weightsField.H"
 #include "weights.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weightsField::weightsField
-(
-    const Foam::highOrderFit::stencilField& stencils
-)
+Foam::highOrderFit::weights::weights(Foam::scalarList& weights)
 :
-    scalarListList(stencils.size())
+w_(weights)
 {
-    for (label facei = 0; facei < stencils.mesh().nInternalFaces(); facei++)
+    forAll(w_, i)
     {
-        scalarList& w = (*this)[facei];
-        const label size = stencils[facei].size();
-
-		if (size < 2)
-		{
-			FatalErrorInFunction
-	            << "stencil for facei " << facei << " has fewer than two cells"
-                << abort(FatalError);
-		}
-
-        w.setSize(size);
-
-        weights weights(w);
-
-        w[0] -= 1;
+        w_[i] = 1.0/w_.size();
     }
 }
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weightsField::~weightsField()
+Foam::highOrderFit::weights::~weights()
 {}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+
+// * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
+
+Foam::scalar Foam::highOrderFit::weights::operator[](const label i) const
+{
+    return w_[i];
+}
 
 // ************************************************************************* //

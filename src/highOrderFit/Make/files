@@ -1,5 +1,7 @@
-interpolation/surfaceInterpolation/schemes/highOrderFit/highOrderFitScheme.C
-interpolation/surfaceInterpolation/schemes/highOrderFit/stencilField.C
-interpolation/surfaceInterpolation/schemes/highOrderFit/weightsField.C
+highOrderFit = interpolation/surfaceInterpolation/schemes/highOrderFit
+$(highOrderFit)/highOrderFitScheme.C
+$(highOrderFit)/stencilField.C
+$(highOrderFit)/weights.C
+$(highOrderFit)/weightsField.C
 
 LIB = $(FOAM_USER_LIBBIN)/libhighOrderFit

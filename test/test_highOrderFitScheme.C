@@ -100,6 +100,8 @@ TEST_CASE("highOrderFit_ignores_boundary_values")
     CHECK( diagnostic.size() == 6 );
 }
 
-}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Test
 
 // ************************************************************************* //

@@ -23,46 +23,26 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "weightsField.H"
+#include "catch.hpp"
+#include "checks.H"
 #include "weights.H"
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+using namespace Foam;
 
-Foam::highOrderFit::weightsField::weightsField
-(
-    const Foam::highOrderFit::stencilField& stencils
-)
-:
-    scalarListList(stencils.size())
+namespace Test
 {
-    for (label facei = 0; facei < stencils.mesh().nInternalFaces(); facei++)
-    {
-        scalarList& w = (*this)[facei];
-        const label size = stencils[facei].size();
 
-		if (size < 2)
-		{
-			FatalErrorInFunction
-	            << "stencil for facei " << facei << " has fewer than two cells"
-                << abort(FatalError);
-		}
+TEST_CASE("weights_average_all_cells_in_stencil")
+{
+    scalarList w(12);
+    highOrderFit::weights weights(w);
 
-        w.setSize(size);
-
-        weights weights(w);
-
-        w[0] -= 1;
-    }
+    const label upwind = 0;
+    checkEqual( w, 1.0/12.0 );
 }
 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::weightsField::~weightsField()
-{}
-
-
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
+} // End namespace Test
 
 // ************************************************************************* //

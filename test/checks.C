@@ -34,8 +34,17 @@ void Test::checkEqual
 {
     forAll(actual, i)
     {
-        CHECK(actual[i] == approx(expected[i]));
+        CHECK( actual[i] == approx(expected[i]) );
     }
+}
+
+void Test::checkEqual
+(
+    const Foam::scalarList& actual,
+    const Foam::scalar expected,
+    Approx approx
+)
+{
 }
 
 // ************************************************************************* //

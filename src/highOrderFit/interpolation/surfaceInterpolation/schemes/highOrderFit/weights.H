@@ -22,67 +22,76 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::checks
+    Foam::weights
 
 Description
-    A collection of assertions for use in the Catch test suite
 
 SourceFiles
-    checks.C
-    checksTemplates.C
+    weights.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef checks_H
-#define checks_H
+#ifndef weights_H
+#define weights_H
 
-#include "catch.hpp"
-#include "GeometricField.H"
-#include "scalar.H"
 #include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-namespace Test
+namespace Foam
 {
-
-    static Approx approx = Approx::custom().epsilon(Foam::SMALL);
-
-    void checkEqual
-    (
-        const Foam::scalarList& actual,
-        const Foam::scalarList& expected,
-        Approx approx = Approx::custom().epsilon(Foam::SMALL)
-    );
-
-    template<class Type>
-    void checkEqual
-    (
-        const Foam::List<Type>& actual,
-        const Type expected
-    );
-
-    void checkEqual
-    (
-        const Foam::scalarList& actual,
-        const Foam::scalar expected,
-        Approx approx = Approx::custom().epsilon(Foam::SMALL)
-    );
-
-    template<class Type>
-    Foam::label countMatches
-    (
-        const Foam::List<Type>& list,
-        const Type item
-    );
-
-} // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#ifdef NoRepository
-    #include "checksTemplates.C"
-#endif
+namespace highOrderFit
+{
+
+/*---------------------------------------------------------------------------*\
+                         Class weights Declaration
+\*---------------------------------------------------------------------------*/
+
+class weights
+{
+    // Private data
+
+        scalarList& w_;
+
+    // Private Member Functions
+
+        //- Disallow default bitwise copy construct
+        weights(const weights&);
+
+        //- Disallow default bitwise assignment
+        void operator=(const weights&);
+
+
+public:
+
+    // Constructors
+
+        weights(scalarList& weights);
+
+
+    //- Destructor
+    ~weights();
+
+
+    // Member Functions
+ 
+
+    // Member Operators
+
+    scalar operator[](const label i) const;
+
+};
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace highOrderFit
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
