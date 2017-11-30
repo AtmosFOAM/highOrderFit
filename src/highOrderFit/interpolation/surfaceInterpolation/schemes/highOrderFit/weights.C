@@ -24,6 +24,8 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "weights.H"
+#include "scalarMatrices.H"
+#include "SVD.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -31,9 +33,17 @@ Foam::highOrderFit::weights::weights(Foam::scalarList& weights)
 :
 w_(weights)
 {
-    forAll(w_, i)
+    scalarRectangularMatrix B(w_.size(), 1);
+    for (label row = 0; row < B.m(); row++)
     {
-        w_[i] = 1.0/w_.size();
+        B(row, 0) = 1.0;
+    }
+    const SVD svd(B);
+    const scalarRectangularMatrix& Binv = svd.VSinvUt();
+
+    for (label col = 0; col < Binv.n(); col++)
+    {
+        w_[col] = Binv(0, col);
     }
 }
 
