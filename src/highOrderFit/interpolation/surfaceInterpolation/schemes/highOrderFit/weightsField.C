@@ -51,7 +51,9 @@ Foam::highOrderFit::weightsField::weightsField
         w.setSize(size);
 
         const uniformMultipliers multipliers(size);
-        const weights weights(w, multipliers);
+
+        const weights weights;
+        weights.calculate(w, multipliers);
 
         w[0] -= 1;
     }

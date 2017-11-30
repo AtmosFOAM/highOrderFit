@@ -29,27 +29,8 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weights::weights
-(
-    Foam::scalarList& weights,
-    const Foam::highOrderFit::uniformMultipliers& multipliers
-)
-:
-w_(weights)
-{
-    scalarRectangularMatrix B(w_.size(), 1);
-    for (label row = 0; row < B.m(); row++)
-    {
-        B(row, 0) = 1.0;
-    }
-    const SVD svd(B);
-    const scalarRectangularMatrix& Binv = svd.VSinvUt();
-
-    for (label col = 0; col < Binv.n(); col++)
-    {
-        w_[col] = Binv(0, col);
-    }
-}
+Foam::highOrderFit::weights::weights()
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
@@ -60,12 +41,25 @@ Foam::highOrderFit::weights::~weights()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-
-// * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * * //
-
-Foam::scalar Foam::highOrderFit::weights::operator[](const label i) const
+void Foam::highOrderFit::weights::calculate
+(
+    Foam::scalarList& weights,
+    const Foam::highOrderFit::uniformMultipliers& multipliers
+) const
 {
-    return w_[i];
+    scalarRectangularMatrix B(weights.size(), 1);
+    for (label row = 0; row < B.m(); row++)
+    {
+        B(row, 0) = 1.0;
+    }
+    const SVD svd(B);
+    const scalarRectangularMatrix& Binv = svd.VSinvUt();
+
+    for (label col = 0; col < Binv.n(); col++)
+    {
+        weights[col] = Binv(0, col);
+    }
 }
+
 
 // ************************************************************************* //

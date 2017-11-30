@@ -55,7 +55,6 @@ class weights
 {
     // Private data
 
-        scalarList& w_;
 
     // Private Member Functions
 
@@ -70,11 +69,7 @@ public:
 
     // Constructors
 
-        weights
-        (
-            scalarList& weights,
-            const uniformMultipliers& multipliers
-        );
+        weights();
 
 
     //- Destructor
@@ -82,11 +77,17 @@ public:
 
 
     // Member Functions
+    
+        //- Calculate weights for a given stencil
+        //  @param [out] weights on entry, a list of weights of the correct
+        //                       size with uninitialised values;
+        //                       on exit, the weights will be initialised
+        void calculate
+        (
+            scalarList& weights,
+            const uniformMultipliers& multipliers
+        ) const;
  
-
-    // Member Operators
-
-    scalar operator[](const label i) const;
 
 };
 

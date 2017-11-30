@@ -37,7 +37,9 @@ TEST_CASE("weights_average_all_cells_in_stencil")
 {
     scalarList w(12);
     highOrderFit::uniformMultipliers multipliers(12);
-    highOrderFit::weights weights(w, multipliers);
+    highOrderFit::weights weights;
+
+    weights.calculate(w, multipliers);
 
     const label upwind = 0;
     checkEqual( w, 1.0/12.0 );
