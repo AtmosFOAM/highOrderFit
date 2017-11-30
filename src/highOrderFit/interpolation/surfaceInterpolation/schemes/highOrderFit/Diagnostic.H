@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::Diagnostic
+    Foam::highOrderFit::Diagnostic
 
 Description
     A diagnostic object for a particular face and face flux which can be

@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::weightsField
+    Foam::highOrderFit::weightsField
 
 Description
     A list of surface interpolation weights indexed by face.
@@ -72,7 +72,7 @@ public:
     // Constructors
 
         //- Construct from the specified stencil field.
-        weightsField(const highOrderFit::stencilField& stencils);
+        weightsField(const stencilField& stencils);
 
 
     //- Destructor

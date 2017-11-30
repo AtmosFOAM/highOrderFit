@@ -89,13 +89,13 @@ TEST_CASE("highOrderFit_ignores_boundary_values")
     const Test::mesh testMesh(highOrderFit.mesh());
     const label facei = testMesh.indexOfFaceWithCentreAt(point(1, 1.5, 0));
 
-    const Foam::highOrderFitScheme<scalar>& scheme =
-        dynamic_cast<const Foam::highOrderFitScheme<scalar>&>
+    const highOrderFitScheme<scalar>& scheme =
+        dynamic_cast<const highOrderFitScheme<scalar>&>
         (
             highOrderFit.scheme()
         );
 
-    const Foam::highOrderFit::Diagnostic<scalar>& diagnostic =
+    const highOrderFit::Diagnostic<scalar>& diagnostic =
         scheme.diagnose(facei, highOrderFit.T());
     CHECK( diagnostic.size() == 6 );
 }

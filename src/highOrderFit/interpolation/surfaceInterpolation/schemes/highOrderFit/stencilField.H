@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::stencilField
+    Foam::highOrderFit::stencilField
 
 Description
     Stencils of cells for cellToFace surface interpolation indexed by face.
