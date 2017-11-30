@@ -22,20 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::weights
+    Foam::uniformMultipliers
 
 Description
 
 SourceFiles
-    weights.C
+    uniformMultipliers.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef weights_H
-#define weights_H
+#ifndef uniformMultipliers_H
+#define uniformMultipliers_H
 
 #include "scalarList.H"
-#include "uniformMultipliers.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -47,48 +46,43 @@ namespace Foam
 namespace highOrderFit
 {
 
+
 /*---------------------------------------------------------------------------*\
-                         Class weights Declaration
+                         Class uniformMultipliers Declaration
 \*---------------------------------------------------------------------------*/
 
-class weights
+class uniformMultipliers
+:
+    public scalarList
 {
     // Private data
 
-        scalarList& w_;
 
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        weights(const weights&);
+        uniformMultipliers(const uniformMultipliers&);
 
         //- Disallow default bitwise assignment
-        void operator=(const weights&);
+        void operator=(const uniformMultipliers&);
 
 
 public:
 
     // Constructors
 
-        weights
-        (
-            scalarList& weights,
-            const uniformMultipliers& multipliers
-        );
+        uniformMultipliers(const label size);
 
 
     //- Destructor
-    ~weights();
+    ~uniformMultipliers();
 
 
     // Member Functions
- 
 
-    // Member Operators
-
-    scalar operator[](const label i) const;
 
 };
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

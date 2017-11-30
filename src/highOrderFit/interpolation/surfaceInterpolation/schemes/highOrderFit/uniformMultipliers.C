@@ -23,28 +23,23 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "catch.hpp"
-#include "checks.H"
 #include "uniformMultipliers.H"
-#include "weights.H"
 
-using namespace Foam;
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-namespace Test
-{
+Foam::highOrderFit::uniformMultipliers::uniformMultipliers(const label size)
+:
+    scalarList(size, 1.0)
+{}
 
-TEST_CASE("weights_average_all_cells_in_stencil")
-{
-    scalarList w(12);
-    highOrderFit::uniformMultipliers multipliers(12);
-    highOrderFit::weights weights(w, multipliers);
 
-    const label upwind = 0;
-    checkEqual( w, 1.0/12.0 );
-}
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Foam::highOrderFit::uniformMultipliers::~uniformMultipliers()
+{}
 
-} // End namespace Test
+
+// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
 
 // ************************************************************************* //

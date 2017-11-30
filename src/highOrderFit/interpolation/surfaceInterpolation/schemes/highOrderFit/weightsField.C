@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "weightsField.H"
+#include "uniformMultipliers.H"
 #include "weights.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
@@ -49,7 +50,8 @@ Foam::highOrderFit::weightsField::weightsField
 
         w.setSize(size);
 
-        weights weights(w);
+        const uniformMultipliers multipliers(size);
+        const weights weights(w, multipliers);
 
         w[0] -= 1;
     }

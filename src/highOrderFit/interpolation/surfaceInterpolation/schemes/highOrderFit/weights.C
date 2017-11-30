@@ -29,7 +29,11 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weights::weights(Foam::scalarList& weights)
+Foam::highOrderFit::weights::weights
+(
+    Foam::scalarList& weights,
+    const Foam::highOrderFit::uniformMultipliers& multipliers
+)
 :
 w_(weights)
 {
