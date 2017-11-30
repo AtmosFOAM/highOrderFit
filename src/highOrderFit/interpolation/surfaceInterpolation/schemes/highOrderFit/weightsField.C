@@ -30,7 +30,7 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::weightsField::weightsField
+Foam::highOrderFit::weightsField::weightsField
 (
     const highOrderFit::stencilField& stencils
 )
@@ -59,7 +59,7 @@ Foam::weightsField::weightsField
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::weightsField::~weightsField()
+Foam::highOrderFit::weightsField::~weightsField()
 {}
 
 

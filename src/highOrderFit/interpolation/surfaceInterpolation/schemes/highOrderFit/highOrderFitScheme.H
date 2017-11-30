@@ -69,9 +69,9 @@ class highOrderFitScheme
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
         const highOrderFit::stencilField ownerStencils_;
-        const weightsField ownerWeights_;
         const highOrderFit::stencilField neighbourStencils_;
-        const weightsField neighbourWeights_;
+        const highOrderFit::weightsField ownerWeights_;
+        const highOrderFit::weightsField neighbourWeights_;
 
     // Private Member Functions
 
@@ -124,12 +124,12 @@ public:
                 stencils_.ownStencil(),
                 mesh
             ),
-            ownerWeights_(ownerStencils_),
             neighbourStencils_
             (
                 stencils_.neiStencil(),
                 mesh
             ),
+            ownerWeights_(ownerStencils_),
             neighbourWeights_(neighbourStencils_)
         {}
 
@@ -150,12 +150,12 @@ public:
                 stencils_.ownStencil(),
                 mesh
             ),
-            ownerWeights_(ownerStencils_),
             neighbourStencils_
             (
                 stencils_.neiStencil(),
                 mesh
             ),
+            ownerWeights_(ownerStencils_),
             neighbourWeights_(neighbourStencils_)
         {}
 
