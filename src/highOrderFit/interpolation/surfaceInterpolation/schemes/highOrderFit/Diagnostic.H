@@ -110,6 +110,7 @@ public:
 
     // Member Functions
 
+        //- The number of cells in the stencil
         label size() const
         {
             return weights_.size();
@@ -118,6 +119,7 @@ public:
 
     // IOstream Operators
 
+        //- Output the diagnostics in human-readable form
         friend Ostream& operator<< <Type>
         (
             Ostream& os,
