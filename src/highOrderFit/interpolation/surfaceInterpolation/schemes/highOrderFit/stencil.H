@@ -22,22 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::stencilField
+    Foam::stencil
 
 Description
-    Stencils of cells for cellToFace surface interpolation indexed by face.
 
 SourceFiles
-    stencilField.C
+    stencil.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef stencilField_H
-#define stencilField_H
+#ifndef stencil_H
+#define stencil_H
 
-#include "fvMesh.H"
-#include "List.H"
-#include "stencil.H"
+#include "label.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -50,49 +47,40 @@ namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class stencilField Declaration
+                         Class stencil Declaration
 \*---------------------------------------------------------------------------*/
 
-class stencilField
-:
-    public List<stencil>
+class stencil
 {
     // Private data
-
-        const fvMesh& mesh_;
+    
+        label size_;
 
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        stencilField(const stencilField&);
+        stencil(const stencil&);
 
         //- Disallow default bitwise assignment
-        void operator=(const stencilField&);
+        //void operator=(const stencil&);
 
 
 public:
 
     // Constructors
 
-        //- Construct from a specified list of stencils of cell labels.
-        stencilField
-        (
-            const labelListList& stencilCellsList,
-            const fvMesh& mesh
-        );
+        stencil();
+
+        stencil(const label size);
 
 
     //- Destructor
-    ~stencilField();
+    ~stencil();
 
 
     // Member Functions
 
-        const fvMesh& mesh() const
-        {
-            return mesh_;
-        }
-
+        label size() const;
 
 };
 

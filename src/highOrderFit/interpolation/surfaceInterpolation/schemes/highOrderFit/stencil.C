@@ -23,35 +23,34 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "stencilField.H"
-
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
+#include "stencil.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-Foam::highOrderFit::stencilField::stencilField
-(
-    const labelListList& stencilCellsList,
-    const fvMesh& mesh
-)
+
+Foam::highOrderFit::stencil::stencil()
 :
-    List<stencil>(stencilCellsList.size()),
-    mesh_(mesh)
-{
-    forAll(stencilCellsList, i)
-    {
-        (*this)[i] = stencil(stencilCellsList[i].size());
-    }
-}
+size_(0)
+{}
+
+
+Foam::highOrderFit::stencil::stencil(const Foam::label size)
+:
+size_(size)
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::stencilField::~stencilField()
+Foam::highOrderFit::stencil::~stencil()
 {}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+Foam::label Foam::highOrderFit::stencil::size() const
+{
+    return size_;
+}
 
 
 // ************************************************************************* //

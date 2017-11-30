@@ -1,6 +1,7 @@
 highOrderFit = interpolation/surfaceInterpolation/schemes/highOrderFit
 
 $(highOrderFit)/highOrderFitScheme.C
+$(highOrderFit)/stencil.C
 $(highOrderFit)/stencilField.C
 $(highOrderFit)/weights.C
 $(highOrderFit)/weightsField.C
