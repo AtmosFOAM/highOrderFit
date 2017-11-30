@@ -32,7 +32,7 @@ License
 
 Foam::highOrderFitWeightsField::highOrderFitWeightsField
 (
-    const highOrderFitStencilField& stencils
+    const stencilField& stencils
 )
 :
     scalarListList(stencils.size())

@@ -23,13 +23,13 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "highOrderFitStencilField.H"
+#include "stencilField.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-Foam::highOrderFitStencilField::highOrderFitStencilField
+Foam::stencilField::stencilField
 (
     const labelListList& stencilCellsList,
     const fvMesh& mesh
@@ -42,7 +42,7 @@ Foam::highOrderFitStencilField::highOrderFitStencilField
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFitStencilField::~highOrderFitStencilField()
+Foam::stencilField::~stencilField()
 {}
 
 

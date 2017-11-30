@@ -35,7 +35,7 @@ SourceFiles
 #ifndef highOrderFitWeightsField_H
 #define highOrderFitWeightsField_H
 
-#include "highOrderFitStencilField.H"
+#include "stencilField.H"
 #include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -67,7 +67,7 @@ public:
     // Constructors
 
         //- Construct from the specified stencil field.
-        highOrderFitWeightsField(const highOrderFitStencilField& stencils);
+        highOrderFitWeightsField(const stencilField& stencils);
 
 
     //- Destructor
