@@ -29,7 +29,7 @@ License
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-Foam::stencilField::stencilField
+Foam::highOrderFit::stencilField::stencilField
 (
     const labelListList& stencilCellsList,
     const fvMesh& mesh
@@ -42,7 +42,7 @@ Foam::stencilField::stencilField
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::stencilField::~stencilField()
+Foam::highOrderFit::stencilField::~stencilField()
 {}
 
 

@@ -68,9 +68,9 @@ class highOrderFitScheme
 
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
-        const stencilField ownerStencils_;
+        const highOrderFit::stencilField ownerStencils_;
         const highOrderFitWeightsField ownerWeights_;
-        const stencilField neighbourStencils_;
+        const highOrderFit::stencilField neighbourStencils_;
         const highOrderFitWeightsField neighbourWeights_;
 
     // Private Member Functions

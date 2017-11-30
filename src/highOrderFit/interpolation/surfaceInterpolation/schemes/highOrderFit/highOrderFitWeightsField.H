@@ -67,7 +67,7 @@ public:
     // Constructors
 
         //- Construct from the specified stencil field.
-        highOrderFitWeightsField(const stencilField& stencils);
+        highOrderFitWeightsField(const highOrderFit::stencilField& stencils);
 
 
     //- Destructor

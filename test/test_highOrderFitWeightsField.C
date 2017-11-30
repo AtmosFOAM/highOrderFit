@@ -50,7 +50,7 @@ TEST_CASE("highOrderFitWeightsField_has_same_size_as_stencil_field")
     labelListList stencilCellsList(55);
     Test::initialiseStencilCellsList(stencilCellsList);
 
-    stencilField stencils(stencilCellsList, highOrderFit.mesh());
+    highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
     highOrderFitWeightsField weights(stencils);
 
     CHECK( weights.size() == 55 );
@@ -66,7 +66,7 @@ TEST_CASE("highOrderFitWeightsField_has_weight_for_each_cell_in_stencil")
     Test::initialiseStencilCellsList(stencilCellsList);
     stencilCellsList[facei].setSize(12);
 
-    stencilField stencils(stencilCellsList, highOrderFit.mesh());
+    highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
     highOrderFitWeightsField weights(stencils);
 
     CHECK( weights[facei].size() == 12 );
@@ -82,7 +82,7 @@ TEST_CASE("highOrderFitWeightsField_averages_all_cells_in_stencil")
     Test::initialiseStencilCellsList(stencilCellsList);
     stencilCellsList[facei].setSize(12);
 
-    stencilField stencils(stencilCellsList, highOrderFit.mesh());
+    highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
     highOrderFitWeightsField weights(stencils);
 
     const label upwind = 0;
