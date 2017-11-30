@@ -40,7 +40,7 @@ SourceFiles
 #include "extendedUpwindCellToFaceStencil.H"
 #include "Diagnostic.H"
 #include "stencilField.H"
-#include "highOrderFitWeightsField.H"
+#include "weightsField.H"
 #include "stencilBoundaryPolicy.H"
 #include "stencilBoundaryExclusion.H"
 #include "upwind.H"
@@ -69,9 +69,9 @@ class highOrderFitScheme
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
         const highOrderFit::stencilField ownerStencils_;
-        const highOrderFitWeightsField ownerWeights_;
+        const weightsField ownerWeights_;
         const highOrderFit::stencilField neighbourStencils_;
-        const highOrderFitWeightsField neighbourWeights_;
+        const weightsField neighbourWeights_;
 
     // Private Member Functions
 

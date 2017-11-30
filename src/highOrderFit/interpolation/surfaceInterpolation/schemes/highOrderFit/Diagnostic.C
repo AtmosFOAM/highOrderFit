@@ -38,8 +38,8 @@ Foam::highOrderFit::Diagnostic<Type>::Diagnostic
     const Foam::surfaceScalarField& faceFlux,
     const Foam::fvMesh& mesh,
     const Foam::extendedUpwindCellToFaceStencil& stencils,
-    const Foam::highOrderFitWeightsField& ownerWeights,
-    const Foam::highOrderFitWeightsField& neighbourWeights
+    const Foam::weightsField& ownerWeights,
+    const Foam::weightsField& neighbourWeights
 )
 :
     facei_(facei),

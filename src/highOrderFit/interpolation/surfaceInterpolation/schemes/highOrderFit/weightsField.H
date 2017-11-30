@@ -22,18 +22,18 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFitWeightsField
+    Foam::weightsField
 
 Description
     A list of surface interpolation weights indexed by face.
 
 SourceFiles
-    highOrderFitWeightsField.C
+    weightsField.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef highOrderFitWeightsField_H
-#define highOrderFitWeightsField_H
+#ifndef weightsField_H
+#define weightsField_H
 
 #include "stencilField.H"
 #include "scalarList.H"
@@ -44,10 +44,10 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class highOrderFitWeightsField Declaration
+                         Class weightsField Declaration
 \*---------------------------------------------------------------------------*/
 
-class highOrderFitWeightsField
+class weightsField
 :
     public scalarListList
 {
@@ -56,10 +56,10 @@ class highOrderFitWeightsField
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        highOrderFitWeightsField(const highOrderFitWeightsField&);
+        weightsField(const weightsField&);
 
         //- Disallow default bitwise assignment
-        void operator=(const highOrderFitWeightsField&);
+        void operator=(const weightsField&);
 
 
 public:
@@ -67,11 +67,11 @@ public:
     // Constructors
 
         //- Construct from the specified stencil field.
-        highOrderFitWeightsField(const highOrderFit::stencilField& stencils);
+        weightsField(const highOrderFit::stencilField& stencils);
 
 
     //- Destructor
-    ~highOrderFitWeightsField();
+    ~weightsField();
 
 
     // Member Functions

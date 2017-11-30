@@ -29,7 +29,7 @@ License
 #include "mesh.H"
 
 #include "stencilField.H"
-#include "highOrderFitWeightsField.H"
+#include "weightsField.H"
 
 using namespace Foam;
 
@@ -44,19 +44,19 @@ static void initialiseStencilCellsList(labelListList& stencilCellsList)
     }
 }
 
-TEST_CASE("highOrderFitWeightsField_has_same_size_as_stencil_field")
+TEST_CASE("weightsField_has_same_size_as_stencil_field")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     labelListList stencilCellsList(55);
     Test::initialiseStencilCellsList(stencilCellsList);
 
     highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
-    highOrderFitWeightsField weights(stencils);
+    weightsField weights(stencils);
 
     CHECK( weights.size() == 55 );
 }
 
-TEST_CASE("highOrderFitWeightsField_has_weight_for_each_cell_in_stencil")
+TEST_CASE("weightsField_has_weight_for_each_cell_in_stencil")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
@@ -67,12 +67,12 @@ TEST_CASE("highOrderFitWeightsField_has_weight_for_each_cell_in_stencil")
     stencilCellsList[facei].setSize(12);
 
     highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
-    highOrderFitWeightsField weights(stencils);
+    weightsField weights(stencils);
 
     CHECK( weights[facei].size() == 12 );
 }
 
-TEST_CASE("highOrderFitWeightsField_averages_all_cells_in_stencil")
+TEST_CASE("weightsField_averages_all_cells_in_stencil")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
@@ -83,7 +83,7 @@ TEST_CASE("highOrderFitWeightsField_averages_all_cells_in_stencil")
     stencilCellsList[facei].setSize(12);
 
     highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
-    highOrderFitWeightsField weights(stencils);
+    weightsField weights(stencils);
 
     const label upwind = 0;
     CHECK( weights[facei][upwind] == Test::approx(-11.0/12.0) );

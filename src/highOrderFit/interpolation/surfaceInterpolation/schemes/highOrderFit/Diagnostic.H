@@ -38,7 +38,7 @@ SourceFiles
 
 #include "label.H"
 #include "extendedUpwindCellToFaceStencil.H"
-#include "highOrderFitWeightsField.H"
+#include "weightsField.H"
 #include "IOstreams.H"
 #include "surfaceFields.H"
 
@@ -99,8 +99,8 @@ public:
             const surfaceScalarField& faceFlux,
             const fvMesh& mesh,
             const extendedUpwindCellToFaceStencil& stencils,
-            const highOrderFitWeightsField& ownerWeights,
-            const highOrderFitWeightsField& neighbourWeights
+            const weightsField& ownerWeights,
+            const weightsField& neighbourWeights
         );
 
 

@@ -23,14 +23,14 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "highOrderFitWeightsField.H"
+#include "weightsField.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFitWeightsField::highOrderFitWeightsField
+Foam::weightsField::weightsField
 (
     const highOrderFit::stencilField& stencils
 )
@@ -59,7 +59,7 @@ Foam::highOrderFitWeightsField::highOrderFitWeightsField
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFitWeightsField::~highOrderFitWeightsField()
+Foam::weightsField::~weightsField()
 {}
 
 
