@@ -1,7 +1,7 @@
 checks.C
 interpolation.C
 mesh.C
-test_highOrderFit.C
+test_highOrderFitScheme.C
 test_weightsField.C
 test_stencilBoundaryExclusion.C
 test_stencilBoundaryInclusion.C
