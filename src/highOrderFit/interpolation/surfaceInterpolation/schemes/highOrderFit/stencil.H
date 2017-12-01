@@ -35,6 +35,7 @@ SourceFiles
 #define stencil_H
 
 #include "label.H"
+#include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -54,7 +55,7 @@ class stencil
 {
     // Private data
     
-        label size_;
+        scalarList volume_;
 
     // Private Member Functions
 
@@ -71,7 +72,7 @@ public:
 
         stencil();
 
-        stencil(const label size);
+        stencil(const scalarList& volume);
 
 
     //- Destructor
@@ -81,6 +82,8 @@ public:
     // Member Functions
 
         label size() const;
+
+        const scalarList& volume() const;
 
 };
 

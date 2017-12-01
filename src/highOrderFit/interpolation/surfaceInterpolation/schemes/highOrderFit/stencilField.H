@@ -35,6 +35,7 @@ SourceFiles
 #ifndef stencilField_H
 #define stencilField_H
 
+#include "extendedCellToFaceStencil.H"
 #include "fvMesh.H"
 #include "List.H"
 #include "stencil.H"
@@ -78,6 +79,7 @@ public:
         stencilField
         (
             const labelListList& stencilCellsList,
+            const mapDistribute& map,
             const fvMesh& mesh
         );
 

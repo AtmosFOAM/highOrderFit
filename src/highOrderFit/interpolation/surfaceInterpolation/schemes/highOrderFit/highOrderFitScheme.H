@@ -122,11 +122,13 @@ public:
             ownerStencils_
             (
                 stencils_.ownStencil(),
+                stencils_.ownMap(),
                 mesh
             ),
             neighbourStencils_
             (
                 stencils_.neiStencil(),
+                stencils_.neiMap(),
                 mesh
             ),
             ownerWeights_(ownerStencils_),
@@ -148,11 +150,13 @@ public:
             ownerStencils_
             (
                 stencils_.ownStencil(),
+                stencils_.ownMap(),
                 mesh
             ),
             neighbourStencils_
             (
                 stencils_.neiStencil(),
+                stencils_.neiMap(),
                 mesh
             ),
             ownerWeights_(ownerStencils_),
