@@ -36,21 +36,16 @@ using namespace Foam;
 namespace Test
 {
 
-static void initialiseStencilCellsList(labelListList& stencilCellsList)
-{
-    forAll(stencilCellsList, i)
-    {
-        stencilCellsList[i].setSize(2);
-    }
-}
-
 TEST_CASE("weightsField_has_same_size_as_stencil_field")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
-    labelListList stencilCellsList(55);
-    Test::initialiseStencilCellsList(stencilCellsList);
 
-    highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
+    highOrderFit::stencilField stencils
+    (
+        highOrderFit.stencils().ownStencil(),
+        highOrderFit.stencils().ownMap(),
+        highOrderFit.mesh()
+    );
     highOrderFit::weightsField weights(stencils);
 
     CHECK( weights.size() == 55 );
@@ -62,11 +57,12 @@ TEST_CASE("weightsField_has_weight_for_each_cell_in_stencil")
     const Test::mesh testMesh(highOrderFit.mesh());
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
     
-    labelListList stencilCellsList(55);
-    Test::initialiseStencilCellsList(stencilCellsList);
-    stencilCellsList[facei].setSize(12);
-
-    highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
+    highOrderFit::stencilField stencils
+    (
+        highOrderFit.stencils().ownStencil(),
+        highOrderFit.stencils().ownMap(),
+        highOrderFit.mesh()
+    );
     highOrderFit::weightsField weights(stencils);
 
     CHECK( weights[facei].size() == 12 );
@@ -78,11 +74,12 @@ TEST_CASE("weightsField_calculates_correction_on_upwind")
     const Test::mesh testMesh(highOrderFit.mesh());
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
     
-    labelListList stencilCellsList(55);
-    Test::initialiseStencilCellsList(stencilCellsList);
-    stencilCellsList[facei].setSize(12);
-
-    highOrderFit::stencilField stencils(stencilCellsList, highOrderFit.mesh());
+    highOrderFit::stencilField stencils
+    (
+        highOrderFit.stencils().ownStencil(),
+        highOrderFit.stencils().ownMap(),
+        highOrderFit.mesh()
+    );
     highOrderFit::weightsField weights(stencils);
 
     const label upwind = 0;

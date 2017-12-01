@@ -72,17 +72,12 @@ public:
 
     // Member Functions
 
-        // Access
         Foam::label indexOfFaceWithCentreAt
         (
             const Foam::point& Cf,
             const Foam::scalar epsilon = Foam::SMALL
         ) const;
-        // Check
 
-        // Edit
-
-        // Write
 
 };
 

@@ -24,7 +24,9 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "interpolation.H"
+#include "stencilBoundaryExclusion.H"
 #include "tmp.H"
+#include "upwindCPCCellToFaceStencilObject.H"
 
 using namespace Foam;
 
@@ -79,6 +81,20 @@ Test::interpolation::interpolation
 c_(caseName),
 faceFlux_(initialiseFaceFlux()),
 scheme_(initialiseScheme(schemeName)),
+stencils_
+(
+    Foam::upwindCPCCellToFaceStencilObject::New
+    (
+        mesh(),
+        false, // not pureUpwind
+        0.5,   // minOpposedness
+        false, // not linearCorr
+        Foam::autoPtr<Foam::stencilBoundaryPolicy>
+        (
+            new Foam::stencilBoundaryExclusion()
+        )
+    )
+),
 T_
 (
     IOobject

@@ -24,7 +24,10 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
+#include "checks.H"
+#include "interpolation.H"
 #include "labelList.H"
+#include "mesh.H"
 #include "stencilField.H"
 #include "testCase.H"
 
@@ -35,23 +38,34 @@ namespace Test
 
 TEST_CASE("stencilField_creates_stencil_for_each_in_stencilCellsList")
 {
-    const Test::testCase c("cartesian4x3Mesh");
-    const labelListList stencilCellsList(5);
+    const Test::interpolation highOrderFit("cartesian4x3Mesh");
 
-    highOrderFit::stencilField stencils(stencilCellsList, c.mesh());
+    highOrderFit::stencilField stencilField
+    (
+        highOrderFit.stencils().ownStencil(),
+        highOrderFit.stencils().ownMap(),
+        highOrderFit.mesh()
+    );
 
-    CHECK( stencils.size() == 5 );
+    CHECK( stencilField.size() == 55 );
 }
 
-TEST_CASE("stencilField_creates_each_stencil_with_size_of_stencilCells")
+TEST_CASE("stencilField_collects_stencil_cell_volumes")
 {
-    const Test::testCase c("cartesian4x3Mesh");
-    labelListList stencilCellsList(1);
-    stencilCellsList[0].setSize(3);
+    const Test::interpolation highOrderFit("cartesian4x3Mesh");
+    const Test::mesh testMesh(highOrderFit.mesh());
 
-    highOrderFit::stencilField stencils(stencilCellsList, c.mesh());
+    highOrderFit::stencilField stencilField
+    (
+        highOrderFit.stencils().ownStencil(),
+        highOrderFit.stencils().ownMap(),
+        highOrderFit.mesh()
+    );
 
-    CHECK( stencils[0].size() == 3 );
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    CHECK( stencilField[facei].size() == 12 );
+    CHECK( stencilField[facei].volume().size() == 12 );
+    checkEqual(stencilField[facei].volume(), 1.0);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

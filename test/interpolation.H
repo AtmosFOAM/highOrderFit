@@ -35,6 +35,7 @@ SourceFiles
 #ifndef interpolation_H
 #define interpolation_H
 
+#include "extendedUpwindCellToFaceStencil.H"
 #include "fileName.H"
 #include "IStringStream.H"
 #include "scalar.H"
@@ -61,6 +62,7 @@ class interpolation
             Foam::surfaceInterpolationScheme<Foam::scalar>
         >
         scheme_;
+        const Foam::extendedUpwindCellToFaceStencil& stencils_;
         Foam::volScalarField T_;
 
 
@@ -112,6 +114,11 @@ public:
         const Foam::fvMesh& mesh() const
         {
             return c_.mesh();
+        };
+
+        const Foam::extendedUpwindCellToFaceStencil& stencils() const
+        {
+            return stencils_;
         };
 
         const Foam::tmp<Foam::surfaceScalarField> interpolateT() const;
