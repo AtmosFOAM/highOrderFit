@@ -35,6 +35,7 @@ SourceFiles
 #define weights_H
 
 #include "scalarList.H"
+#include "stencil.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -84,6 +85,7 @@ public:
         void calculate
         (
             scalarList& weights,
+            const stencil& stencil,
             const scalarList& multipliers
         ) const;
  

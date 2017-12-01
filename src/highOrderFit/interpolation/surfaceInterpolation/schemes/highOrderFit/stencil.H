@@ -72,7 +72,7 @@ public:
 
         stencil();
 
-        stencil(const scalarList& volume);
+        explicit stencil(const scalarList& volume);
 
 
     //- Destructor

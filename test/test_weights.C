@@ -26,6 +26,7 @@ License
 #include "catch.hpp"
 #include "checks.H"
 #include "inverseDistanceMultipliers.H"
+#include "stencil.H"
 #include "uniformMultipliers.H"
 #include "weights.H"
 
@@ -37,10 +38,12 @@ namespace Test
 TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
 {
     scalarList w(12);
+    scalarList V(12, 1.0);
+    highOrderFit::stencil stencil(V);
     highOrderFit::uniformMultipliers multipliers(12);
     highOrderFit::weights weights;
 
-    weights.calculate(w, multipliers);
+    weights.calculate(w, stencil, multipliers);
 
     checkEqual( w, 1.0/12.0 );
 }
@@ -48,10 +51,12 @@ TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
 TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
 {
     scalarList w(5);
+    scalarList V(5, 1.0);
+    highOrderFit::stencil stencil(V);
     highOrderFit::inverseDistanceMultipliers multipliers(5);
     highOrderFit::weights weights;
 
-    weights.calculate(w, multipliers);
+    weights.calculate(w, stencil, multipliers);
 
     const label upwind = 0, downwind = 1;
     CHECK( w[upwind] == approx(0.4999992847) ); 
