@@ -28,12 +28,6 @@ License
 #include "surfaceFields.H"
 #include "OStringStream.H"
 
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
-
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Test::mesh::mesh(const Foam::fvMesh& mesh)
@@ -44,15 +38,32 @@ Test::mesh::mesh(const Foam::fvMesh& mesh)
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+Foam::label Test::mesh::indexOfCellWithCentreAt
+(
+    const Foam::point& C,
+    const Foam::scalar epsilon
+) const
+{
+    forAll(mesh_.C(), celli)
+    {
+        if (Foam::magSqr(mesh_.C()[celli] - C) < epsilon) return celli;
+    }
+
+	Foam::OStringStream os;
+	os << "no cell with centre at " << C;
+	throw std::domain_error(os.str());
+}
+
+
 Foam::label Test::mesh::indexOfFaceWithCentreAt
 (
     const Foam::point& Cf,
     const Foam::scalar epsilon
 ) const
 {
-    forAll(mesh_.Cf(), faceI)
+    forAll(mesh_.Cf(), facei)
     {
-        if (Foam::magSqr(mesh_.Cf()[faceI] - Cf) < epsilon) return faceI;
+        if (Foam::magSqr(mesh_.Cf()[facei] - Cf) < epsilon) return facei;
     }
 
 	Foam::OStringStream os;

@@ -36,6 +36,7 @@ SourceFiles
 #define testMesh_H
 
 #include "fvMesh.H"
+#include "volMesh.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -78,6 +79,12 @@ public:
             const Foam::scalar epsilon = Foam::SMALL
         ) const;
 
+
+        Foam::label indexOfCellWithCentreAt
+        (
+            const Foam::point& C,
+            const Foam::scalar epsilon = Foam::SMALL
+        ) const;
 
 };
 

@@ -70,6 +70,13 @@ namespace Test
         Approx approx = Approx::custom().epsilon(epsilon)
     );
 
+    void checkEqual
+    (
+        const Foam::vector actual,
+        const Foam::vector expected,
+        const Foam::scalar epsilon = Test::epsilon
+    );
+
     template<class Type>
     Foam::label countMatches
     (

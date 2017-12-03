@@ -45,6 +45,20 @@ void Test::checkEqual
     Approx approx
 )
 {
+    forAll(actual, i)
+    {
+        CHECK( actual[i] == approx(expected) );
+    }
+}
+
+void Test::checkEqual
+(
+    const Foam::vector actual,
+    const Foam::vector expected,
+    const Foam::scalar epsilon
+)
+{
+    CHECK( fabs(mag(actual) - mag(expected)) < epsilon );
 }
 
 // ************************************************************************* //

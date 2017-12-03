@@ -1,6 +1,7 @@
 checks.C
 interpolation.C
 mesh.C
+test_cellVertices.C
 test_highOrderFitScheme.C
 test_weightsField.C
 test_weights.C
