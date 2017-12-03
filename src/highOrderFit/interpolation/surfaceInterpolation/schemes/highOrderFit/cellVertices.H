@@ -64,13 +64,14 @@ class cellVertices
         cellVertices(const cellVertices&);
 
         //- Disallow default bitwise assignment
-        void operator=(const cellVertices&);
+        //void operator=(const cellVertices&);
 
 
 public:
 
-
     // Constructors
+
+        cellVertices();
 
         cellVertices(const primitiveMesh& mesh, const label celli);
 

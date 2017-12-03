@@ -5,6 +5,7 @@ test_cellVertices.C
 test_highOrderFitScheme.C
 test_weightsField.C
 test_weights.C
+test_stencil.C
 test_stencilBoundaryExclusion.C
 test_stencilBoundaryInclusion.C
 test_stencilField.C

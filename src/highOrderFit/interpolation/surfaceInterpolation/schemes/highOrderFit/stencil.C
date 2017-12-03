@@ -28,12 +28,19 @@ License
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::stencil::stencil()
+:
+size_(0)
 {}
 
 
-Foam::highOrderFit::stencil::stencil(const Foam::scalarList& volume)
+Foam::highOrderFit::stencil::stencil
+(
+    const Foam::point targetCf,
+    const Foam::vector Sf,
+    const Foam::List<Foam::highOrderFit::cellVertices>& stencilCellVertices
+)
 :
-volume_(volume)
+size_(stencilCellVertices.size())
 {}
 
 
@@ -47,14 +54,12 @@ Foam::highOrderFit::stencil::~stencil()
 
 Foam::label Foam::highOrderFit::stencil::size() const
 {
-    return volume_.size();
+    return size_;
 }
 
-
-const Foam::scalarList& Foam::highOrderFit::stencil::volume() const
+const Foam::scalarList& Foam::highOrderFit::stencil::moment() const
 {
-    return volume_;
+    return zeroMoment_;
 }
-
 
 // ************************************************************************* //

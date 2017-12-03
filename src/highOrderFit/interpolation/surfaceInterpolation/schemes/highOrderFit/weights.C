@@ -51,8 +51,7 @@ void Foam::highOrderFit::weights::calculate
     scalarRectangularMatrix B(weights.size(), 1);
     for (label row = 0; row < B.m(); row++)
     {
-        B(row, 0) = stencil.volume()[row] * multipliers[row];
-        B(row, 0) /= stencil.volume()[row];
+        B(row, 0) = 1.0 * multipliers[row];
     }
     const SVD svd(B);
     const scalarRectangularMatrix& Binv = svd.VSinvUt();

@@ -50,24 +50,6 @@ TEST_CASE("stencilField_creates_stencil_for_each_in_stencilCellsList")
     CHECK( stencilField.size() == 55 );
 }
 
-TEST_CASE("stencilField_collects_stencil_cell_volumes")
-{
-    const Test::interpolation highOrderFit("cartesian4x3Mesh");
-    const Test::mesh testMesh(highOrderFit.mesh());
-
-    highOrderFit::stencilField stencilField
-    (
-        highOrderFit.stencils().ownStencil(),
-        highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
-    );
-
-    const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
-    CHECK( stencilField[facei].size() == 12 );
-    CHECK( stencilField[facei].volume().size() == 12 );
-    checkEqual(stencilField[facei].volume(), 1.0);
-}
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test

@@ -26,9 +26,6 @@ License
 #include "stencilField.H"
 #include "extendedCellToFaceStencil.H"
 
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 Foam::highOrderFit::stencilField::stencilField
 (
@@ -40,35 +37,16 @@ Foam::highOrderFit::stencilField::stencilField
     List<stencil>(stencilCellsList.size()),
     mesh_(mesh)
 {
-    scalarListList volumeList;
-
-    volScalarField volumeField
-    (
-        IOobject
-        (
-            "V",
-            mesh.time().timeName(),
-            mesh,
-            IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-        mesh,
-        dimensionedScalar("V", dimVolume, 0.0)
-    );
-
-    volumeField.ref() = mesh.V();
-
-    extendedCellToFaceStencil::collectData
-    (
-        map,
-        stencilCellsList,
-        volumeField,
-        volumeList
-    );
-
     forAll(stencilCellsList, i)
     {
-        (*this)[i] = stencil(volumeList[i]);
+        const point targetCf;
+        const vector Sf;
+        const List<cellVertices> stencilCellVertices
+        (
+            stencilCellsList[i].size()
+        );
+
+        (*this)[i] = stencil(targetCf, Sf, stencilCellVertices);
     }
 }
 

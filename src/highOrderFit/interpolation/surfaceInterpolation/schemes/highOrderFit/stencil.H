@@ -34,6 +34,7 @@ SourceFiles
 #ifndef stencil_H
 #define stencil_H
 
+#include "cellVertices.H"
 #include "label.H"
 #include "scalarList.H"
 
@@ -55,7 +56,8 @@ class stencil
 {
     // Private data
     
-        scalarList volume_;
+        label size_;
+        scalarList zeroMoment_;
 
     // Private Member Functions
 
@@ -72,7 +74,12 @@ public:
 
         stencil();
 
-        explicit stencil(const scalarList& volume);
+        stencil
+        (
+            const point targetCf,
+            const vector Sf,
+            const List<cellVertices>& stencilCellVertices
+        );
 
 
     //- Destructor
@@ -83,7 +90,7 @@ public:
 
         label size() const;
 
-        const scalarList& volume() const;
+        const scalarList& moment() const;
 
 };
 
