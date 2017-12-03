@@ -31,7 +31,7 @@ License
 
 Foam::highOrderFit::cellVertices::cellVertices
 (
-    const Foam::fvMesh& mesh,
+    const Foam::primitiveMesh& mesh,
     const Foam::label celli
 )
 :

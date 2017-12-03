@@ -35,7 +35,7 @@ SourceFiles
 #ifndef cellVertices_H
 #define cellVertices_H
 
-#include "fvMesh.H"
+#include "primitiveMesh.H"
 #include "List.H"
 #include "point.H"
 
@@ -72,7 +72,7 @@ public:
 
     // Constructors
 
-        cellVertices(const fvMesh& mesh, const label celli);
+        cellVertices(const primitiveMesh& mesh, const label celli);
 
 
     //- Destructor
