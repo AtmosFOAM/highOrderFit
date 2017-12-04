@@ -63,7 +63,7 @@ class cellVertices
         //- Disallow default bitwise copy construct
         cellVertices(const cellVertices&);
 
-        //- Disallow default bitwise assignment
+        // Disallow default bitwise assignment
         //void operator=(const cellVertices&);
 
 
@@ -71,8 +71,13 @@ public:
 
     // Constructors
 
+        //- Construct an empty instance with no vertices.
+        //  Necessary only for initialising collections of cellVertices.
         cellVertices();
 
+        //- Construct an instance for a given cell.
+        //  @param mesh a mesh instance
+        //  @param celli an index into <code>mesh.cells()</code>
         cellVertices(const primitiveMesh& mesh, const label celli);
 
 
