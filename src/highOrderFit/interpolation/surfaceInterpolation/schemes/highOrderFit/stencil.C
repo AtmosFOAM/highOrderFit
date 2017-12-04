@@ -25,6 +25,19 @@ License
 
 #include "stencil.H"
 
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+
+void Foam::highOrderFit::stencil::translateVerticesWithOrigin
+(
+    const Foam::point o
+)
+{
+    forAll(vertices_, i)
+    {
+        vertices_[i].translate(-o);
+    }
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::stencil::stencil()
@@ -42,7 +55,9 @@ Foam::highOrderFit::stencil::stencil
 :
 size_(cellVertices.size()),
 vertices_(cellVertices)
-{}
+{
+    translateVerticesWithOrigin(targetCf);
+}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //

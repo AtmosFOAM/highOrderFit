@@ -76,6 +76,9 @@ public:
         //  @param celli an index into <code>mesh.cells()</code>
         cellVertices(const primitiveMesh& mesh, const label celli);
 
+        //- Construct directly from point data.
+        explicit cellVertices(const List<List<point>>& points);
+
         //- Construct an empty instance with no vertices.
         //  Necessary only for initialising collections of cellVertices.
         cellVertices();
@@ -83,6 +86,11 @@ public:
 
     //- Destructor
     ~cellVertices();
+
+
+    // Member Functions
+
+        void translate(const point x);
 
 
 };

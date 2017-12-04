@@ -65,8 +65,11 @@ class stencil
         //- Disallow default bitwise copy construct
         stencil(const stencil&);
 
-        //- Disallow default bitwise assignment
+        //Disallow default bitwise assignment
         //void operator=(const stencil&);
+
+
+        void translateVerticesWithOrigin(const point o);
 
 
 public:

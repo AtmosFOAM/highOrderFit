@@ -52,6 +52,15 @@ List<List<point>>(mesh.cells()[celli].size())
 }
 
 
+Foam::highOrderFit::cellVertices::cellVertices
+(
+    const Foam::List<Foam::List<Foam::point>>& points
+)
+:
+List<List<point>>(points)
+{}
+
+
 Foam::highOrderFit::cellVertices::cellVertices()
 {}
 
@@ -64,5 +73,15 @@ Foam::highOrderFit::cellVertices::~cellVertices()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+void Foam::highOrderFit::cellVertices::translate(const Foam::point x)
+{
+    forAll((*this), facei)
+    {
+        forAll((*this)[facei], pointi)
+        {
+            (*this)[facei][pointi] += x;
+        }
+    }
+}
 
 // ************************************************************************* //
