@@ -29,9 +29,6 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::cellVertices::cellVertices()
-{}
-
 Foam::highOrderFit::cellVertices::cellVertices
 (
     const Foam::primitiveMesh& mesh,
@@ -53,6 +50,10 @@ List<List<point>>(mesh.cells()[celli].size())
         }
     }
 }
+
+
+Foam::highOrderFit::cellVertices::cellVertices()
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //

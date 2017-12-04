@@ -37,16 +37,28 @@ Foam::highOrderFit::stencilField::stencilField
     List<stencil>(stencilCellsList.size()),
     mesh_(mesh)
 {
-    forAll(stencilCellsList, i)
+    List<cellVertices> myCellVertices(map.constructSize());
+    forAll(mesh.cells(), celli)
     {
+        myCellVertices[celli] = cellVertices(mesh_, celli);
+    }
+
+    map.distribute(myCellVertices);
+
+    forAll(stencilCellsList, facei)
+    {
+        const labelList& stencilCells = stencilCellsList[facei];
+        List<cellVertices> vertices(stencilCells.size());
+
+        forAll(stencilCells, i)
+        {
+            vertices[i] = myCellVertices[stencilCells[i]];
+        }
+
         const point targetCf;
         const vector Sf;
-        const List<cellVertices> stencilCellVertices
-        (
-            stencilCellsList[i].size()
-        );
 
-        (*this)[i] = stencil(targetCf, Sf, stencilCellVertices);
+        (*this)[facei] = stencil(targetCf, Sf, vertices);
     }
 }
 

@@ -58,6 +58,7 @@ class stencil
     
         label size_;
         scalarList zeroMoment_;
+        List<cellVertices> vertices_; 
 
     // Private Member Functions
 
@@ -78,7 +79,7 @@ public:
         (
             const point targetCf,
             const vector Sf,
-            const List<cellVertices>& stencilCellVertices
+            const List<cellVertices>& vertices
         );
 
 
@@ -89,6 +90,8 @@ public:
     // Member Functions
 
         label size() const;
+
+        const List<cellVertices>& vertices() const;
 
         const scalarList& moment() const;
 

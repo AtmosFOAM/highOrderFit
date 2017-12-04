@@ -24,10 +24,12 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
+#include "cellVertices.H"
 #include "checks.H"
 #include "interpolation.H"
 #include "labelList.H"
 #include "mesh.H"
+#include "stencil.H"
 #include "stencilField.H"
 #include "testCase.H"
 
@@ -48,6 +50,28 @@ TEST_CASE("stencilField_creates_stencil_for_each_in_stencilCellsList")
     );
 
     CHECK( stencilField.size() == 55 );
+}
+
+TEST_CASE("stencilField_populates_stencil_cell_vertices")
+{
+    const Test::interpolation highOrderFit("cartesian4x3Mesh");
+    const Test::mesh testMesh(highOrderFit.mesh());
+
+    highOrderFit::stencilField stencilField
+    (
+        highOrderFit.stencils().ownStencil(),
+        highOrderFit.stencils().ownMap(),
+        highOrderFit.mesh()
+    );
+
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    const highOrderFit::stencil& stencil = stencilField[facei];
+    const List<highOrderFit::cellVertices>& cellVertices =
+        stencil.vertices();
+
+    REQUIRE( cellVertices.size() == 12 );
+    REQUIRE( cellVertices[0].size() == 6); // 6 faces
+    CHECK( cellVertices[0][0].size() == 4); // 4 points
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

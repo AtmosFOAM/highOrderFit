@@ -37,10 +37,11 @@ Foam::highOrderFit::stencil::stencil
 (
     const Foam::point targetCf,
     const Foam::vector Sf,
-    const Foam::List<Foam::highOrderFit::cellVertices>& stencilCellVertices
+    const Foam::List<Foam::highOrderFit::cellVertices>& cellVertices
 )
 :
-size_(stencilCellVertices.size())
+size_(cellVertices.size()),
+vertices_(cellVertices)
 {}
 
 
@@ -60,6 +61,12 @@ Foam::label Foam::highOrderFit::stencil::size() const
 const Foam::scalarList& Foam::highOrderFit::stencil::moment() const
 {
     return zeroMoment_;
+}
+
+const Foam::List<Foam::highOrderFit::cellVertices>&
+Foam::highOrderFit::stencil::vertices() const
+{
+    return vertices_;
 }
 
 // ************************************************************************* //
