@@ -38,6 +38,18 @@ void Foam::highOrderFit::stencil::translateVerticesWithOrigin
     }
 }
 
+
+void Foam::highOrderFit::stencil::rotateVerticesWithPrimaryDirection
+(
+    const Foam::vector x
+)
+{
+    forAll(vertices_, i)
+    {
+        vertices_[i].rotate(x/mag(x), vector(1, 0, 0));
+    }
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::stencil::stencil()
@@ -57,6 +69,7 @@ size_(cellVertices.size()),
 vertices_(cellVertices)
 {
     translateVerticesWithOrigin(targetCf);
+    rotateVerticesWithPrimaryDirection(Sf);
 }
 
 

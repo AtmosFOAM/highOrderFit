@@ -72,7 +72,7 @@ TEST_CASE("cellVertices_has_vertices_of_face")
     Test::checkEqual(firstFace[0], point(1, 0, -0.5));
     Test::checkEqual(firstFace[1], point(1, 1, -0.5));
     Test::checkEqual(firstFace[2], point(1, 1,  0.5));
-    Test::checkEqual(firstFace[0], point(1, 0,  0.5));
+    Test::checkEqual(firstFace[3], point(1, 0,  0.5));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

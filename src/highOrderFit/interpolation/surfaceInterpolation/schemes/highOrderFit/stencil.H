@@ -71,6 +71,8 @@ class stencil
 
         void translateVerticesWithOrigin(const point o);
 
+        void rotateVerticesWithPrimaryDirection(const vector x);
+
 
 public:
 

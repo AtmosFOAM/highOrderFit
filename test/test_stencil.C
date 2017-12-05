@@ -38,8 +38,8 @@ namespace Test
 
 TEST_CASE("stencil_calculates_zeroth_cell_moments")
 {
-    const point targetCf;
-    const vector Sf;
+    const point targetCf(0, 0, 0);
+    const vector Sf(1, 0, 0);
     const List<highOrderFit::cellVertices> vertices;
     const highOrderFit::stencil stencil(targetCf, Sf, vertices);
 
@@ -52,16 +52,31 @@ TEST_CASE("stencil_calculates_zeroth_cell_moments")
 TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
 {
     const point targetCf(2, 1, 0);
-    const vector Sf;
+    const vector Sf(1, 0, 0);
 
     List<highOrderFit::cellVertices> vertices(1);
-    List<List<point>> points(1);
-    points[0] = List<point>({point(0, 0, 0)});
+    List<List<point>> points(1, List<point>({point(0, 0, 0)}));
     vertices[0] = highOrderFit::cellVertices(points);
 
     const highOrderFit::stencil stencil(targetCf, Sf, vertices);
 
     checkEqual(stencil.vertices()[0][0][0], point(-2, -1, 0));
+}
+
+TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
+{
+    const point targetCf(0, 0, 0);
+    const vector Sf(0, 3, 0);
+    List<highOrderFit::cellVertices> vertices(2);
+    List<List<point>> upwindPoints(1, List<point>({point(0, -1, 0)}));
+    List<List<point>> downwindPoints(1, List<point>({point(0, 2, 0)}));
+    vertices[0] = highOrderFit::cellVertices(upwindPoints);
+    vertices[1] = highOrderFit::cellVertices(downwindPoints);
+
+    const highOrderFit::stencil stencil(targetCf, Sf, vertices);
+
+    checkEqual(stencil.vertices()[0][0][0], point(-1, 0, 0));
+    checkEqual(stencil.vertices()[1][0][0], point(2, 0, 0));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

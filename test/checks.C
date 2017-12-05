@@ -58,7 +58,9 @@ void Test::checkEqual
     const Foam::scalar epsilon
 )
 {
-    CHECK( fabs(mag(actual) - mag(expected)) < epsilon );
+    CHECK( fabs(actual.x() - expected.x()) < epsilon );
+    CHECK( fabs(actual.y() - expected.y()) < epsilon );
+    CHECK( fabs(actual.z() - expected.z()) < epsilon );
 }
 
 // ************************************************************************* //

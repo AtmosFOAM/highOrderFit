@@ -26,6 +26,8 @@ License
 #include "cellVertices.H"
 #include "face.H"
 #include "labelList.H"
+#include "quaternion.H"
+#include "transform.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -80,6 +82,23 @@ void Foam::highOrderFit::cellVertices::translate(const Foam::point x)
         forAll((*this)[facei], pointi)
         {
             (*this)[facei][pointi] += x;
+        }
+    }
+}
+
+void Foam::highOrderFit::cellVertices::rotate
+(
+    const Foam::vector from,
+    const Foam::vector to
+)
+{
+    const quaternion q(rotationTensor(from, to));
+
+    forAll((*this), facei)
+    {
+        forAll((*this)[facei], pointi)
+        {
+            (*this)[facei][pointi] = q.transform((*this)[facei][pointi]);
         }
     }
 }

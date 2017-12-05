@@ -93,6 +93,7 @@ public:
         void translate(const point x);
 
 
+        void rotate(const vector from, const vector to);
 };
 
 
