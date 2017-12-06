@@ -74,8 +74,8 @@ TEST_CASE("highOrderFit_averages_values_in_stencil_for_reversed_wind")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     highOrderFit.negateFaceFlux();
-    const Test::mesh testMesh(highOrderFit.mesh());
     highOrderFit.setTlinearInX();
+    const Test::mesh testMesh(highOrderFit.mesh());
 
     const tmp<surfaceScalarField> Tf = highOrderFit.interpolateT();
 

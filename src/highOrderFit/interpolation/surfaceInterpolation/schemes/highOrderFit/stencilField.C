@@ -55,8 +55,8 @@ Foam::highOrderFit::stencilField::stencilField
             vertices[i] = myCellVertices[stencilCells[i]];
         }
 
-        const point targetCf;
-        const vector Sf;
+        const point targetCf(mesh_.Cf()[facei]);
+        const vector Sf(mesh_.Sf()[facei]);
 
         (*this)[facei] = stencil(targetCf, Sf, vertices);
     }
