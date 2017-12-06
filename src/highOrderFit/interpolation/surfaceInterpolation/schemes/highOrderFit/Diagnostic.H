@@ -53,7 +53,7 @@ namespace highOrderFit
 {
 
 // Forward declaration of classes                                               
- class Ostream;
+class Ostream;
 
 // Forward declaration of friend functions and operators
 template<class Type> class Diagnostic;

@@ -75,7 +75,7 @@ Foam::highOrderFit::Diagnostic<Type>::~Diagnostic<Type>()
 // * * * * * * * * * * * * * * * IOstream Operators  * * * * * * * * * * * * //
 
 template<class Type>
-Foam::Ostream& Foam::operator<<
+Foam::Ostream& Foam::highOrderFit::operator<<
 (
     Foam::Ostream& os,
     const Foam::highOrderFit::Diagnostic<Type>& d
@@ -84,8 +84,8 @@ Foam::Ostream& Foam::operator<<
     // Check state of Ostream
     os.check
     (
-        "Foam::Ostream& Foam::operator<<(Foam::Ostream&, "
-        "const Foam::Diagnostic&)"
+        "Foam::Ostream& Foam::highOrderFit::operator<<(Foam::Ostream&, "
+        "const Foam::highOrderFit::Diagnostic&)"
     );
 
     const label facei = d.facei_;
