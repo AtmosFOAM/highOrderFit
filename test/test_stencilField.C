@@ -137,39 +137,6 @@ TEST_CASE("stencilField_rotates_stencil_for_horizontal_face")
     }
 }
 
-TEST_CASE("stencilField_rotates_stencil_for_neighbour_side", "[!mayfail]")
-{
-    Test::interpolation highOrderFit("cartesian4x3Mesh");
-    highOrderFit.negateFaceFlux();
-    const Test::mesh testMesh(highOrderFit.mesh());
-
-    highOrderFit::stencilField stencilField
-    (
-        highOrderFit.stencils().neiStencil(),
-        highOrderFit.stencils().neiMap(),
-        highOrderFit.mesh()
-    );
-
-    const label facei = testMesh.indexOfFaceWithCentreAt(point(1, 1.5, 0));
-    const highOrderFit::stencil& stencil = stencilField[facei];
-    const List<highOrderFit::cellVertices>& cellVertices =
-        stencil.vertices();
-
-    REQUIRE( cellVertices.size() == 12 );
-    const List<List<point>>& upwindVertices = cellVertices[0];
-
-    forAll(upwindVertices, i)
-    {
-        forAll(upwindVertices[i], pointi)
-        {
-            CHECK( upwindVertices[i][pointi].x() >= pointApprox(-1.0) );
-            CHECK( upwindVertices[i][pointi].x() <= pointApprox(0.0) );
-            CHECK( upwindVertices[i][pointi].y() >= pointApprox(-0.5) );
-            CHECK( upwindVertices[i][pointi].y() <= pointApprox(0.5) );
-        }
-    }
-}
-
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
