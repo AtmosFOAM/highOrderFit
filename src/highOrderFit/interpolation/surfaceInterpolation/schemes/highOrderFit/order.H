@@ -54,24 +54,25 @@ class order
 {
     // Private data
 
-        const label x_;
-        const label y_;
-        const label z_;
+        label x_;
+        label y_;
+        label z_;
 
     // Private Member Functions
 
-        //- Disallow default bitwise copy construct
-        order(const order&);
+        // Disallow default bitwise copy construct
+        //order(const order&);
 
-        //- Disallow default bitwise assignment
-        void operator=(const order&);
+        // Disallow default bitwise assignment
+        //void operator=(const order&);
 
 
 public:
 
     // Constructors
+    
+        order();
 
-        //- Construct from components
         order(const label x, const label y, const label z);
 
 

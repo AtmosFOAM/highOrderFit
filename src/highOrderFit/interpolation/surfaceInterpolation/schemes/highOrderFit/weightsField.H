@@ -38,6 +38,7 @@ SourceFiles
 #include "autoPtr.H"
 #include "stencilField.H"
 #include "scalarList.H"
+#include "weights.H"
 #include "weightsDiagnostic.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -60,6 +61,7 @@ class weightsField
 {
     // Private data
         const stencilField& stencils_;
+        const weights weights_;
 
     // Private Member Functions
 

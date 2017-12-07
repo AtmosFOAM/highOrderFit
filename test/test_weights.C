@@ -27,6 +27,7 @@ License
 #include "cell.H"
 #include "checks.H"
 #include "inverseDistanceMultipliers.H"
+#include "order.H"
 #include "stencil.H"
 #include "uniformMultipliers.H"
 #include "weights.H"
@@ -42,9 +43,9 @@ TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
     const point targetFace;
     const vector Sf;
     const List<highOrderFit::cell> cells(12);
-    highOrderFit::stencil stencil(targetFace, Sf, cells);
-    highOrderFit::uniformMultipliers multipliers(12);
-    highOrderFit::weights weights;
+    const highOrderFit::stencil stencil(targetFace, Sf, cells);
+    const highOrderFit::uniformMultipliers multipliers(12);
+    const highOrderFit::weights weights({highOrderFit::order(0, 0, 0)});
 
     weights.calculate(w, stencil, multipliers);
 
@@ -57,15 +58,51 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
     const point targetFace;
     const vector Sf;
     const List<highOrderFit::cell> cells(5);
-    highOrderFit::stencil stencil(targetFace, Sf, cells);
-    highOrderFit::inverseDistanceMultipliers multipliers(5);
-    highOrderFit::weights weights;
+    const highOrderFit::stencil stencil(targetFace, Sf, cells);
+    const highOrderFit::inverseDistanceMultipliers multipliers(5);
+    const highOrderFit::weights weights({highOrderFit::order(0, 0, 0)});
 
     weights.calculate(w, stencil, multipliers);
 
     const label upwind = 0, downwind = 1;
     CHECK( w[upwind] == approx(0.4999992847) ); 
     CHECK( w[downwind] == approx(0.4999992847) ); 
+}
+
+TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
+{
+    const List<highOrderFit::order> moments(
+    {
+        highOrderFit::order(0, 0, 0),
+        highOrderFit::order(1, 0, 0)
+    });
+    const point targetFace;
+    const vector Sf;
+
+    List<List<point>> cell0(1);
+    cell0[0] = List<point>({point(-1.5, 0, 0)});
+    List<List<point>> cell1(1);
+    cell1[0] = List<point>({point(-0.5, 0, 0)});
+    List<List<point>> cell2(1);
+    cell2[0] = List<point>({point(0.5, 0, 0)});
+
+    List<highOrderFit::cell> cells(3);
+    cells[0] = highOrderFit::cell(cell0);
+    cells[1] = highOrderFit::cell(cell1);
+    cells[2] = highOrderFit::cell(cell2);
+
+    const highOrderFit::stencil stencil(targetFace, Sf, cells);
+    const highOrderFit::uniformMultipliers multipliers(3);
+    const highOrderFit::weights weights(moments);
+
+    autoPtr<scalarRectangularMatrix> B =
+        weights.createMatrix(stencil, multipliers);
+
+    REQUIRE( B->m() == 3 );
+    REQUIRE( B->n() == 2 );
+
+    // TODO: checkEqual() with actual and expected matrices
+    Info << B() << endl;
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

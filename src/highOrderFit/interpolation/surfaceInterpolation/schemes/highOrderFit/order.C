@@ -30,6 +30,10 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
+Foam::highOrderFit::order::order()
+{}
+
+
 Foam::highOrderFit::order::order
 (
     const Foam::label x,

@@ -26,6 +26,7 @@ License
 #include "weightsField.H"
 
 #include "stencil.H"
+#include "order.H"
 #include "uniformMultipliers.H"
 #include "weights.H"
 
@@ -40,7 +41,8 @@ Foam::highOrderFit::weightsField::weightsField
 )
 :
 scalarListList(stencils.size()),
-stencils_(stencils)
+stencils_(stencils),
+weights_({order(0, 0, 0)})
 {
     for (label facei = 0; facei < stencils.mesh().nInternalFaces(); facei++)
     {
@@ -59,8 +61,7 @@ stencils_(stencils)
 
         const uniformMultipliers multipliers(size);
 
-        const weights weights;
-        weights.calculate(w, stencil, multipliers);
+        weights_.calculate(w, stencil, multipliers);
         w[0] -= 1;
     }
 }
@@ -79,8 +80,7 @@ Foam::highOrderFit::weightsField::diagnose(const Foam::label facei) const
 {
     const uniformMultipliers multipliers(stencils_[facei].size());
 
-    const weights weights;
-    const autoPtr<scalarRectangularMatrix> B = weights.initialiseMatrix
+    const autoPtr<scalarRectangularMatrix> B = weights_.createMatrix
     (
         stencils_[facei],
         multipliers

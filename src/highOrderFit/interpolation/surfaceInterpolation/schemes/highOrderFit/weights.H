@@ -34,6 +34,7 @@ SourceFiles
 #ifndef weights_H
 #define weights_H
 
+#include "order.H"
 #include "scalarList.H"
 #include "scalarMatrices.H"
 #include "stencil.H"
@@ -56,6 +57,7 @@ class weights
 {
     // Private data
 
+        const List<order> moments_;
 
     // Private Member Functions
 
@@ -70,7 +72,7 @@ public:
 
     // Constructors
 
-        weights();
+        weights(const List<order>& moments);
 
 
     //- Destructor
@@ -91,7 +93,7 @@ public:
         ) const;
  
 
-        const autoPtr<scalarRectangularMatrix> initialiseMatrix
+        const autoPtr<scalarRectangularMatrix> createMatrix
         (
             const stencil& stencil,
             const scalarList& multipliers
