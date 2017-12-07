@@ -22,18 +22,18 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::cellVertices
+    Foam::highOrderFit::cell
 
 Description
-    Points of the cell vertices per face.
+    A cell belonging to a stencil with vertex points stored per face.
 
 SourceFiles
-    cellVertices.C
+    cell.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef cellVertices_H
-#define cellVertices_H
+#ifndef highOrderFit_cell_H
+#define highOrderFit_cell_H
 
 #include "order.H"
 #include "primitiveMesh.H"
@@ -51,10 +51,10 @@ namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class cellVertices Declaration
+                         Class cell Declaration
 \*---------------------------------------------------------------------------*/
 
-class cellVertices
+class cell
 :
     public List<List<point>>
 {
@@ -62,10 +62,10 @@ class cellVertices
     // Private Member Functions
 
         // Disallow default bitwise copy construct
-        //cellVertices(const cellVertices&);
+        //cell(const cell&);
 
         // Disallow default bitwise assignment
-        //void operator=(const cellVertices&);
+        //void operator=(const cell&);
 
 
 public:
@@ -75,18 +75,18 @@ public:
         //- Construct an instance for a given cell.
         //  @param mesh a mesh instance
         //  @param celli an index into <code>mesh.cells()</code>
-        cellVertices(const primitiveMesh& mesh, const label celli);
+        cell(const primitiveMesh& mesh, const label celli);
 
         //- Construct directly from point data.
-        explicit cellVertices(const List<List<point>>& points);
+        explicit cell(const List<List<point>>& points);
 
-        //- Construct an empty instance with no vertices.
-        //  Necessary only for initialising collections of cellVertices.
-        cellVertices();
+        //- Construct an empty instance with no vertex points.
+        //  Necessary only for initialising collections of cells.
+        cell();
 
 
     //- Destructor
-    ~cellVertices();
+    ~cell();
 
 
     // Member Functions

@@ -34,7 +34,7 @@ SourceFiles
 #ifndef stencil_H
 #define stencil_H
 
-#include "cellVertices.H"
+#include "cell.H"
 #include "label.H"
 #include "scalarList.H"
 
@@ -54,7 +54,7 @@ namespace highOrderFit
 
 class stencil
 :
-    public List<cellVertices>
+    public List<cell>
 {
     // Private data
     
@@ -85,7 +85,7 @@ public:
         (
             const point targetCf,
             const vector Sf,
-            const List<cellVertices>& vertices
+            const List<cell>& cells
         );
 
 

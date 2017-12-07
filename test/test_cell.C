@@ -25,7 +25,7 @@ License
 
 #include "catch.hpp"
 #include "checks.H"
-#include "cellVertices.H"
+#include "cell.H"
 #include "IFstream.H"
 #include "IStringStream.H"
 #include "labelList.H"
@@ -38,84 +38,84 @@ using namespace Foam;
 namespace Test
 {
 
-TEST_CASE("cellVertices_has_six_faces_for_cuboid_cell")
+TEST_CASE("cell_has_six_faces_for_cuboid_cell")
 {
     const Test::testCase c("cartesian4x3Mesh");
     const Test::mesh testMesh(c.mesh());
 
     const label celli = testMesh.indexOfCellWithCentreAt(point(0.5, 0.5, 0));
-    const highOrderFit::cellVertices vertices(c.mesh(), celli);
+    const highOrderFit::cell cell(c.mesh(), celli);
 
-    CHECK( vertices.size() == 6 );
+    CHECK( cell.size() == 6 );
 }
 
-TEST_CASE("cellVertices_has_four_vertices_for_each_face_of_cuboid_cell")
+TEST_CASE("cell_has_four_cell_for_each_face_of_cuboid_cell")
 {
     const Test::testCase c("cartesian4x3Mesh");
     const Test::mesh testMesh(c.mesh());
 
     const label celli = testMesh.indexOfCellWithCentreAt(point(0.5, 0.5, 0));
-    const highOrderFit::cellVertices vertices(c.mesh(), celli);
+    const highOrderFit::cell cell(c.mesh(), celli);
 
-    forAll(vertices, i)
+    forAll(cell, i)
     {
-        CHECK( vertices[i].size() == 4 );
+        CHECK( cell[i].size() == 4 );
     }
 }
 
-TEST_CASE("cellVertices_has_vertices_of_face")
+TEST_CASE("cell_has_cell_of_face")
 {
     const Test::testCase c("cartesian4x3Mesh");
     const Test::mesh testMesh(c.mesh());
 
     const label celli = testMesh.indexOfCellWithCentreAt(point(0.5, 0.5, 0));
-    const highOrderFit::cellVertices vertices(c.mesh(), celli);
+    const highOrderFit::cell cell(c.mesh(), celli);
 
-    const List<point>& firstFace = vertices[0];
+    const List<point>& firstFace = cell[0];
     Test::checkEqual(firstFace[0], point(1, 0, -0.5));
     Test::checkEqual(firstFace[1], point(1, 1, -0.5));
     Test::checkEqual(firstFace[2], point(1, 1,  0.5));
     Test::checkEqual(firstFace[3], point(1, 0,  0.5));
 }
 
-TEST_CASE("cellVertices_round_trips_through_IOstreams")
+TEST_CASE("cell_round_trips_through_IOstreams")
 {
     List<List<point>> points(1);
     points[0].setSize(1);
     points[0][0] = point(2, 3, 4);
 
-    const highOrderFit::cellVertices verticesOut(points);
+    const highOrderFit::cell cellOut(points);
 
     OStringStream o;
-    o << verticesOut << endl;
+    o << cellOut << endl;
 
-    highOrderFit::cellVertices verticesIn;
+    highOrderFit::cell cellIn;
 
     IStringStream i(o.str());
-    i >> verticesIn;
+    i >> cellIn;
 
-    REQUIRE( verticesIn.size() == 1 );
-    REQUIRE( verticesIn[0].size() == 1 );
-    checkEqual(verticesIn[0][0], point(2, 3, 4));
+    REQUIRE( cellIn.size() == 1 );
+    REQUIRE( cellIn[0].size() == 1 );
+    checkEqual(cellIn[0][0], point(2, 3, 4));
 }
 
-TEST_CASE("cellVertices_calculates_zeroth_volume_moment_for_unit_cube")
+TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube")
 {
-    highOrderFit::cellVertices vertices;
+    highOrderFit::cell cell;
     IFstream i("resources/unitCube");
-    i >> vertices;
+    i >> cell;
 
-    CHECK( vertices.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
+    CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
 }
 
-TEST_CASE("cellVertices_calculates_x_volume_moment_for_unit_cube_centred_at_origin",
+TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_origin",
           "[!mayfail]")
 {
-    highOrderFit::cellVertices vertices;
+    highOrderFit::cell cell;
     IFstream i("resources/unitCube");
-    i >> vertices;
+    i >> cell;
 
-    CHECK( vertices.moment(highOrderFit::order(1, 0, 0)) == approx(0.0) );
+    CHECK( cell.moment(highOrderFit::order(1, 0, 0)) == approx(0.0) );
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

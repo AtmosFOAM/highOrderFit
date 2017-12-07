@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "cellVertices.H"
+#include "cell.H"
 #include "face.H"
 #include "labelList.H"
 #include "quaternion.H"
@@ -31,7 +31,7 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::cellVertices::cellVertices
+Foam::highOrderFit::cell::cell
 (
     const Foam::primitiveMesh& mesh,
     const Foam::label celli
@@ -54,7 +54,7 @@ List<List<point>>(mesh.cells()[celli].size())
 }
 
 
-Foam::highOrderFit::cellVertices::cellVertices
+Foam::highOrderFit::cell::cell
 (
     const Foam::List<Foam::List<Foam::point>>& points
 )
@@ -63,19 +63,19 @@ List<List<point>>(points)
 {}
 
 
-Foam::highOrderFit::cellVertices::cellVertices()
+Foam::highOrderFit::cell::cell()
 {}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::cellVertices::~cellVertices()
+Foam::highOrderFit::cell::~cell()
 {}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-void Foam::highOrderFit::cellVertices::translate(const Foam::point x)
+void Foam::highOrderFit::cell::translate(const Foam::point x)
 {
     forAll((*this), facei)
     {
@@ -87,7 +87,7 @@ void Foam::highOrderFit::cellVertices::translate(const Foam::point x)
 }
 
 
-void Foam::highOrderFit::cellVertices::rotate
+void Foam::highOrderFit::cell::rotate
 (
     const Foam::vector from,
     const Foam::vector to
@@ -105,7 +105,7 @@ void Foam::highOrderFit::cellVertices::rotate
 }
 
 
-Foam::scalar Foam::highOrderFit::cellVertices::moment
+Foam::scalar Foam::highOrderFit::cell::moment
 (
     const Foam::highOrderFit::order& order
 ) const

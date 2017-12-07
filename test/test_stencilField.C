@@ -24,7 +24,6 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
-#include "cellVertices.H"
 #include "checks.H"
 #include "interpolation.H"
 #include "labelList.H"
@@ -54,7 +53,7 @@ TEST_CASE("stencilField_creates_stencil_for_each_in_stencilCellsList")
     CHECK( stencilField.size() == 55 );
 }
 
-TEST_CASE("stencilField_populates_stencil_cell_vertices")
+TEST_CASE("stencilField_populates_stencil_cells")
 {
     const Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());

@@ -62,12 +62,12 @@ Foam::highOrderFit::stencil::stencil
 (
     const Foam::point targetCf,
     const Foam::vector Sf,
-    const Foam::List<Foam::highOrderFit::cellVertices>& cellVertices
+    const Foam::List<Foam::highOrderFit::cell>& cells
 )
 :
-Foam::List<Foam::highOrderFit::cellVertices>(cellVertices),
-size_(cellVertices.size()),
-zeroMoment_(cellVertices.size(), 1.0)
+Foam::List<Foam::highOrderFit::cell>(cells),
+size_(cells.size()),
+zeroMoment_(cells.size(), 1.0)
 {
     translateVerticesWithOrigin(targetCf);
     rotateVerticesWithPrimaryDirection(Sf);

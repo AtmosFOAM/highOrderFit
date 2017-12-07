@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
-#include "cellVertices.H"
+#include "cell.H"
 #include "checks.H"
 #include "inverseDistanceMultipliers.H"
 #include "stencil.H"
@@ -41,8 +41,8 @@ TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
     scalarList w(12);
     const point targetFace;
     const vector Sf;
-    const List<highOrderFit::cellVertices> stencilCellVertices(12);
-    highOrderFit::stencil stencil(targetFace, Sf, stencilCellVertices);
+    const List<highOrderFit::cell> cells(12);
+    highOrderFit::stencil stencil(targetFace, Sf, cells);
     highOrderFit::uniformMultipliers multipliers(12);
     highOrderFit::weights weights;
 
@@ -56,8 +56,8 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
     scalarList w(5);
     const point targetFace;
     const vector Sf;
-    const List<highOrderFit::cellVertices> stencilCellVertices(5);
-    highOrderFit::stencil stencil(targetFace, Sf, stencilCellVertices);
+    const List<highOrderFit::cell> cells(5);
+    highOrderFit::stencil stencil(targetFace, Sf, cells);
     highOrderFit::inverseDistanceMultipliers multipliers(5);
     highOrderFit::weights weights;
 

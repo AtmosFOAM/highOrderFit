@@ -25,7 +25,7 @@ License
 
 #include "catch.hpp"
 #include "checks.H"
-#include "cellVertices.H"
+#include "cell.H"
 #include "List.H"
 #include "mesh.H"
 #include "order.H"
@@ -42,11 +42,11 @@ TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
     const point targetCf(2, 1, 0);
     const vector Sf(1, 0, 0);
 
-    List<highOrderFit::cellVertices> vertices(1);
+    List<highOrderFit::cell> cells(1);
     List<List<point>> points(1, List<point>({point(0, 0, 0)}));
-    vertices[0] = highOrderFit::cellVertices(points);
+    cells[0] = highOrderFit::cell(points);
 
-    const highOrderFit::stencil stencil(targetCf, Sf, vertices);
+    const highOrderFit::stencil stencil(targetCf, Sf, cells);
 
     checkEqual(stencil[0][0][0], point(-2, -1, 0));
 }
@@ -55,13 +55,13 @@ TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
 {
     const point targetCf(0, 0, 0);
     const vector Sf(0, 3, 0);
-    List<highOrderFit::cellVertices> vertices(2);
+    List<highOrderFit::cell> cells(2);
     List<List<point>> upwindPoints(1, List<point>({point(0, -1, 0)}));
     List<List<point>> downwindPoints(1, List<point>({point(0, 2, 0)}));
-    vertices[0] = highOrderFit::cellVertices(upwindPoints);
-    vertices[1] = highOrderFit::cellVertices(downwindPoints);
+    cells[0] = highOrderFit::cell(upwindPoints);
+    cells[1] = highOrderFit::cell(downwindPoints);
 
-    const highOrderFit::stencil stencil(targetCf, Sf, vertices);
+    const highOrderFit::stencil stencil(targetCf, Sf, cells);
 
     checkEqual(stencil[0][0][0], point(-1, 0, 0));
     checkEqual(stencil[1][0][0], point(2, 0, 0));
