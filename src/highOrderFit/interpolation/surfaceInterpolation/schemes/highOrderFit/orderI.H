@@ -23,33 +23,16 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "order.H"
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
 
-
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::order::order
+inline bool Foam::highOrderFit::order::operator==
 (
-    const Foam::label x,
-    const Foam::label y,
-    const Foam::label z
-)
-:
-x_(x),
-y_(y),
-z_(z)
-{}
-
-
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::order::~order()
-{}
-
-
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
+    const Foam::highOrderFit::order& rhs
+) const
+{
+    return x_ == rhs.x_ && y_ == rhs.y_ && z_ == rhs.z_;
+}
 
 // ************************************************************************* //

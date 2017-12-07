@@ -54,9 +54,9 @@ class order
 {
     // Private data
 
-        //- Description of data_
-        //dataType data_;
-
+        const label x_;
+        const label y_;
+        const label z_;
 
     // Private Member Functions
 
@@ -81,7 +81,9 @@ public:
 
     // Member Functions
 
+    // Member Operators
 
+        inline bool operator==(const order&) const;
 
 };
 
@@ -93,6 +95,10 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include "orderI.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

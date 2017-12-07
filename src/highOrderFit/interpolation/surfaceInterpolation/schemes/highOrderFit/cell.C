@@ -107,10 +107,17 @@ void Foam::highOrderFit::cell::rotate
 
 Foam::scalar Foam::highOrderFit::cell::moment
 (
-    const Foam::highOrderFit::order& order
+    const Foam::highOrderFit::order& o
 ) const
 {
-    return 1.0;
+    if (o == order(0, 0, 0))
+    {
+        return 1.0;
+    }
+    else
+    {
+        return 0.0;
+    }
 }
 
 // ************************************************************************* //

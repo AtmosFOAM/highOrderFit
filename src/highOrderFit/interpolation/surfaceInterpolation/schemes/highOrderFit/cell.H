@@ -97,7 +97,7 @@ public:
         void rotate(const vector from, const vector to);
 
 
-        scalar moment(const order& order) const;
+        scalar moment(const order& o) const;
 };
 
 
