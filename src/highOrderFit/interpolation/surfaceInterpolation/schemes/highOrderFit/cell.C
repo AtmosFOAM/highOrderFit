@@ -116,7 +116,20 @@ Foam::scalar Foam::highOrderFit::cell::moment
     }
     else
     {
-        return 0.0;
+        scalar averageX = 0.0;
+        label points = 0;
+
+        forAll((*this), facei)
+        {
+            forAll((*this)[facei], pointi)
+            {
+                averageX += (*this)[facei][pointi].x();
+                points++;
+            }
+        }
+        averageX /= points;
+
+        return averageX;
     }
 }
 

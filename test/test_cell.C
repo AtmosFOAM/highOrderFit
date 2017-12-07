@@ -108,14 +108,32 @@ TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube")
     CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
 }
 
-TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_origin",
-          "[!mayfail]")
+TEST_CASE("cell_calculates_zeroth_volume_moment_for_2x2x2_cube", "[!mayfail]")
+{
+    highOrderFit::cell cell;
+    IFstream i("resources/2x2x2Cube");
+    i >> cell;
+
+    CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(8.0) );
+}
+
+TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_origin")
 {
     highOrderFit::cell cell;
     IFstream i("resources/unitCube");
     i >> cell;
 
     CHECK( cell.moment(highOrderFit::order(1, 0, 0)) == approx(0.0) );
+}
+
+TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_0.5,0,0")
+{
+    highOrderFit::cell cell;
+    IFstream i("resources/unitCube");
+    i >> cell;
+    cell.translate(vector(0.5, 0, 0));
+
+    CHECK( cell.moment(highOrderFit::order(1, 0, 0)) == approx(0.5) );
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

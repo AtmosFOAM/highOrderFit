@@ -23,76 +23,25 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "weightsField.H"
-
-#include "stencil.H"
-#include "uniformMultipliers.H"
-#include "weights.H"
-
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-const Foam::autoPtr<Foam::highOrderFit::weightsDiagnostic>
-Foam::highOrderFit::weightsField::calculate
-(
-    Foam::scalarList& w,
-    const Foam::label facei
-) const
-{
-    const stencil& stencil = stencils_[facei];
-    const label size = stencil.size();
-
-    if (size < 2)
-    {
-        FatalErrorInFunction
-            << "stencil for facei " << facei << " has fewer than two cells"
-            << abort(FatalError);
-    }
-
-    w.setSize(size);
-
-    const uniformMultipliers multipliers(size);
-
-    const weights weights;
-    weights.calculate(w, stencil, multipliers);
-
-    return autoPtr<Foam::highOrderFit::weightsDiagnostic>
-    (
-        new weightsDiagnostic(multipliers)
-    );
-}
-
+#include "weightsDiagnostic.H"
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weightsField::weightsField
+Foam::highOrderFit::weightsDiagnostic::weightsDiagnostic
 (
-    const Foam::highOrderFit::stencilField& stencils
+    const Foam::scalarList& multipliers
 )
 :
-scalarListList(stencils.size()),
-stencils_(stencils)
-{
-    for (label facei = 0; facei < stencils.mesh().nInternalFaces(); facei++)
-    {
-        scalarList& w = (*this)[facei];
-        calculate(w, facei);
-        w[0] -= 1;
-    }
-}
+multipliers_(multipliers)
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weightsField::~weightsField()
+Foam::highOrderFit::weightsDiagnostic::~weightsDiagnostic()
 {}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-const Foam::autoPtr<Foam::highOrderFit::weightsDiagnostic>
-Foam::highOrderFit::weightsField::diagnose(const Foam::label facei) const
-{
-    scalarList w;
-    return calculate(w, facei);
-}
 
 // ************************************************************************* //

@@ -38,9 +38,10 @@ SourceFiles
 
 #include "label.H"
 #include "extendedUpwindCellToFaceStencil.H"
-#include "weightsField.H"
 #include "IOstreams.H"
 #include "surfaceFields.H"
+#include "weightsDiagnostic.H"
+#include "weightsField.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -52,9 +53,11 @@ namespace Foam
 // Forward declaration of classes                                               
 class Ostream;
 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 namespace highOrderFit
 {
-
+ 
 // Forward declaration of friend functions and operators
 template<class Type> class Diagnostic;
 template<class Type> Ostream& operator<<
@@ -78,6 +81,7 @@ class Diagnostic
         List<List<Type>> values_;
         List<List<point>> cellCentres_;
         scalarList weights_;
+        autoPtr<weightsDiagnostic> weightsDiagnostic_;
 
     // Private Member Functions
 

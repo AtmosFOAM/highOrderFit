@@ -22,24 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::cell
+    Foam::highOrderFit::weightsDiagnostic
 
 Description
-    A cell belonging to a stencil with vertex points stored per face.
 
 SourceFiles
-    cellI.H
-    cell.C
+    weightsDiagnostic.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef highOrderFit_cell_H
-#define highOrderFit_cell_H
+#ifndef weightsDiagnostic_H
+#define weightsDiagnostic_H
 
-#include "order.H"
-#include "primitiveMesh.H"
-#include "List.H"
-#include "point.H"
+#include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -52,53 +47,42 @@ namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class cell Declaration
+                         Class weightsDiagnostic Declaration
 \*---------------------------------------------------------------------------*/
 
-class cell
-:
-    public List<List<point>>
+class weightsDiagnostic
 {
+    // Private data
+
+        const scalarList multipliers_;
 
     // Private Member Functions
 
-        // Disallow default bitwise copy construct
-        //cell(const cell&);
+        //- Disallow default bitwise copy construct
+        weightsDiagnostic(const weightsDiagnostic&);
 
-        // Disallow default bitwise assignment
-        //void operator=(const cell&);
+        //- Disallow default bitwise assignment
+        void operator=(const weightsDiagnostic&);
 
 
 public:
 
     // Constructors
 
-        //- Construct an instance for a given cell.
-        //  @param mesh a mesh instance
-        //  @param celli an index into <code>mesh.cells()</code>
-        cell(const primitiveMesh& mesh, const label celli);
-
-        //- Construct directly from point data.
-        explicit cell(const List<List<point>>& points);
-
-        //- Construct an empty instance with no vertex points.
-        //  Necessary only for initialising collections of cells.
-        cell();
+        weightsDiagnostic(const scalarList& multipliers);
 
 
     //- Destructor
-    ~cell();
+    ~weightsDiagnostic();
 
 
     // Member Functions
 
-        void translate(const point x);
+        const scalarList& multipliers() const
+        {
+            return multipliers_;
+        }
 
-
-        void rotate(const vector from, const vector to);
-
-
-        scalar moment(const order& o) const;
 };
 
 

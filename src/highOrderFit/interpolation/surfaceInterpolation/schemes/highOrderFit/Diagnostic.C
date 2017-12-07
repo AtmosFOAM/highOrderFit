@@ -62,6 +62,9 @@ Foam::highOrderFit::Diagnostic<Type>::Diagnostic
     );
 
     weights_ = owner_ ? ownerWeights[facei_] : neighbourWeights[facei_];
+    weightsDiagnostic_ = owner_
+        ? ownerWeights.diagnose(facei_)
+        : neighbourWeights.diagnose(facei_);
 }
 
 
@@ -98,7 +101,8 @@ Foam::Ostream& Foam::highOrderFit::operator<<
     {
         os << (i == 0 ? d.weights_[i] + 1 : d.weights_[i])
            << "*" << d.values_[facei][i]
-           << "@" << d.cellCentres_[facei][i];
+           << "@" << d.cellCentres_[facei][i]
+           << "{m=" << d.weightsDiagnostic_->multipliers()[i] << "}";
         if (i < d.weights_.size() - 1)
         {
             os << " + ";

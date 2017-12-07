@@ -35,8 +35,10 @@ SourceFiles
 #ifndef weightsField_H
 #define weightsField_H
 
+#include "autoPtr.H"
 #include "stencilField.H"
 #include "scalarList.H"
+#include "weightsDiagnostic.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -57,6 +59,7 @@ class weightsField
     public scalarListList
 {
     // Private data
+        const stencilField& stencils_;
 
     // Private Member Functions
 
@@ -66,6 +69,11 @@ class weightsField
         //- Disallow default bitwise assignment
         void operator=(const weightsField&);
 
+        const autoPtr<weightsDiagnostic> calculate
+        (
+            scalarList& w,
+            const label facei
+        ) const;
 
 public:
 
@@ -81,11 +89,7 @@ public:
 
     // Member Functions
 
-        // Access
-        // Check
-        // Edit
-        // Write
-
+        const autoPtr<weightsDiagnostic> diagnose(const label facei) const;
 
 };
 
