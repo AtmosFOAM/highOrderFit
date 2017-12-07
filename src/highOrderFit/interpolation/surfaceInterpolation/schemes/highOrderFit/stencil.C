@@ -53,10 +53,8 @@ void Foam::highOrderFit::stencil::rotateVerticesWithPrimaryDirection
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::stencil::stencil()
-:
-size_(0)
-{}
-
+{
+}
 
 Foam::highOrderFit::stencil::stencil
 (
@@ -65,9 +63,7 @@ Foam::highOrderFit::stencil::stencil
     const Foam::List<Foam::highOrderFit::cell>& cells
 )
 :
-Foam::List<Foam::highOrderFit::cell>(cells),
-size_(cells.size()),
-zeroMoment_(cells.size(), 1.0)
+Foam::List<Foam::highOrderFit::cell>(cells)
 {
     translateVerticesWithOrigin(targetCf);
     rotateVerticesWithPrimaryDirection(Sf);
@@ -81,10 +77,6 @@ Foam::highOrderFit::stencil::~stencil()
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-Foam::label Foam::highOrderFit::stencil::size() const
-{
-    return size_;
-}
+//
 
 // ************************************************************************* //

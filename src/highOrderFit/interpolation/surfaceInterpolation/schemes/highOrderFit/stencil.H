@@ -58,8 +58,6 @@ class stencil
 {
     // Private data
     
-        label size_;
-        scalarList zeroMoment_;
 
     // Private Member Functions
 
@@ -95,7 +93,6 @@ public:
 
     // Member Functions
 
-        label size() const;
 
 };
 
