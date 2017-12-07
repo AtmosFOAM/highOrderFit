@@ -26,6 +26,7 @@ License
 #include "catch.hpp"
 #include "checks.H"
 #include "cellVertices.H"
+#include "IFstream.H"
 #include "List.H"
 #include "mesh.H"
 #include "order.H"
@@ -37,17 +38,35 @@ using namespace Foam;
 namespace Test
 {
 
-TEST_CASE("stencil_calculates_zeroth_cell_moments")
+TEST_CASE("stencil_calculates_zeroth_volume_moment_for_unit_cube")
 {
     const point targetCf(0, 0, 0);
     const vector Sf(1, 0, 0);
-    const List<highOrderFit::cellVertices> vertices;
+    const List<highOrderFit::cellVertices> vertices(1);
     const highOrderFit::stencil stencil(targetCf, Sf, vertices);
 
-    const scalarList& zerothCellMoments =
+    const scalarList& zerothVolumeMoments =
         stencil.moment(highOrderFit::order(0, 0, 0));
 
-    checkEqual(zerothCellMoments, 1.0);
+    checkEqual(zerothVolumeMoments, 1.0);
+}
+
+TEST_CASE("stencil_calculates_x_volume_moment_for_unit_cube_centred_at_origin",
+          "[!mayfail]")
+{
+    const point targetCf(0, 0, 0);
+    const vector Sf(1, 0, 0);
+
+    List<highOrderFit::cellVertices> vertices(1);
+    IFstream i("resources/unitCube");
+    i >> vertices[0];
+
+    const highOrderFit::stencil stencil(targetCf, Sf, vertices);
+
+    const scalarList& xVolumeMoments =
+        stencil.moment(highOrderFit::order(1, 0, 0));
+
+    checkEqual(xVolumeMoments, 0.0);
 }
 
 TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
@@ -61,7 +80,7 @@ TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
 
     const highOrderFit::stencil stencil(targetCf, Sf, vertices);
 
-    checkEqual(stencil.vertices()[0][0][0], point(-2, -1, 0));
+    checkEqual(stencil[0][0][0], point(-2, -1, 0));
 }
 
 TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
@@ -76,8 +95,8 @@ TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
 
     const highOrderFit::stencil stencil(targetCf, Sf, vertices);
 
-    checkEqual(stencil.vertices()[0][0][0], point(-1, 0, 0));
-    checkEqual(stencil.vertices()[1][0][0], point(2, 0, 0));
+    checkEqual(stencil[0][0][0], point(-1, 0, 0));
+    checkEqual(stencil[1][0][0], point(2, 0, 0));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

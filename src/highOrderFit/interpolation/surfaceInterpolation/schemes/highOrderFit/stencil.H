@@ -54,12 +54,13 @@ namespace highOrderFit
 \*---------------------------------------------------------------------------*/
 
 class stencil
+:
+    public List<cellVertices>
 {
     // Private data
     
         label size_;
         scalarList zeroMoment_;
-        List<cellVertices> vertices_; 
 
     // Private Member Functions
 
@@ -96,8 +97,6 @@ public:
     // Member Functions
 
         label size() const;
-
-        const List<cellVertices>& vertices() const;
 
         const scalarList& moment(const order& order) const;
 

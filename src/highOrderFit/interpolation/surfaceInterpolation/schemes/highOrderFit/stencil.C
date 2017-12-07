@@ -32,9 +32,9 @@ void Foam::highOrderFit::stencil::translateVerticesWithOrigin
     const Foam::point o
 )
 {
-    forAll(vertices_, i)
+    forAll((*this), i)
     {
-        vertices_[i].translate(-o);
+        (*this)[i].translate(-o);
     }
 }
 
@@ -44,9 +44,9 @@ void Foam::highOrderFit::stencil::rotateVerticesWithPrimaryDirection
     const Foam::vector x
 )
 {
-    forAll(vertices_, i)
+    forAll((*this), i)
     {
-        vertices_[i].rotate(x/mag(x), vector(1, 0, 0));
+        (*this)[i].rotate(x/mag(x), vector(1, 0, 0));
     }
 }
 
@@ -65,8 +65,8 @@ Foam::highOrderFit::stencil::stencil
     const Foam::List<Foam::highOrderFit::cellVertices>& cellVertices
 )
 :
+Foam::List<Foam::highOrderFit::cellVertices>(cellVertices),
 size_(cellVertices.size()),
-vertices_(cellVertices),
 zeroMoment_(cellVertices.size(), 1.0)
 {
     translateVerticesWithOrigin(targetCf);
@@ -93,12 +93,6 @@ const Foam::scalarList& Foam::highOrderFit::stencil::moment
 ) const
 {
     return zeroMoment_;
-}
-
-const Foam::List<Foam::highOrderFit::cellVertices>&
-Foam::highOrderFit::stencil::vertices() const
-{
-    return vertices_;
 }
 
 // ************************************************************************* //

@@ -26,8 +26,10 @@ License
 #include "catch.hpp"
 #include "checks.H"
 #include "cellVertices.H"
+#include "IStringStream.H"
 #include "labelList.H"
 #include "mesh.H"
+#include "OStringStream.H"
 #include "testCase.H"
 
 using namespace Foam;
@@ -73,6 +75,27 @@ TEST_CASE("cellVertices_has_vertices_of_face")
     Test::checkEqual(firstFace[1], point(1, 1, -0.5));
     Test::checkEqual(firstFace[2], point(1, 1,  0.5));
     Test::checkEqual(firstFace[3], point(1, 0,  0.5));
+}
+
+TEST_CASE("cellVertices_round_trips_through_IOstreams")
+{
+    List<List<point>> points(1);
+    points[0].setSize(1);
+    points[0][0] = point(2, 3, 4);
+
+    const highOrderFit::cellVertices verticesOut(points);
+
+    OStringStream o;
+    o << verticesOut << endl;
+
+    highOrderFit::cellVertices verticesIn;
+
+    IStringStream i(o.str());
+    i >> verticesIn;
+
+    REQUIRE( verticesIn.size() == 1 );
+    REQUIRE( verticesIn[0].size() == 1 );
+    checkEqual(verticesIn[0][0], point(2, 3, 4));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
