@@ -35,6 +35,7 @@ SourceFiles
 #define weightsDiagnostic_H
 
 #include "scalarList.H"
+#include "scalarMatrices.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -55,6 +56,7 @@ class weightsDiagnostic
     // Private data
 
         const scalarList multipliers_;
+        const scalarRectangularMatrix B_;
 
     // Private Member Functions
 
@@ -69,7 +71,11 @@ public:
 
     // Constructors
 
-        weightsDiagnostic(const scalarList& multipliers);
+        weightsDiagnostic
+        (
+            const scalarList& multipliers,
+            const scalarRectangularMatrix& B
+        );
 
 
     //- Destructor
@@ -81,6 +87,12 @@ public:
         const scalarList& multipliers() const
         {
             return multipliers_;
+        }
+
+
+        const scalarRectangularMatrix& B() const
+        {
+            return B_;
         }
 
 };

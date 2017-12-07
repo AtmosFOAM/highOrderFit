@@ -69,11 +69,6 @@ class weightsField
         //- Disallow default bitwise assignment
         void operator=(const weightsField&);
 
-        const autoPtr<weightsDiagnostic> calculate
-        (
-            scalarList& w,
-            const label facei
-        ) const;
 
 public:
 

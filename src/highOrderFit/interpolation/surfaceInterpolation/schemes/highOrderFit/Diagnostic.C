@@ -108,6 +108,8 @@ Foam::Ostream& Foam::highOrderFit::operator<<
             os << " + ";
         }
     }
+
+    os << ", B=" << d.weightsDiagnostic_->B();
        
     os << "]";
 

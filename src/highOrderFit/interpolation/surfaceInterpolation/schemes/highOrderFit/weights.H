@@ -35,6 +35,7 @@ SourceFiles
 #define weights_H
 
 #include "scalarList.H"
+#include "scalarMatrices.H"
 #include "stencil.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -89,6 +90,12 @@ public:
             const scalarList& multipliers
         ) const;
  
+
+        const autoPtr<scalarRectangularMatrix> initialiseMatrix
+        (
+            const stencil& stencil,
+            const scalarList& multipliers
+        ) const;
 
 };
 

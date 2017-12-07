@@ -24,14 +24,17 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "weightsDiagnostic.H"
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::weightsDiagnostic::weightsDiagnostic
 (
-    const Foam::scalarList& multipliers
+    const Foam::scalarList& multipliers,
+    const Foam::scalarRectangularMatrix& B
 )
 :
-multipliers_(multipliers)
+multipliers_(multipliers),
+B_(B)
 {}
 
 

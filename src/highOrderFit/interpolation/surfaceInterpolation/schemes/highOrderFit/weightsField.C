@@ -31,35 +31,6 @@ License
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
-const Foam::autoPtr<Foam::highOrderFit::weightsDiagnostic>
-Foam::highOrderFit::weightsField::calculate
-(
-    Foam::scalarList& w,
-    const Foam::label facei
-) const
-{
-    const stencil& stencil = stencils_[facei];
-    const label size = stencil.size();
-
-    if (size < 2)
-    {
-        FatalErrorInFunction
-            << "stencil for facei " << facei << " has fewer than two cells"
-            << abort(FatalError);
-    }
-
-    w.setSize(size);
-
-    const uniformMultipliers multipliers(size);
-
-    const weights weights;
-    weights.calculate(w, stencil, multipliers);
-
-    return autoPtr<Foam::highOrderFit::weightsDiagnostic>
-    (
-        new weightsDiagnostic(multipliers)
-    );
-}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -74,7 +45,22 @@ stencils_(stencils)
     for (label facei = 0; facei < stencils.mesh().nInternalFaces(); facei++)
     {
         scalarList& w = (*this)[facei];
-        calculate(w, facei);
+        const stencil& stencil = stencils_[facei];
+        const label size = stencil.size();
+
+        if (size < 2)
+        {
+            FatalErrorInFunction
+                << "stencil for facei " << facei << " has fewer than two cells"
+                << abort(FatalError);
+        }
+
+        w.setSize(size);
+
+        const uniformMultipliers multipliers(size);
+
+        const weights weights;
+        weights.calculate(w, stencil, multipliers);
         w[0] -= 1;
     }
 }
@@ -91,8 +77,23 @@ Foam::highOrderFit::weightsField::~weightsField()
 const Foam::autoPtr<Foam::highOrderFit::weightsDiagnostic>
 Foam::highOrderFit::weightsField::diagnose(const Foam::label facei) const
 {
-    scalarList w;
-    return calculate(w, facei);
+    const uniformMultipliers multipliers(stencils_[facei].size());
+
+    const weights weights;
+    const autoPtr<scalarRectangularMatrix> B = weights.initialiseMatrix
+    (
+        stencils_[facei],
+        multipliers
+    );
+
+    return autoPtr<weightsDiagnostic>
+    (
+        new weightsDiagnostic
+        (
+            multipliers,
+            B
+        )
+    );
 }
 
 // ************************************************************************* //

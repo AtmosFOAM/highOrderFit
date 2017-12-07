@@ -24,8 +24,9 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "weights.H"
-#include "scalarMatrices.H"
 #include "SVD.H"
+
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -48,12 +49,9 @@ void Foam::highOrderFit::weights::calculate
     const Foam::scalarList& multipliers
 ) const
 {
-    scalarRectangularMatrix B(weights.size(), 1);
-    for (label row = 0; row < B.m(); row++)
-    {
-        B(row, 0) = stencil[row].moment(order(0, 0, 0)) * multipliers[row];
-    }
-    const SVD svd(B);
+    const autoPtr<scalarRectangularMatrix> B =
+        initialiseMatrix(stencil, multipliers);
+    const SVD svd(B());
     const scalarRectangularMatrix& Binv = svd.VSinvUt();
 
     for (label col = 0; col < Binv.n(); col++)
@@ -62,5 +60,22 @@ void Foam::highOrderFit::weights::calculate
     }
 }
 
+
+const Foam::autoPtr<Foam::scalarRectangularMatrix>
+Foam::highOrderFit::weights::initialiseMatrix
+(
+    const Foam::highOrderFit::stencil& stencil,
+    const Foam::scalarList& multipliers
+) const
+{
+    scalarRectangularMatrix* B = new scalarRectangularMatrix(stencil.size(), 1);
+
+    for (label row = 0; row < B->m(); row++)
+    {
+        (*B)(row, 0) = stencil[row].moment(order(0, 0, 0)) * multipliers[row];
+    }
+
+    return autoPtr<scalarRectangularMatrix>(B);
+}
 
 // ************************************************************************* //
