@@ -49,11 +49,11 @@ namespace Foam
  
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-namespace highOrderFit
-{
-
 // Forward declaration of classes                                               
 class Ostream;
+
+namespace highOrderFit
+{
 
 // Forward declaration of friend functions and operators
 template<class Type> class Diagnostic;
