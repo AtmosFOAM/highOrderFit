@@ -26,6 +26,7 @@ License
 #include "catch.hpp"
 #include "checks.H"
 #include "cellVertices.H"
+#include "IFstream.H"
 #include "IStringStream.H"
 #include "labelList.H"
 #include "mesh.H"
@@ -96,6 +97,25 @@ TEST_CASE("cellVertices_round_trips_through_IOstreams")
     REQUIRE( verticesIn.size() == 1 );
     REQUIRE( verticesIn[0].size() == 1 );
     checkEqual(verticesIn[0][0], point(2, 3, 4));
+}
+
+TEST_CASE("cellVertices_calculates_zeroth_volume_moment_for_unit_cube")
+{
+    highOrderFit::cellVertices vertices;
+    IFstream i("resources/unitCube");
+    i >> vertices;
+
+    CHECK( vertices.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
+}
+
+TEST_CASE("cellVertices_calculates_x_volume_moment_for_unit_cube_centred_at_origin",
+          "[!mayfail]")
+{
+    highOrderFit::cellVertices vertices;
+    IFstream i("resources/unitCube");
+    i >> vertices;
+
+    CHECK( vertices.moment(highOrderFit::order(1, 0, 0)) == approx(0.0) );
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

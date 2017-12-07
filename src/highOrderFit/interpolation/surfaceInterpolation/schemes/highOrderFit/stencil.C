@@ -87,12 +87,4 @@ Foam::label Foam::highOrderFit::stencil::size() const
     return size_;
 }
 
-const Foam::scalarList& Foam::highOrderFit::stencil::moment
-(
-    const order& order
-) const
-{
-    return zeroMoment_;
-}
-
 // ************************************************************************* //

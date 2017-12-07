@@ -86,6 +86,7 @@ void Foam::highOrderFit::cellVertices::translate(const Foam::point x)
     }
 }
 
+
 void Foam::highOrderFit::cellVertices::rotate
 (
     const Foam::vector from,
@@ -101,6 +102,15 @@ void Foam::highOrderFit::cellVertices::rotate
             (*this)[facei][pointi] = q.transform((*this)[facei][pointi]);
         }
     }
+}
+
+
+Foam::scalar Foam::highOrderFit::cellVertices::moment
+(
+    const Foam::highOrderFit::order& order
+) const
+{
+    return 1.0;
 }
 
 // ************************************************************************* //

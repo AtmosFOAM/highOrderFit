@@ -36,7 +36,6 @@ SourceFiles
 
 #include "cellVertices.H"
 #include "label.H"
-#include "order.H"
 #include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -97,8 +96,6 @@ public:
     // Member Functions
 
         label size() const;
-
-        const scalarList& moment(const order& order) const;
 
 };
 

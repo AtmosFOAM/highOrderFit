@@ -35,6 +35,7 @@ SourceFiles
 #ifndef cellVertices_H
 #define cellVertices_H
 
+#include "order.H"
 #include "primitiveMesh.H"
 #include "List.H"
 #include "point.H"
@@ -94,6 +95,9 @@ public:
 
 
         void rotate(const vector from, const vector to);
+
+
+        scalar moment(const order& order) const;
 };
 
 
