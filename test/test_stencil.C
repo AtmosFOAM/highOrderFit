@@ -28,6 +28,7 @@ License
 #include "cellVertices.H"
 #include "List.H"
 #include "mesh.H"
+#include "order.H"
 #include "stencil.H"
 #include "testCase.H"
 
@@ -44,7 +45,7 @@ TEST_CASE("stencil_calculates_zeroth_cell_moments")
     const highOrderFit::stencil stencil(targetCf, Sf, vertices);
 
     const scalarList& zerothCellMoments =
-        stencil.moment(/*highOrderFit::order(0, 0, 0)*/);
+        stencil.moment(highOrderFit::order(0, 0, 0));
 
     checkEqual(zerothCellMoments, 1.0);
 }

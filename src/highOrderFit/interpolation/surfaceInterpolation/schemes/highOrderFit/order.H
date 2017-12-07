@@ -22,22 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::stencil
+    Foam::highOrderFit::order
 
 Description
 
 SourceFiles
-    stencil.C
+    order.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef stencil_H
-#define stencil_H
+#ifndef order_H
+#define order_H
 
-#include "cellVertices.H"
 #include "label.H"
-#include "order.H"
-#include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -50,56 +47,41 @@ namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class stencil Declaration
+                         Class order Declaration
 \*---------------------------------------------------------------------------*/
 
-class stencil
+class order
 {
     // Private data
-    
-        label size_;
-        scalarList zeroMoment_;
-        List<cellVertices> vertices_; 
+
+        //- Description of data_
+        //dataType data_;
+
 
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        stencil(const stencil&);
+        order(const order&);
 
-        //Disallow default bitwise assignment
-        //void operator=(const stencil&);
-
-
-        void translateVerticesWithOrigin(const point o);
-
-        void rotateVerticesWithPrimaryDirection(const vector x);
+        //- Disallow default bitwise assignment
+        void operator=(const order&);
 
 
 public:
 
     // Constructors
 
-        stencil();
-
-        stencil
-        (
-            const point targetCf,
-            const vector Sf,
-            const List<cellVertices>& vertices
-        );
+        //- Construct from components
+        order(const label x, const label y, const label z);
 
 
     //- Destructor
-    ~stencil();
+    ~order();
 
 
     // Member Functions
 
-        label size() const;
 
-        const List<cellVertices>& vertices() const;
-
-        const scalarList& moment(const order& order) const;
 
 };
 

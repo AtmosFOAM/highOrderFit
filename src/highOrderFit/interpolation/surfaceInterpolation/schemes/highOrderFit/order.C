@@ -23,81 +23,29 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "stencil.H"
+#include "order.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
-void Foam::highOrderFit::stencil::translateVerticesWithOrigin
-(
-    const Foam::point o
-)
-{
-    forAll(vertices_, i)
-    {
-        vertices_[i].translate(-o);
-    }
-}
-
-
-void Foam::highOrderFit::stencil::rotateVerticesWithPrimaryDirection
-(
-    const Foam::vector x
-)
-{
-    forAll(vertices_, i)
-    {
-        vertices_[i].rotate(x/mag(x), vector(1, 0, 0));
-    }
-}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::stencil::stencil()
-:
-size_(0)
-{}
-
-
-Foam::highOrderFit::stencil::stencil
+Foam::highOrderFit::order::order
 (
-    const Foam::point targetCf,
-    const Foam::vector Sf,
-    const Foam::List<Foam::highOrderFit::cellVertices>& cellVertices
+    const Foam::label x,
+    const Foam::label y,
+    const Foam::label z
 )
-:
-size_(cellVertices.size()),
-vertices_(cellVertices)
-{
-    translateVerticesWithOrigin(targetCf);
-    rotateVerticesWithPrimaryDirection(Sf);
-}
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::stencil::~stencil()
+Foam::highOrderFit::order::~order()
 {}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-Foam::label Foam::highOrderFit::stencil::size() const
-{
-    return size_;
-}
-
-const Foam::scalarList& Foam::highOrderFit::stencil::moment
-(
-    const order& order
-) const
-{
-    return zeroMoment_;
-}
-
-const Foam::List<Foam::highOrderFit::cellVertices>&
-Foam::highOrderFit::stencil::vertices() const
-{
-    return vertices_;
-}
 
 // ************************************************************************* //
