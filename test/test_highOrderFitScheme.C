@@ -95,10 +95,9 @@ TEST_CASE("highOrderFit_ignores_boundary_values")
             highOrderFit.scheme()
         );
 
-    const highOrderFit::Diagnostic<scalar>& diagnostic =
+    const autoPtr<highOrderFit::Diagnostic<scalar>> diagnostic =
         scheme.diagnose(facei, highOrderFit.T());
-    CHECK( diagnostic.size() == 6 );
-    Info << diagnostic << endl;
+    CHECK( diagnostic->size() == 6 );
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -194,7 +194,6 @@ public:
             const GeometricField<Type, fvPatchField, volMesh>& field
         ) const
         {
-
             return autoPtr<highOrderFit::Diagnostic<Type>>
             (
                 new highOrderFit::Diagnostic<Type>
