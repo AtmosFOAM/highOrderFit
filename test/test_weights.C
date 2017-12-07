@@ -41,7 +41,7 @@ TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
     scalarList w(12);
     const point targetFace;
     const vector Sf;
-    const List<highOrderFit::cellVertices> stencilCellVertices;
+    const List<highOrderFit::cellVertices> stencilCellVertices(12);
     highOrderFit::stencil stencil(targetFace, Sf, stencilCellVertices);
     highOrderFit::uniformMultipliers multipliers(12);
     highOrderFit::weights weights;
@@ -56,7 +56,7 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
     scalarList w(5);
     const point targetFace;
     const vector Sf;
-    const List<highOrderFit::cellVertices> stencilCellVertices;
+    const List<highOrderFit::cellVertices> stencilCellVertices(5);
     highOrderFit::stencil stencil(targetFace, Sf, stencilCellVertices);
     highOrderFit::inverseDistanceMultipliers multipliers(5);
     highOrderFit::weights weights;

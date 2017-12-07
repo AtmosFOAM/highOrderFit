@@ -66,7 +66,8 @@ Foam::highOrderFit::stencil::stencil
 )
 :
 size_(cellVertices.size()),
-vertices_(cellVertices)
+vertices_(cellVertices),
+zeroMoment_(cellVertices.size(), 1.0)
 {
     translateVerticesWithOrigin(targetCf);
     rotateVerticesWithPrimaryDirection(Sf);
