@@ -41,7 +41,7 @@ SourceFiles
 #include "IOstreams.H"
 #include "surfaceFields.H"
 #include "weightsDiagnostic.H"
-#include "weightsField.H"
+#include "weightsFieldPair.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -103,8 +103,7 @@ public:
             const surfaceScalarField& faceFlux,
             const fvMesh& mesh,
             const extendedUpwindCellToFaceStencil& stencils,
-            const weightsField& ownerWeights,
-            const weightsField& neighbourWeights
+            const weightsFieldPair& weights
         );
 
 

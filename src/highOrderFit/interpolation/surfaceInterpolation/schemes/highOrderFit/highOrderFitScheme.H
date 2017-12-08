@@ -176,8 +176,7 @@ public:
                     upwind<Type>::faceFlux_,
                     mesh_,
                     stencils_,
-                    weights_.owner(),
-                    weights_.neighbour()
+                    weights_
                 )
             );
         }

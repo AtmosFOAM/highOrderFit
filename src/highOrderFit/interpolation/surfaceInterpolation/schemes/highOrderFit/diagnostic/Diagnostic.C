@@ -38,8 +38,7 @@ Foam::highOrderFit::Diagnostic<Type>::Diagnostic
     const Foam::surfaceScalarField& faceFlux,
     const Foam::fvMesh& mesh,
     const Foam::extendedUpwindCellToFaceStencil& stencils,
-    const Foam::highOrderFit::weightsField& ownerWeights,
-    const Foam::highOrderFit::weightsField& neighbourWeights
+    const Foam::highOrderFit::weightsFieldPair& weights
 )
 :
     facei_(facei),
@@ -61,10 +60,8 @@ Foam::highOrderFit::Diagnostic<Type>::Diagnostic
         cellCentres_
     );
 
-    weights_ = owner_ ? ownerWeights[facei_] : neighbourWeights[facei_];
-    weightsDiagnostic_ = owner_
-        ? ownerWeights.diagnose(facei_)
-        : neighbourWeights.diagnose(facei_);
+    weights_ = weights.side(owner_)[facei_];
+    weightsDiagnostic_ = weights.side(owner_).diagnose(facei_);
 }
 
 

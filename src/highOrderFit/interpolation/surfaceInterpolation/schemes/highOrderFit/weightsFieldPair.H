@@ -98,6 +98,11 @@ public:
             return neighbour_;
         }
 
+        const weightsField& side(const bool isOwner) const
+        {
+            return isOwner ? owner_ : neighbour_;
+        }
+
         bool movePoints();
 };
 
