@@ -22,75 +22,84 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::weightsField
+    Foam::highOrderFit::weightsFieldPair
 
 Description
-    A list of surface interpolation weights indexed by face.
 
 SourceFiles
-    weightsField.C
+    weightsFieldPair.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef weightsField_H
-#define weightsField_H
+#ifndef weightsFieldPair_H
+#define weightsFieldPair_H
 
-#include "autoPtr.H"
+#include "extendedUpwindCellToFaceStencil.H"
+#include "fvMesh.H"
 #include "MeshObject.H"
-#include "stencilField.H"
-#include "scalarList.H"
-#include "weights.H"
-#include "weightsDiagnostic.H"
+#include "weightsField.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-
+ 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class weightsField Declaration
+                         Class weightsFieldPair Declaration
 \*---------------------------------------------------------------------------*/
 
-class weightsField
+class weightsFieldPair
 :
-    public scalarListList
+    public MeshObject<fvMesh, MoveableMeshObject, weightsFieldPair>
 {
     // Private data
-        const stencilField stencils_;
-        const weights weights_;
+
+        const weightsField owner_;
+        const weightsField neighbour_;
 
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        weightsField(const weightsField&);
+        weightsFieldPair(const weightsFieldPair&);
 
         //- Disallow default bitwise assignment
-        void operator=(const weightsField&);
+        void operator=(const weightsFieldPair&);
 
 
 public:
 
     // Constructors
 
-        //- Construct from the specified stencil field.
-        weightsField(const fvMesh& mesh, const stencilField& stencils);
+        weightsFieldPair
+        (
+            const fvMesh& mesh,
+            const extendedUpwindCellToFaceStencil& stencils
+        );
 
 
     //- Destructor
-    ~weightsField();
+    ~weightsFieldPair();
 
 
     // Member Functions
+    
+        const weightsField& owner() const
+        {
+            return owner_;
+        }
+    
+        const weightsField& neighbour() const
+        {
+            return neighbour_;
+        }
 
-        const autoPtr<weightsDiagnostic> diagnose(const label facei) const;
-
+        bool movePoints();
 };
-
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

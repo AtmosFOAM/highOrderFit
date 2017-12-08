@@ -43,15 +43,6 @@ Foam::highOrderFit::weightsField::weightsField
 )
 :
 scalarListList(stencils.size()),
-MeshObject
-<
-    Foam::fvMesh,
-    Foam::MoveableMeshObject,
-    Foam::highOrderFit::weightsField
->
-(
-    mesh
-),
 stencils_(stencils),
 weights_({order(0, 0, 0)})
 {
@@ -108,10 +99,5 @@ Foam::highOrderFit::weightsField::diagnose(const Foam::label facei) const
     );
 }
 
-
-bool Foam::highOrderFit::weightsField::movePoints()
-{
-    return true;
-}
 
 // ************************************************************************* //

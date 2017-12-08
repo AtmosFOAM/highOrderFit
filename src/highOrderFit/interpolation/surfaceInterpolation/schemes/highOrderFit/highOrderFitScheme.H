@@ -41,6 +41,7 @@ SourceFiles
 #include "Diagnostic.H"
 #include "stencilField.H"
 #include "weightsField.H"
+#include "weightsFieldPair.H"
 #include "stencilBoundaryPolicy.H"
 #include "stencilBoundaryExclusion.H"
 #include "upwind.H"
@@ -68,8 +69,7 @@ class highOrderFitScheme
 
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
-        const highOrderFit::weightsField& ownerWeights_;
-        const highOrderFit::weightsField& neighbourWeights_;
+        const highOrderFit::weightsFieldPair& weights_;
 
     // Private Member Functions
 
@@ -97,14 +97,6 @@ class highOrderFitScheme
             );
         }
 
-        const highOrderFit::weightsField& initialiseWeightsField
-        (
-            const fvMesh& mesh,
-            const highOrderFit::stencilField& stencil
-        )
-        {
-            return highOrderFit::weightsField::New(mesh, stencil);
-        }
 
 public:
 
@@ -126,32 +118,7 @@ public:
             ),
             mesh_(mesh),
             stencils_(initialiseStencils(mesh)),
-            ownerWeights_
-            (
-                initialiseWeightsField
-                (
-                    mesh,
-                    highOrderFit::stencilField
-                    (
-                        stencils_.ownStencil(),
-                        stencils_.ownMap(),
-                        mesh
-                    )
-                )
-            ),
-            neighbourWeights_
-            (
-                initialiseWeightsField
-                (
-                    mesh,
-                    highOrderFit::stencilField
-                    (
-                        stencils_.neiStencil(),
-                        stencils_.neiMap(),
-                        mesh
-                    )
-                )
-            )
+            weights_(highOrderFit::weightsFieldPair::New(mesh, stencils_))
         {}
 
         //- Construct a highOrderFitScheme using the specified \c faceFlux
@@ -166,32 +133,7 @@ public:
             upwind<Type>(mesh, faceFlux),
             mesh_(mesh),
             stencils_(initialiseStencils(mesh)),
-            ownerWeights_
-            (
-                initialiseWeightsField
-                (
-                    mesh,
-                    highOrderFit::stencilField
-                    (
-                        stencils_.ownStencil(),
-                        stencils_.ownMap(),
-                        mesh
-                    )
-                )
-            ),
-            neighbourWeights_
-            (
-                initialiseWeightsField
-                (
-                    mesh,
-                    highOrderFit::stencilField
-                    (
-                        stencils_.neiStencil(),
-                        stencils_.neiMap(),
-                        mesh
-                    )
-                )
-            )
+            weights_(highOrderFit::weightsFieldPair::New(mesh, stencils_))
         {}
 
 
@@ -214,8 +156,8 @@ public:
             (
                 upwind<Type>::faceFlux_,
                 vf,
-                ownerWeights_,
-                neighbourWeights_
+                weights_.owner(),
+                weights_.neighbour()
             );
         }
 
@@ -234,8 +176,8 @@ public:
                     upwind<Type>::faceFlux_,
                     mesh_,
                     stencils_,
-                    ownerWeights_,
-                    neighbourWeights_
+                    weights_.owner(),
+                    weights_.neighbour()
                 )
             );
         }

@@ -7,6 +7,7 @@ $(highOrderFit)/stencil.C
 $(highOrderFit)/stencilField.C
 $(highOrderFit)/weights.C
 $(highOrderFit)/weightsField.C
+$(highOrderFit)/weightsFieldPair.C
 
 multipliers = $(highOrderFit)/multipliers
 $(multipliers)/inverseDistanceMultipliers.C
