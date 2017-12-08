@@ -36,6 +36,7 @@ SourceFiles
 #define weightsField_H
 
 #include "autoPtr.H"
+#include "MeshObject.H"
 #include "stencilField.H"
 #include "scalarList.H"
 #include "weights.H"
@@ -57,7 +58,8 @@ namespace highOrderFit
 
 class weightsField
 :
-    public scalarListList
+    public scalarListList,
+    public MeshObject<fvMesh, MoveableMeshObject, weightsField>
 {
     // Private data
         const stencilField stencils_;
@@ -87,6 +89,8 @@ public:
     // Member Functions
 
         const autoPtr<weightsDiagnostic> diagnose(const label facei) const;
+
+        bool movePoints();
 
 };
 
