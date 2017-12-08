@@ -75,7 +75,7 @@ Foam::highOrderFit::cell::~cell()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-void Foam::highOrderFit::cell::translate(const Foam::point x)
+void Foam::highOrderFit::cell::translate(const Foam::vector x)
 {
     forAll((*this), facei)
     {

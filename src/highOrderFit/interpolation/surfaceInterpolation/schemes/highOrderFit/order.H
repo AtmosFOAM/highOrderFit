@@ -25,6 +25,10 @@ Class
     Foam::highOrderFit::order
 
 Description
+    The <i>(x, y, z)</i> exponents of a polynomial term.
+
+    For example, <code>order(2, 0, 1)</code> are the exponents for the
+    polynomial term <i>x&sup2;z</i>.
 
 SourceFiles
     order.C

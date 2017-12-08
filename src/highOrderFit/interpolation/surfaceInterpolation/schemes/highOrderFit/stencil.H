@@ -25,6 +25,8 @@ Class
     Foam::highOrderFit::stencil
 
 Description
+    A stencil of \ref Foam::highOrderFit::cell "cells" used to approximate
+    the high order surface interpolation.
 
 SourceFiles
     stencil.C
@@ -56,9 +58,6 @@ class stencil
 :
     public List<cell>
 {
-    // Private data
-    
-
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
@@ -66,7 +65,6 @@ class stencil
 
         //Disallow default bitwise assignment
         //void operator=(const stencil&);
-
 
         void translateVerticesWithOrigin(const point o);
 
@@ -77,8 +75,16 @@ public:
 
     // Constructors
 
+        //- Construct an empty stencil with no cells.
+        //  Necessary only for initialising collections of stencils.
         stencil();
 
+        //- Construct a stencil comprising the given cells, transformed into the local coordinate system.
+        //  @param targetCf the stencil's target face centre to be used as
+        //                  the origin of the local coordinate system
+        //  @param Sf       the target face area vector.  The stencil is rotated
+        //                  such that primary direction of the local coordinate
+        //                  system is parallel to <code>Sf</code>.
         stencil
         (
             const point targetCf,

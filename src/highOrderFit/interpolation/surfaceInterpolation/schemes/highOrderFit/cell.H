@@ -92,9 +92,12 @@ public:
 
     // Member Functions
 
-        void translate(const point x);
+        //- Translate the cell by vector <code>x</code>.
+        void translate(const vector x);
 
-
+        //- Rotate the cell to align <code>from</code> with <code>to</code>.
+        //  The transformation is constrained by the quaternion rotation, so
+        //  cells cannot be rotated 180&deg; or more.
         void rotate(const vector from, const vector to);
 
 
