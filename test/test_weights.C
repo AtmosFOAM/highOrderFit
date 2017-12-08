@@ -27,6 +27,7 @@ License
 #include "cell.H"
 #include "checks.H"
 #include "inverseDistanceMultipliers.H"
+#include "IStringStream.H"
 #include "order.H"
 #include "stencil.H"
 #include "uniformMultipliers.H"
@@ -95,14 +96,12 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     const highOrderFit::uniformMultipliers multipliers(3);
     const highOrderFit::weights weights(moments);
 
-    autoPtr<scalarRectangularMatrix> B =
+    autoPtr<scalarRectangularMatrix> actual =
         weights.createMatrix(stencil, multipliers);
 
-    REQUIRE( B->m() == 3 );
-    REQUIRE( B->n() == 2 );
-
-    // TODO: checkEqual() with actual and expected matrices
-    Info << B() << endl;
+    IStringStream in("3 2((1 -1.5)(1 -0.5)(1 0.5))");
+    scalarRectangularMatrix expected(in);
+    checkEqual(actual(), expected);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

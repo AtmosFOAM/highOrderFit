@@ -55,12 +55,31 @@ void Test::checkEqual
 (
     const Foam::vector actual,
     const Foam::vector expected,
-    const Foam::scalar epsilon
+    Approx approx
 )
 {
-    CHECK( fabs(actual.x() - expected.x()) < epsilon );
-    CHECK( fabs(actual.y() - expected.y()) < epsilon );
-    CHECK( fabs(actual.z() - expected.z()) < epsilon );
+    CHECK( actual.x() == approx(expected.x()) );
+    CHECK( actual.y() == approx(expected.y()) );
+    CHECK( actual.z() == approx(expected.z()) );
+}
+
+void Test::checkEqual
+(
+    const Foam::scalarRectangularMatrix& actual,
+    const Foam::scalarRectangularMatrix& expected,
+    Approx approx
+)
+{
+    REQUIRE( actual.m() == expected.m() );
+    REQUIRE( actual.n() == expected.n() );
+
+    for (Foam::label row = 0; row < actual.m(); row++)
+    {
+        for (Foam::label col = 0; col < actual.n(); col++)
+        {
+            CHECK( actual(row, col) == approx(expected(row, col)) );
+        }
+    }
 }
 
 // ************************************************************************* //

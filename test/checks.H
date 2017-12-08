@@ -46,14 +46,14 @@ SourceFiles
 namespace Test
 {
 
-    static Foam::scalar epsilon = 1e-9;
-    static Approx approx = Approx::custom().epsilon(epsilon);
+    static Foam::scalar margin = 1e-9;
+    static Approx approx = Approx::custom().margin(margin);
 
     void checkEqual
     (
         const Foam::scalarList& actual,
         const Foam::scalarList& expected,
-        Approx approx = Approx::custom().epsilon(epsilon)
+        Approx approx = Test::approx
     );
 
     template<class Type>
@@ -67,14 +67,21 @@ namespace Test
     (
         const Foam::scalarList& actual,
         const Foam::scalar expected,
-        Approx approx = Approx::custom().epsilon(epsilon)
+        Approx approx = Test::approx
     );
 
     void checkEqual
     (
         const Foam::vector actual,
         const Foam::vector expected,
-        const Foam::scalar epsilon = Test::epsilon
+        Approx approx = Test::approx
+    );
+
+    void checkEqual
+    (
+        const Foam::scalarRectangularMatrix& actual,
+        const Foam::scalarRectangularMatrix& expected,
+        Approx approx = Test::approx
     );
 
     template<class Type>
