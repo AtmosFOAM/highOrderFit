@@ -6,11 +6,13 @@ $(highOrderFit)/order.C
 $(highOrderFit)/stencil.C
 $(highOrderFit)/stencilField.C
 $(highOrderFit)/weights.C
-$(highOrderFit)/weightsDiagnostic.C
 $(highOrderFit)/weightsField.C
 
 multipliers = $(highOrderFit)/multipliers
 $(multipliers)/inverseDistanceMultipliers.C
 $(multipliers)/uniformMultipliers.C
+
+diagnostic = $(highOrderFit)/diagnostic
+$(diagnostic)/weightsDiagnostic.C
 
 LIB = $(FOAM_USER_LIBBIN)/libhighOrderFit
