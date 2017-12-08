@@ -60,7 +60,7 @@ class weightsField
     public scalarListList
 {
     // Private data
-        const stencilField& stencils_;
+        const stencilField stencils_;
         const weights weights_;
 
     // Private Member Functions

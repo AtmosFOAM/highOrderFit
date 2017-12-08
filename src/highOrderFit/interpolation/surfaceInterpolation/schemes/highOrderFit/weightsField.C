@@ -25,9 +25,10 @@ License
 
 #include "weightsField.H"
 
-#include "stencil.H"
+#include "inverseDistanceMultipliers.H"
 #include "order.H"
 #include "uniformMultipliers.H"
+#include "stencil.H"
 #include "weights.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
@@ -59,6 +60,7 @@ weights_({order(0, 0, 0)})
 
         w.setSize(size);
 
+//        const inverseDistanceMultipliers multipliers(size);
         const uniformMultipliers multipliers(size);
 
         weights_.calculate(w, stencil, multipliers);

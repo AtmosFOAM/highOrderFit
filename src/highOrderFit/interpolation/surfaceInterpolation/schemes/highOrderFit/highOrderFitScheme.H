@@ -68,8 +68,6 @@ class highOrderFitScheme
 
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
-        const highOrderFit::stencilField ownerStencils_;
-        const highOrderFit::stencilField neighbourStencils_;
         const highOrderFit::weightsField ownerWeights_;
         const highOrderFit::weightsField neighbourWeights_;
 
@@ -119,20 +117,24 @@ public:
             ),
             mesh_(mesh),
             stencils_(initialiseStencils(mesh)),
-            ownerStencils_
+            ownerWeights_
             (
-                stencils_.ownStencil(),
-                stencils_.ownMap(),
-                mesh
+                highOrderFit::stencilField
+                (
+                    stencils_.ownStencil(),
+                    stencils_.ownMap(),
+                    mesh
+                )
             ),
-            neighbourStencils_
+            neighbourWeights_
             (
-                stencils_.neiStencil(),
-                stencils_.neiMap(),
-                mesh
-            ),
-            ownerWeights_(ownerStencils_),
-            neighbourWeights_(neighbourStencils_)
+                highOrderFit::stencilField
+                (
+                    stencils_.neiStencil(),
+                    stencils_.neiMap(),
+                    mesh
+                )
+            )
         {}
 
         //- Construct a highOrderFitScheme using the specified \c faceFlux
@@ -147,20 +149,24 @@ public:
             upwind<Type>(mesh, faceFlux),
             mesh_(mesh),
             stencils_(initialiseStencils(mesh)),
-            ownerStencils_
+            ownerWeights_
             (
-                stencils_.ownStencil(),
-                stencils_.ownMap(),
-                mesh
+                highOrderFit::stencilField
+                (
+                    stencils_.ownStencil(),
+                    stencils_.ownMap(),
+                    mesh
+                )
             ),
-            neighbourStencils_
+            neighbourWeights_
             (
-                stencils_.neiStencil(),
-                stencils_.neiMap(),
-                mesh
-            ),
-            ownerWeights_(ownerStencils_),
-            neighbourWeights_(neighbourStencils_)
+                highOrderFit::stencilField
+                (
+                    stencils_.neiStencil(),
+                    stencils_.neiMap(),
+                    mesh
+                )
+            )
         {}
 
 
