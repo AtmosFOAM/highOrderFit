@@ -38,6 +38,7 @@ License
 
 Foam::highOrderFit::weightsField::weightsField
 (
+    const Foam::fvMesh& mesh,
     const Foam::highOrderFit::stencilField& stencils
 )
 :
@@ -49,7 +50,7 @@ MeshObject
     Foam::highOrderFit::weightsField
 >
 (
-    stencils.mesh()
+    mesh
 ),
 stencils_(stencils),
 weights_({order(0, 0, 0)})

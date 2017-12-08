@@ -79,7 +79,7 @@ public:
     // Constructors
 
         //- Construct from the specified stencil field.
-        weightsField(const stencilField& stencils);
+        weightsField(const fvMesh& mesh, const stencilField& stencils);
 
 
     //- Destructor

@@ -68,8 +68,8 @@ class highOrderFitScheme
 
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
-        const highOrderFit::weightsField ownerWeights_;
-        const highOrderFit::weightsField neighbourWeights_;
+        const highOrderFit::weightsField& ownerWeights_;
+        const highOrderFit::weightsField& neighbourWeights_;
 
     // Private Member Functions
 
@@ -97,6 +97,14 @@ class highOrderFitScheme
             );
         }
 
+        const highOrderFit::weightsField& initialiseWeightsField
+        (
+            const highOrderFit::stencilField& stencil
+        )
+        {
+            return highOrderFit::weightsField::New(stencil.mesh(), stencil);
+        }
+
 public:
 
     //- Runtime type information
@@ -119,20 +127,26 @@ public:
             stencils_(initialiseStencils(mesh)),
             ownerWeights_
             (
-                highOrderFit::stencilField
+                initialiseWeightsField
                 (
-                    stencils_.ownStencil(),
-                    stencils_.ownMap(),
-                    mesh
+                    highOrderFit::stencilField
+                    (
+                        stencils_.ownStencil(),
+                        stencils_.ownMap(),
+                        mesh
+                    )
                 )
             ),
             neighbourWeights_
             (
-                highOrderFit::stencilField
+                initialiseWeightsField
                 (
-                    stencils_.neiStencil(),
-                    stencils_.neiMap(),
-                    mesh
+                    highOrderFit::stencilField
+                    (
+                        stencils_.neiStencil(),
+                        stencils_.neiMap(),
+                        mesh
+                    )
                 )
             )
         {}
@@ -151,20 +165,26 @@ public:
             stencils_(initialiseStencils(mesh)),
             ownerWeights_
             (
-                highOrderFit::stencilField
+                initialiseWeightsField
                 (
-                    stencils_.ownStencil(),
-                    stencils_.ownMap(),
-                    mesh
+                    highOrderFit::stencilField
+                    (
+                        stencils_.ownStencil(),
+                        stencils_.ownMap(),
+                        mesh
+                    )
                 )
             ),
             neighbourWeights_
             (
-                highOrderFit::stencilField
+                initialiseWeightsField
                 (
-                    stencils_.neiStencil(),
-                    stencils_.neiMap(),
-                    mesh
+                    highOrderFit::stencilField
+                    (
+                        stencils_.neiStencil(),
+                        stencils_.neiMap(),
+                        mesh
+                    )
                 )
             )
         {}
