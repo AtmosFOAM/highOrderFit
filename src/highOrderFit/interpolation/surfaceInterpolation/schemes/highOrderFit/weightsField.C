@@ -55,7 +55,7 @@ MeshObject
 stencils_(stencils),
 weights_({order(0, 0, 0)})
 {
-    for (label facei = 0; facei < stencils.mesh().nInternalFaces(); facei++)
+    for (label facei = 0; facei < mesh.nInternalFaces(); facei++)
     {
         scalarList& w = (*this)[facei];
         const stencil& stencil = stencils_[facei];

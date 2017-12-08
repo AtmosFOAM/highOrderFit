@@ -90,11 +90,6 @@ public:
 
     // Member Functions
 
-        const fvMesh& mesh() const
-        {
-            return mesh_;
-        }
-
 
 };
 

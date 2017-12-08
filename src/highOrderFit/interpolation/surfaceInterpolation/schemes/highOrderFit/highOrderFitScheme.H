@@ -99,10 +99,11 @@ class highOrderFitScheme
 
         const highOrderFit::weightsField& initialiseWeightsField
         (
+            const fvMesh& mesh,
             const highOrderFit::stencilField& stencil
         )
         {
-            return highOrderFit::weightsField::New(stencil.mesh(), stencil);
+            return highOrderFit::weightsField::New(mesh, stencil);
         }
 
 public:
@@ -129,6 +130,7 @@ public:
             (
                 initialiseWeightsField
                 (
+                    mesh,
                     highOrderFit::stencilField
                     (
                         stencils_.ownStencil(),
@@ -141,6 +143,7 @@ public:
             (
                 initialiseWeightsField
                 (
+                    mesh,
                     highOrderFit::stencilField
                     (
                         stencils_.neiStencil(),
@@ -167,6 +170,7 @@ public:
             (
                 initialiseWeightsField
                 (
+                    mesh,
                     highOrderFit::stencilField
                     (
                         stencils_.ownStencil(),
@@ -179,6 +183,7 @@ public:
             (
                 initialiseWeightsField
                 (
+                    mesh,
                     highOrderFit::stencilField
                     (
                         stencils_.neiStencil(),
