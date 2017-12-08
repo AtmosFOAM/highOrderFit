@@ -75,7 +75,7 @@ public:
 
         //- Construct an instance for a given cell.
         //  @param mesh a mesh instance
-        //  @param celli an index into <code>mesh.cells()</code>
+        //  @param celli an index into <tt>mesh.cells()</tt>
         cell(const primitiveMesh& mesh, const label celli);
 
         //- Construct directly from point data.
@@ -92,10 +92,10 @@ public:
 
     // Member Functions
 
-        //- Translate the cell by vector <code>x</code>.
+        //- Translate the cell by vector \c x.
         void translate(const vector x);
 
-        //- Rotate the cell to align <code>from</code> with <code>to</code>.
+        //- Rotate the cell to align \c from with \c to.
         //  The transformation is constrained by the quaternion rotation, so
         //  cells cannot be rotated 180&deg; or more.
         void rotate(const vector from, const vector to);

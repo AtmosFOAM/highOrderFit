@@ -84,7 +84,7 @@ public:
         //                  the origin of the local coordinate system
         //  @param Sf       the target face area vector.  The stencil is rotated
         //                  such that primary direction of the local coordinate
-        //                  system is parallel to <code>Sf</code>.
+        //                  system is parallel to <tt>Sf</tt>.
         stencil
         (
             const point targetCf,

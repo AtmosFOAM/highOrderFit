@@ -27,7 +27,7 @@ Class
 Description
     The <i>(x, y, z)</i> exponents of a polynomial term.
 
-    For example, <code>order(2, 0, 1)</code> are the exponents for the
+    For example, <tt>order(2, 0, 1)</tt> are the exponents for the
     polynomial term <i>x&sup2;z</i>.
 
 SourceFiles
