@@ -68,6 +68,7 @@ class cell
         // Disallow default bitwise assignment
         //void operator=(const cell&);
 
+        scalar averageX() const;
 
 public:
 

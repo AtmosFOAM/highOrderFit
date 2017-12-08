@@ -27,7 +27,7 @@ License
 #include "checks.H"
 #include "interpolation.H"
 #include "mesh.H"
-
+#include "order.H"
 #include "stencilField.H"
 #include "weightsField.H"
 
@@ -46,7 +46,8 @@ TEST_CASE("weightsField_has_same_size_as_stencil_field")
         highOrderFit.stencils().ownMap(),
         highOrderFit.mesh()
     );
-    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils);
+    const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
+    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils, moments);
 
     CHECK( weights.size() == 55 );
 }
@@ -63,7 +64,8 @@ TEST_CASE("weightsField_has_weight_for_each_cell_in_stencil")
         highOrderFit.stencils().ownMap(),
         highOrderFit.mesh()
     );
-    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils);
+    const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
+    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils, moments);
 
     CHECK( weights[facei].size() == 12 );
 }
@@ -80,7 +82,8 @@ TEST_CASE("weightsField_calculates_correction_on_upwind")
         highOrderFit.stencils().ownMap(),
         highOrderFit.mesh()
     );
-    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils);
+    const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
+    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils, moments);
 
     const label upwind = 0;
     CHECK( weights[facei][upwind] == Test::approx(-11.0/12.0) );

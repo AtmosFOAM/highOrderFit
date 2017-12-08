@@ -29,6 +29,27 @@ License
 #include "quaternion.H"
 #include "transform.H"
 
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+
+
+Foam::scalar Foam::highOrderFit::cell::averageX() const
+{
+    scalar averageX = 0.0;
+    label points = 0;
+
+    forAll((*this), facei)
+    {
+        forAll((*this)[facei], pointi)
+        {
+            averageX += (*this)[facei][pointi].x();
+            points++;
+        }
+    }
+    averageX /= points;
+
+    return averageX;
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::cell::cell
@@ -114,22 +135,25 @@ Foam::scalar Foam::highOrderFit::cell::moment
     {
         return 1.0;
     }
+    else if (o == order(1, 0, 0))
+    {
+        return averageX();
+    }
     else
     {
-        scalar averageX = 0.0;
-        label points = 0;
-
-        forAll((*this), facei)
+        const scalar x = averageX();
+        if (x <= -2.5 + SMALL)
         {
-            forAll((*this)[facei], pointi)
-            {
-                averageX += (*this)[facei][pointi].x();
-                points++;
-            }
+            return 19.0/3.0;
         }
-        averageX /= points;
-
-        return averageX;
+        else if (x <= -1.5 + SMALL)
+        {
+            return 7.0/3.0;
+        }
+        else
+        {
+            return 1.0/3.0;
+        }
     }
 }
 

@@ -26,7 +26,6 @@ License
 #include "weightsField.H"
 
 #include "inverseDistanceMultipliers.H"
-#include "order.H"
 #include "uniformMultipliers.H"
 #include "stencil.H"
 #include "weights.H"
@@ -39,12 +38,13 @@ License
 Foam::highOrderFit::weightsField::weightsField
 (
     const Foam::fvMesh& mesh,
-    const Foam::highOrderFit::stencilField& stencils
+    const Foam::highOrderFit::stencilField& stencils,
+    const Foam::List<Foam::highOrderFit::order>& moments
 )
 :
 scalarListList(stencils.size()),
 stencils_(stencils),
-weights_({order(0, 0, 0)})
+weights_(moments)
 {
     for (label facei = 0; facei < mesh.nInternalFaces(); facei++)
     {

@@ -37,15 +37,16 @@ SourceFiles
 #define highOrderFitScheme_H
 
 #include "autoPtr.H"
-#include "extendedUpwindCellToFaceStencil.H"
 #include "Diagnostic.H"
-#include "stencilField.H"
-#include "weightsField.H"
-#include "weightsFieldPair.H"
+#include "extendedUpwindCellToFaceStencil.H"
+#include "order.H"
 #include "stencilBoundaryPolicy.H"
 #include "stencilBoundaryExclusion.H"
+#include "stencilField.H"
 #include "upwind.H"
 #include "upwindCPCCellToFaceStencilObject.H"
+#include "weightsField.H"
+#include "weightsFieldPair.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -69,6 +70,7 @@ class highOrderFitScheme
 
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
+        const List<highOrderFit::order> moments_;
         const highOrderFit::weightsFieldPair& weights_;
 
     // Private Member Functions
@@ -79,14 +81,11 @@ class highOrderFitScheme
         //- Disallow default bitwise assignment
         void operator=(const highOrderFitScheme&);
 
-        const extendedUpwindCellToFaceStencil& initialiseStencils
-        (
-            const fvMesh& mesh
-        )
+        const extendedUpwindCellToFaceStencil& initialiseStencils()
         {
             return upwindCPCCellToFaceStencilObject::New
             (
-                mesh,
+                mesh_,
                 false, // not pure upwind
                 minOpposedness_,
                 false, // not a correction on linear
@@ -94,6 +93,16 @@ class highOrderFitScheme
                 (
                     new stencilBoundaryExclusion()
                 )
+            );
+        }
+
+        const highOrderFit::weightsFieldPair& initialiseWeights()
+        {
+            return highOrderFit::weightsFieldPair::New
+            (
+                mesh_,
+                stencils_,
+                moments_
             );
         }
 
@@ -117,8 +126,9 @@ public:
                 mesh.lookupObject<surfaceScalarField>(word(is))
             ),
             mesh_(mesh),
-            stencils_(initialiseStencils(mesh)),
-            weights_(highOrderFit::weightsFieldPair::New(mesh, stencils_))
+            stencils_(initialiseStencils()),
+            moments_({highOrderFit::order(0, 0, 0)}),
+            weights_(initialiseWeights())
         {}
 
         //- Construct a highOrderFitScheme using the specified \c faceFlux
@@ -132,8 +142,9 @@ public:
         :
             upwind<Type>(mesh, faceFlux),
             mesh_(mesh),
-            stencils_(initialiseStencils(mesh)),
-            weights_(highOrderFit::weightsFieldPair::New(mesh, stencils_))
+            stencils_(initialiseStencils()),
+            moments_({highOrderFit::order(0, 0, 0)}),
+            weights_(initialiseWeights())
         {}
 
 

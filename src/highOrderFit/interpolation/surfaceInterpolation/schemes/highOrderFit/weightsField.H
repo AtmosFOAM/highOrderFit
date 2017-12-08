@@ -37,6 +37,7 @@ SourceFiles
 
 #include "autoPtr.H"
 #include "MeshObject.H"
+#include "order.H"
 #include "stencilField.H"
 #include "scalarList.H"
 #include "weights.H"
@@ -78,7 +79,12 @@ public:
     // Constructors
 
         //- Construct from the specified stencil field.
-        weightsField(const fvMesh& mesh, const stencilField& stencils);
+        weightsField
+        (
+            const fvMesh& mesh,
+            const stencilField& stencils,
+            const List<order>& moments
+        );
 
 
     //- Destructor

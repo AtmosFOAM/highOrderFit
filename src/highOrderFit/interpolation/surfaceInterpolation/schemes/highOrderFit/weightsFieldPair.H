@@ -37,6 +37,7 @@ SourceFiles
 #include "extendedUpwindCellToFaceStencil.H"
 #include "fvMesh.H"
 #include "MeshObject.H"
+#include "order.H"
 #include "weightsField.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -78,7 +79,8 @@ public:
         weightsFieldPair
         (
             const fvMesh& mesh,
-            const extendedUpwindCellToFaceStencil& stencils
+            const extendedUpwindCellToFaceStencil& stencils,
+            const List<order>& moments
         );
 
 

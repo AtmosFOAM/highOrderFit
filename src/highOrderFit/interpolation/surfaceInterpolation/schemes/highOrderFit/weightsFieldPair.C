@@ -32,7 +32,8 @@ License
 Foam::highOrderFit::weightsFieldPair::weightsFieldPair
 (
     const Foam::fvMesh& mesh,
-    const Foam::extendedUpwindCellToFaceStencil& stencils
+    const Foam::extendedUpwindCellToFaceStencil& stencils,
+    const Foam::List<Foam::highOrderFit::order>& moments
 )
 :
 Foam::MeshObject
@@ -52,7 +53,8 @@ owner_
         stencils.ownStencil(),
         stencils.ownMap(),
         mesh
-    )
+    ),
+    moments
 ),
 neighbour_
 (
@@ -62,7 +64,8 @@ neighbour_
         stencils.neiStencil(),
         stencils.neiMap(),
         mesh
-    )
+    ),
+    moments
 )
 {}
 
