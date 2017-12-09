@@ -89,10 +89,8 @@ TEST_CASE("cell_round_trips_through_IOstreams")
     OStringStream o;
     o << cellOut << endl;
 
-    highOrderFit::cell cellIn;
-
     IStringStream i(o.str());
-    i >> cellIn;
+    const highOrderFit::cell cellIn(i);
 
     REQUIRE( cellIn.size() == 1 );
     REQUIRE( cellIn[0].size() == 1 );
@@ -101,36 +99,32 @@ TEST_CASE("cell_round_trips_through_IOstreams")
 
 TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    const highOrderFit::cell cell(is);
 
     CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
 }
 
 TEST_CASE("cell_calculates_zeroth_volume_moment_for_2x2x2_cube", "[!mayfail]")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/2x2x2Cube");
-    i >> cell;
+    IFstream is("resources/2x2x2Cube");
+    const highOrderFit::cell cell(is);
 
     CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(8.0) );
 }
 
 TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_origin")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    const highOrderFit::cell cell(is);
 
     CHECK( cell.moment(highOrderFit::order(1, 0, 0)) == approx(0.0) );
 }
 
 TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_0.5,0,0")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    highOrderFit::cell cell(is);
     cell.translate(vector(0.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(1, 0, 0)) == approx(0.5) );
@@ -138,9 +132,8 @@ TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_0.5,0,0")
 
 TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_0.5,0,0")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    highOrderFit::cell cell(is);
     cell.translate(vector(0.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(1.0/3.0) );
@@ -148,9 +141,8 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_0.5,0,0")
 
 TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-1.5,0,0")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    highOrderFit::cell cell(is);
     cell.translate(vector(-1.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(7.0/3.0) );
@@ -158,9 +150,8 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-1.5,0,0")
 
 TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_1.5,0,0")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    highOrderFit::cell cell(is);
     cell.translate(vector(1.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(7.0/3.0) );
@@ -168,9 +159,8 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_1.5,0,0")
 
 TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-2.5,0,0")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    highOrderFit::cell cell(is);
     cell.translate(vector(-2.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(19.0/3.0) );
@@ -178,9 +168,8 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-2.5,0,0")
 
 TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_2.5,0,0")
 {
-    highOrderFit::cell cell;
-    IFstream i("resources/unitCube");
-    i >> cell;
+    IFstream is("resources/unitCube");
+    highOrderFit::cell cell(is);
     cell.translate(vector(2.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(19.0/3.0) );

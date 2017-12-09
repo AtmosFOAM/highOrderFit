@@ -28,8 +28,9 @@ Description
     A cell belonging to a stencil with vertex points stored per face.
 
 SourceFiles
-    cellI.H
     cell.C
+    cellI.H
+    cellIO.C
 
 \*---------------------------------------------------------------------------*/
 
@@ -38,6 +39,7 @@ SourceFiles
 
 #include "order.H"
 #include "primitiveMesh.H"
+#include "IOstreams.H"
 #include "List.H"
 #include "point.H"
 
@@ -79,6 +81,9 @@ public:
 
         //- Construct directly from point data.
         explicit cell(const List<List<point>>& points);
+
+        //- Construct by reading from an input stream.
+        cell(Istream& is);
 
         //- Construct an empty instance with no vertex points.
         //  Necessary only for initialising collections of cells.
