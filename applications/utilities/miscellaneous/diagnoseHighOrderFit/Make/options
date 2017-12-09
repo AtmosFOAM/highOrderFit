@@ -1,0 +1,12 @@
+EXE_INC = \
+    -I$(HIGHORDERFIT_DIR)/src/highOrderFit/lnInclude \
+    -I$(HIGHORDERFIT_DIR)/src/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude
+
+EXE_LIBS = \
+    -L$(FOAM_USER_LIBBIN) \
+    -lhighOrderFit \
+    -lfiniteVolumeHighOrderFit \
+    -lfiniteVolume \
+    -lmeshTools
