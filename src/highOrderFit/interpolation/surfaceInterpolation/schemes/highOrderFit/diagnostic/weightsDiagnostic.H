@@ -36,6 +36,7 @@ SourceFiles
 
 #include "scalarList.H"
 #include "scalarMatrices.H"
+#include "stencil.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -57,6 +58,7 @@ class weightsDiagnostic
 
         const scalarList multipliers_;
         const scalarRectangularMatrix B_;
+        const stencil& stencil_;
 
     // Private Member Functions
 
@@ -74,7 +76,8 @@ public:
         weightsDiagnostic
         (
             const scalarList& multipliers,
-            const scalarRectangularMatrix& B
+            const scalarRectangularMatrix& B,
+            const stencil& stencil
         );
 
 
@@ -93,6 +96,11 @@ public:
         const scalarRectangularMatrix& B() const
         {
             return B_;
+        }
+
+        const stencil& getStencil() const
+        {
+            return stencil_;
         }
 
 };

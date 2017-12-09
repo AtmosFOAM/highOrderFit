@@ -68,8 +68,6 @@ class cell
         // Disallow default bitwise assignment
         //void operator=(const cell&);
 
-        scalar averageX() const;
-
 public:
 
     // Constructors
@@ -101,8 +99,9 @@ public:
         //  cells cannot be rotated 180&deg; or more.
         void rotate(const vector from, const vector to);
 
-
         scalar moment(const order& o) const;
+
+        point average() const;
 };
 
 

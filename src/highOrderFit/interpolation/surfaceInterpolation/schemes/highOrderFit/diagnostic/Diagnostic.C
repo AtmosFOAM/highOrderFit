@@ -92,21 +92,22 @@ Foam::Ostream& Foam::highOrderFit::operator<<
 
     os << "highOrderFit[facei=" << facei << ", "
        << (d.owner_ ? "owner" : "neighbour")
-       << ", ";
+       << ", \n   ";
 
     for (label i = 0; i < d.weights_.size(); i++)
     {
         os << (i == 0 ? d.weights_[i] + 1 : d.weights_[i])
            << "*" << d.values_[facei][i]
            << "@" << d.cellCentres_[facei][i]
+           << d.weightsDiagnostic_->getStencil()[i].average()
            << "{m=" << d.weightsDiagnostic_->multipliers()[i] << "}";
         if (i < d.weights_.size() - 1)
         {
-            os << " + ";
+            os << "\n + ";
         }
     }
 
-    os << ", B=" << d.weightsDiagnostic_->B();
+    os << ",\nB=" << d.weightsDiagnostic_->B();
        
     os << "]";
 

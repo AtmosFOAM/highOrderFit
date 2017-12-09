@@ -30,11 +30,13 @@ License
 Foam::highOrderFit::weightsDiagnostic::weightsDiagnostic
 (
     const Foam::scalarList& multipliers,
-    const Foam::scalarRectangularMatrix& B
+    const Foam::scalarRectangularMatrix& B,
+    const Foam::highOrderFit::stencil& stencil
 )
 :
 multipliers_(multipliers),
-B_(B)
+B_(B),
+stencil_(stencil)
 {}
 
 

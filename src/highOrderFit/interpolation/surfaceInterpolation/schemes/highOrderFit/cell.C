@@ -32,24 +32,6 @@ License
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 
-Foam::scalar Foam::highOrderFit::cell::averageX() const
-{
-    scalar averageX = 0.0;
-    label points = 0;
-
-    forAll((*this), facei)
-    {
-        forAll((*this)[facei], pointi)
-        {
-            averageX += (*this)[facei][pointi].x();
-            points++;
-        }
-    }
-    averageX /= points;
-
-    return averageX;
-}
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::cell::cell
@@ -137,11 +119,11 @@ Foam::scalar Foam::highOrderFit::cell::moment
     }
     else if (o == order(1, 0, 0))
     {
-        return averageX();
+        return average().x();
     }
     else
     {
-        const scalar x = averageX();
+        const scalar x = average().x();
         if (x <= -2.5 + SMALL)
         {
             return 19.0/3.0;
@@ -155,6 +137,25 @@ Foam::scalar Foam::highOrderFit::cell::moment
             return 1.0/3.0;
         }
     }
+}
+
+
+Foam::point Foam::highOrderFit::cell::average() const
+{
+    point average = point(0, 0, 0);
+    label points = 0;
+
+    forAll((*this), facei)
+    {
+        forAll((*this)[facei], pointi)
+        {
+            average += (*this)[facei][pointi];
+            points++;
+        }
+    }
+    average /= points;
+
+    return average;
 }
 
 // ************************************************************************* //
