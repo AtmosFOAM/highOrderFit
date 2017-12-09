@@ -156,12 +156,32 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-1.5,0,0")
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(7.0/3.0) );
 }
 
+TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_1.5,0,0")
+{
+    highOrderFit::cell cell;
+    IFstream i("resources/unitCube");
+    i >> cell;
+    cell.translate(vector(1.5, 0, 0));
+
+    CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(7.0/3.0) );
+}
+
 TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-2.5,0,0")
 {
     highOrderFit::cell cell;
     IFstream i("resources/unitCube");
     i >> cell;
     cell.translate(vector(-2.5, 0, 0));
+
+    CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(19.0/3.0) );
+}
+
+TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_2.5,0,0")
+{
+    highOrderFit::cell cell;
+    IFstream i("resources/unitCube");
+    i >> cell;
+    cell.translate(vector(2.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(19.0/3.0) );
 }

@@ -124,11 +124,11 @@ Foam::scalar Foam::highOrderFit::cell::moment
     else
     {
         const scalar x = average().x();
-        if (x <= -2.5 + SMALL)
+        if (fabs(x) >= 2.5 - SMALL)
         {
             return 19.0/3.0;
         }
-        else if (x <= -1.5 + SMALL)
+        else if (fabs(x) >= 1.5 - SMALL)
         {
             return 7.0/3.0;
         }
