@@ -81,20 +81,22 @@ Foam::highOrderFit::weightsField::~weightsField()
 const Foam::autoPtr<Foam::highOrderFit::weightsDiagnostic>
 Foam::highOrderFit::weightsField::diagnose(const Foam::label facei) const
 {
-    const uniformMultipliers multipliers(stencils_[facei].size());
+    const uniformMultipliers uniformMultipliers(stencils_[facei].size());
+//    const inverseDistanceMultipliers multipliers(stencils_[facei].size());
 
     const autoPtr<scalarRectangularMatrix> B = weights_.createMatrix
     (
         stencils_[facei],
-        multipliers
+        uniformMultipliers
     );
 
     return autoPtr<weightsDiagnostic>
     (
         new weightsDiagnostic
         (
-            multipliers,
-            B
+            uniformMultipliers,
+            B,
+            stencils_[facei]
         )
     );
 }
