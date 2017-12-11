@@ -38,6 +38,7 @@ SourceFiles
 #ifndef order_H
 #define order_H
 
+#include "IOstreams.H"
 #include "label.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -47,8 +48,20 @@ namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+// Forward declaration of classes                                               
+class Istream;
+class Ostream;
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 namespace highOrderFit
 {
+ 
+// Forward declaration of friend functions and operators
+class order;
+Istream& operator>>(Istream&, order&);
+Ostream& operator<<(Ostream&, const order&);
+
 
 /*---------------------------------------------------------------------------*\
                          Class order Declaration
@@ -75,9 +88,14 @@ public:
 
     // Constructors
     
+        order(const label x, const label y, const label z);
+
+        //- Construct an instance with zero exponents.
+        //  Necessary only for initialising collections of orders.
         order();
 
-        order(const label x, const label y, const label z);
+        //- Construct by reading from an input stream.
+        order(Istream&);
 
 
     //- Destructor
@@ -86,9 +104,20 @@ public:
 
     // Member Functions
 
+
     // Member Operators
 
         inline bool operator==(const order&) const;
+
+
+    // IOstream Operators
+
+        //- Input the order as a three-component list
+        friend Istream& operator>>(Istream&, order&);
+        
+        //- Output the order as a three-component list
+        friend Ostream& operator<<(Ostream&, const order&);
+
 
 };
 

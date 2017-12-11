@@ -81,13 +81,6 @@ Foam::Ostream& Foam::highOrderFit::operator<<
     const Foam::highOrderFit::Diagnostic<Type>& d
 )
 {
-    // Check state of Ostream
-    os.check
-    (
-        "Foam::Ostream& Foam::highOrderFit::operator<<(Foam::Ostream&, "
-        "const Foam::highOrderFit::Diagnostic&)"
-    );
-
     const label facei = d.facei_;
 
     os << "highOrderFit[facei=" << facei << ", "
@@ -110,6 +103,13 @@ Foam::Ostream& Foam::highOrderFit::operator<<
     os << ",\nB=" << d.weightsDiagnostic_->B();
        
     os << "]";
+
+    // Check state of Ostream
+    os.check
+    (
+        "Foam::Ostream& Foam::highOrderFit::operator<<(Foam::Ostream&, "
+        "const Foam::highOrderFit::Diagnostic&)"
+    );
 
     return os;
 }

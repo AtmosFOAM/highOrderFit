@@ -66,6 +66,15 @@ List<List<point>>(points)
 {}
 
 
+Foam::highOrderFit::cell::cell(Istream& is)
+{
+    // Check state of Istream
+    is.check("Foam::highOrderFit::cell::cell(Foam::Istream&)");
+
+    operator>>(is, *this);
+}
+
+
 Foam::highOrderFit::cell::cell()
 {}
 

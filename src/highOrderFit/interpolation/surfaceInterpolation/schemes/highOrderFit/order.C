@@ -24,15 +24,12 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "order.H"
+#include "labelList.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::order::order()
-{}
-
 
 Foam::highOrderFit::order::order
 (
@@ -47,6 +44,19 @@ z_(z)
 {}
 
 
+Foam::highOrderFit::order::order(Istream& is)
+{
+    // Check state of Istream
+    is.check("Foam::highOrderFit::order::order(Foam::Istream&)");
+
+    operator>>(is, *this);
+}
+
+
+Foam::highOrderFit::order::order()
+{}
+
+
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::order::~order()
@@ -54,6 +64,58 @@ Foam::highOrderFit::order::~order()
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+
+// * * * * * * * * * * * * * * * IOstream Operators  * * * * * * * * * * * * //
+
+Foam::Istream& Foam::highOrderFit::operator>>
+(
+    Foam::Istream& is,
+    Foam::highOrderFit::order& o
+)
+{
+    labelList l;
+    is >> l;
+
+    if (l.size() != 3)
+    {
+        FatalErrorInFunction
+            << "order must have three components but found " << l.size()
+            << abort(FatalError);
+    }
+
+    o.x_ = l[0];
+    o.y_ = l[1];
+    o.z_ = l[2];
+
+    // Check state of Istream
+    is.check
+    (
+        "Foam::Ostream& Foam::highOrderFit::operator>>(Foam::Istream&, "
+        "Foam::highOrderFit::order&)"
+    );
+
+    return is;
+}
+
+Foam::Ostream& Foam::highOrderFit::operator<<
+(
+    Foam::Ostream& os,
+    const Foam::highOrderFit::order& o
+)
+{
+    const labelList l({o.x_, o.y_, o.z_});
+    os << l;
+
+    // Check state of Ostream
+    os.check
+    (
+        "Foam::Ostream& Foam::highOrderFit::operator<<(Foam::Ostream&, "
+        "const Foam::highOrderFit::order&)"
+    );
+
+    return os;
+}
 
 
 // ************************************************************************* //

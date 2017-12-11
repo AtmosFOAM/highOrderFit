@@ -83,7 +83,7 @@ public:
         explicit cell(const List<List<point>>& points);
 
         //- Construct by reading from an input stream.
-        cell(Istream& is);
+        cell(Istream&);
 
         //- Construct an empty instance with no vertex points.
         //  Necessary only for initialising collections of cells.

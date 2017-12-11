@@ -23,18 +23,32 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "cell.H"
-#include "IOstreams.H"
+#include "catch.hpp"
+#include "IStringStream.H"
+#include "order.H"
+#include "OStringStream.H"
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+using namespace Foam;
 
-Foam::highOrderFit::cell::cell(Istream& is)
+namespace Test
 {
-    // Check state of Istream
-    is.check("Foam::highOrderFit::cell::cell(Foam::Istream&)");
 
-    operator>>(is, *this);
+TEST_CASE("order_round_trips_through_IOstreams")
+{
+    const highOrderFit::order orderOut(2, 3, 4);
+
+    OStringStream o;
+    o << orderOut << endl;
+
+    IStringStream i(o.str());
+    const highOrderFit::order orderIn(i);
+
+    CHECK( orderIn == orderOut );
 }
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Test
 
 
 // ************************************************************************* //
