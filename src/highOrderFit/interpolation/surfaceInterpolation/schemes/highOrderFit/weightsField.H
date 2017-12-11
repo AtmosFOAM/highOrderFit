@@ -65,7 +65,7 @@ class weightsField
     // Private data
         const stencilField stencils_;
         const weights weights_;
-        const autoPtr<multipliers> multipliers_;
+        const multipliers& multipliers_;
 
     // Private Member Functions
 
@@ -85,7 +85,8 @@ public:
         (
             const fvMesh& mesh,
             const stencilField& stencils,
-            const List<order>& moments
+            const List<order>& moments,
+            const multipliers& multipliers
         );
 
 

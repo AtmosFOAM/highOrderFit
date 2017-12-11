@@ -29,6 +29,7 @@ License
 #include "mesh.H"
 #include "order.H"
 #include "stencilField.H"
+#include "uniformMultipliers.H"
 #include "weightsField.H"
 
 using namespace Foam;
@@ -47,7 +48,14 @@ TEST_CASE("weightsField_has_same_size_as_stencil_field")
         highOrderFit.mesh()
     );
     const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
-    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils, moments);
+    const highOrderFit::uniformMultipliers multipliers;
+    highOrderFit::weightsField weights
+    (
+        highOrderFit.mesh(),
+        stencils,
+        moments,
+        multipliers
+    );
 
     CHECK( weights.size() == 55 );
 }
@@ -65,7 +73,14 @@ TEST_CASE("weightsField_has_weight_for_each_cell_in_stencil")
         highOrderFit.mesh()
     );
     const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
-    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils, moments);
+    const highOrderFit::uniformMultipliers multipliers;
+    highOrderFit::weightsField weights
+    (
+        highOrderFit.mesh(),
+        stencils,
+        moments,
+        multipliers
+    );
 
     CHECK( weights[facei].size() == 12 );
 }
@@ -83,7 +98,14 @@ TEST_CASE("weightsField_calculates_correction_on_upwind")
         highOrderFit.mesh()
     );
     const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
-    highOrderFit::weightsField weights(highOrderFit.mesh(), stencils, moments);
+    const highOrderFit::uniformMultipliers multipliers;
+    highOrderFit::weightsField weights
+    (
+        highOrderFit.mesh(),
+        stencils,
+        moments,
+        multipliers
+    );
 
     const label upwind = 0;
     CHECK( weights[facei][upwind] == Test::approx(-11.0/12.0) );

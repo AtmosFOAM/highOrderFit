@@ -39,6 +39,7 @@ SourceFiles
 #include "autoPtr.H"
 #include "Diagnostic.H"
 #include "extendedUpwindCellToFaceStencil.H"
+#include "multipliers.H"
 #include "order.H"
 #include "stencilBoundaryPolicy.H"
 #include "stencilBoundaryExclusion.H"
@@ -71,6 +72,7 @@ class highOrderFitScheme
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
         const List<highOrderFit::order> moments_;
+        const autoPtr<highOrderFit::multipliers> multipliers_;
         const highOrderFit::weightsFieldPair& weights_;
 
     // Private Member Functions
@@ -102,7 +104,8 @@ class highOrderFitScheme
             (
                 mesh_,
                 stencils_,
-                moments_
+                moments_,
+                multipliers_
             );
         }
 
@@ -128,6 +131,7 @@ public:
             mesh_(mesh),
             stencils_(initialiseStencils()),
             moments_(List<highOrderFit::order>(is)),
+            multipliers_(highOrderFit::multipliers::New("uniformMultipliers")),
             weights_(initialiseWeights())
         {}
 
@@ -144,6 +148,7 @@ public:
             mesh_(mesh),
             stencils_(initialiseStencils()),
             moments_(List<highOrderFit::order>(is)),
+            multipliers_(highOrderFit::multipliers::New("uniformMultipliers")),
             weights_(initialiseWeights())
         {}
 

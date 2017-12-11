@@ -33,7 +33,8 @@ Foam::highOrderFit::weightsFieldPair::weightsFieldPair
 (
     const Foam::fvMesh& mesh,
     const Foam::extendedUpwindCellToFaceStencil& stencils,
-    const Foam::List<Foam::highOrderFit::order>& moments
+    const Foam::List<Foam::highOrderFit::order>& moments,
+    const Foam::highOrderFit::multipliers& multipliers
 )
 :
 Foam::MeshObject
@@ -54,7 +55,8 @@ owner_
         stencils.ownMap(),
         mesh
     ),
-    moments
+    moments,
+    multipliers
 ),
 neighbour_
 (
@@ -65,7 +67,8 @@ neighbour_
         stencils.neiMap(),
         mesh
     ),
-    moments
+    moments,
+    multipliers
 )
 {}
 
