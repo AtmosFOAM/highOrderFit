@@ -127,8 +127,7 @@ public:
             ),
             mesh_(mesh),
             stencils_(initialiseStencils()),
-            moments_({highOrderFit::order(0, 0, 0)}),
-            //moments_({highOrderFit::order(0, 0, 0), highOrderFit::order(1, 0, 0), highOrderFit::order(2, 0, 0)}),
+            moments_(List<highOrderFit::order>(is)),
             weights_(initialiseWeights())
         {}
 
@@ -144,8 +143,7 @@ public:
             upwind<Type>(mesh, faceFlux),
             mesh_(mesh),
             stencils_(initialiseStencils()),
-            moments_({highOrderFit::order(0, 0, 0)}),
-            //moments_({highOrderFit::order(0, 0, 0), highOrderFit::order(1, 0, 0), highOrderFit::order(2, 0, 0)}),
+            moments_(List<highOrderFit::order>(is)),
             weights_(initialiseWeights())
         {}
 

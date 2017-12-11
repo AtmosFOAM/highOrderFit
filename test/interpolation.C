@@ -61,12 +61,12 @@ Test::interpolation::initialiseScheme
     const word& schemeName
 )
 {
-    IStringStream schemeNameStream(schemeName);
+    IStringStream schemeSpecification(schemeName + " ((0 0 0))");
     return surfaceInterpolationScheme<scalar>::New
         (
             c_.mesh(),
             faceFlux_,
-            schemeNameStream
+            schemeSpecification
         );
 }
 
