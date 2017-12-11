@@ -121,7 +121,7 @@ Foam::scalar Foam::highOrderFit::cell::moment
     {
         return average().x();
     }
-    else
+    else if (o == order(2, 0, 0))
     {
         const scalar x = average().x();
         if (fabs(x) >= 2.5 - SMALL)
@@ -135,6 +135,34 @@ Foam::scalar Foam::highOrderFit::cell::moment
         else
         {
             return 1.0/3.0;
+        }
+    }
+    else
+    {
+        const scalar x = average().x();
+        if (x <= -2.5 + SMALL)
+        {
+            return -65.0/4.0;
+        }
+        else if (x <= -1.5 + SMALL)
+        {
+            return -15.0/4.0;
+        }
+        else if (x <= -0.5 + SMALL)
+        {
+            return -1.0/4.0;
+        }
+        else if (x <= 0.5 + SMALL)
+        {
+            return 1.0/4.0;
+        }
+        else if (x <= 1.5 + SMALL)
+        {
+            return 15.0/4.0;
+        }
+        else
+        {
+            return 65.0/4.0;
         }
     }
 }
