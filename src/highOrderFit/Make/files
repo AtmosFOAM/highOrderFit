@@ -11,6 +11,7 @@ $(highOrderFit)/weightsFieldPair.C
 
 multipliers = $(highOrderFit)/multipliers
 $(multipliers)/inverseDistanceMultipliers.C
+$(multipliers)/multipliers.C
 $(multipliers)/uniformMultipliers.C
 
 diagnostic = $(highOrderFit)/diagnostic

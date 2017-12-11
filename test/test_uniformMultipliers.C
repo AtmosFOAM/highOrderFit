@@ -25,9 +25,9 @@ License
 
 #include "catch.hpp"
 #include "checks.H"
+#include "multipliers.H"
 #include "scalarList.H"
 #include "stencil.H"
-#include "uniformMultipliers.H"
 
 using namespace Foam;
 
@@ -36,11 +36,12 @@ namespace Test
 
 TEST_CASE("uniformMultipliers_has_all_ones")
 {
-    const highOrderFit::uniformMultipliers multipliers;
+    const autoPtr<highOrderFit::multipliers> multipliers
+        = highOrderFit::multipliers::New("uniformMultipliers");
     const highOrderFit::stencil stencil;
     scalarList m;
 
-    multipliers.calculate(stencil, m);
+    multipliers->calculate(stencil, m);
 
     checkEqual(m, 1.0);
 }

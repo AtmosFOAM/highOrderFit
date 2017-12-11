@@ -22,19 +22,20 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::uniformMultipliers
+    Foam::highOrderFit::multipliers
 
 Description
 
 SourceFiles
-    uniformMultipliers.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef uniformMultipliers_H
-#define uniformMultipliers_H
+#ifndef multipliers_H
+#define multipliers_H
 
-#include "multipliers.H"
+#include "runTimeSelectionTables.H"
+#include "scalarList.H"
+#include "stencil.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -47,12 +48,10 @@ namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class uniformMultipliers Declaration
+                         Class multipliers Declaration
 \*---------------------------------------------------------------------------*/
 
-class uniformMultipliers
-:
-    public multipliers
+class multipliers
 {
     // Private data
 
@@ -60,29 +59,46 @@ class uniformMultipliers
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        uniformMultipliers(const uniformMultipliers&);
+        //multipliers(const multipliers&);
 
         //- Disallow default bitwise assignment
-        void operator=(const uniformMultipliers&);
+        //void operator=(const multipliers&);
 
 
 public:
 
-    //- Runtime type information
-    TypeName("uniformMultipliers");
+    // Declare run-time constructor selection table
+
+        declareRunTimeSelectionTable
+        (
+            autoPtr,
+            multipliers,
+            word,
+            (),
+            ()
+        );
 
     // Constructors
 
-        uniformMultipliers();
+       //multipliers();
+
+
+    // Selectors
+
+        //- Select null constructed
+        static autoPtr<multipliers> New(const word& type);
 
 
     //- Destructor
-    ~uniformMultipliers();
+    virtual ~multipliers() {};
 
 
     // Member Functions
 
-        void calculate(const stencil& stencil, scalarList& m) const;
+        virtual void calculate
+        (
+            const stencil& stencil, scalarList& m
+        ) const = 0;
 
 };
 

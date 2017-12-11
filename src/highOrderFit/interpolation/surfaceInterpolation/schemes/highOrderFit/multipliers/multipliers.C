@@ -23,47 +23,48 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "uniformMultipliers.H"
-#include "addToRunTimeSelectionTable.H"
+#include "multipliers.H"
+
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
 {
 namespace highOrderFit
 {
-
-defineTypeNameAndDebug(uniformMultipliers, 0);
-addToRunTimeSelectionTable
-(
-    multipliers,
-    uniformMultipliers,
-    word
-);
-
+    defineRunTimeSelectionTable(multipliers, word);
 }
 }
+
+
+// * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
+
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::uniformMultipliers::uniformMultipliers()
-{}
 
+// * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::uniformMultipliers::~uniformMultipliers()
-{}
-
-
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-void Foam::highOrderFit::uniformMultipliers::calculate
+Foam::autoPtr<Foam::highOrderFit::multipliers>
+Foam::highOrderFit::multipliers::New
 (
-    const Foam::highOrderFit::stencil& stencil,
-    Foam::scalarList& m
-) const
+    const Foam::word& type
+)
 {
-    m.setSize(stencil.size());
-    m = 1.0;
+    wordConstructorTable::iterator cstrIter =
+        wordConstructorTablePtr_->find(type);
+
+    if (cstrIter == wordConstructorTablePtr_->end())
+    {
+        FatalErrorInFunction
+            << "Unknown multiplier type "
+            << type << nl << nl
+            << "Valid multiplier types : " << endl
+            << wordConstructorTablePtr_->sortedToc()
+            << exit(FatalError);
+    }
+
+    return autoPtr<multipliers>(cstrIter()());
 }
+
 
 // ************************************************************************* //
