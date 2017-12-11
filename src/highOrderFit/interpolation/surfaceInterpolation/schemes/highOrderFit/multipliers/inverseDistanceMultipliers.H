@@ -34,7 +34,7 @@ SourceFiles
 #ifndef inverseDistanceMultipliers_H
 #define inverseDistanceMultipliers_H
 
-#include "scalarList.H"
+#include "multipliers.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -52,10 +52,8 @@ namespace highOrderFit
 
 class inverseDistanceMultipliers
 :
-    public scalarList
+    public multipliers
 {
-    // Private data
-
 
     // Private Member Functions
 
@@ -68,11 +66,12 @@ class inverseDistanceMultipliers
 
 public:
 
+    //- Runtime type information
+    TypeName("inverseDistanceMultipliers");
 
     // Constructors
 
-        //- Construct from components
-        inverseDistanceMultipliers(const label size);
+        inverseDistanceMultipliers();
 
 
     //- Destructor
@@ -81,6 +80,7 @@ public:
 
     // Member Functions
 
+        void calculate(const stencil& stencil, scalarList& m) const;
 
 };
 

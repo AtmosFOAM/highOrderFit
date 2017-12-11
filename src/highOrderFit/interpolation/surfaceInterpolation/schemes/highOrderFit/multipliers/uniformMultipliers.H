@@ -54,8 +54,6 @@ class uniformMultipliers
 :
     public multipliers
 {
-    // Private data
-
 
     // Private Member Functions
 

@@ -114,6 +114,8 @@ void Foam::highOrderFit::cell::rotate
 {
     const quaternion q(rotationTensor(from, to));
 
+    C_ = q.transform(C_);
+
     forAll((*this), facei)
     {
         forAll((*this)[facei], pointi)

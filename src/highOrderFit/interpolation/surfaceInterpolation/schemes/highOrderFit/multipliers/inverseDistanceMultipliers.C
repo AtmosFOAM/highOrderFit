@@ -24,19 +24,28 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "inverseDistanceMultipliers.H"
+#include "addToRunTimeSelectionTable.H"
+
+namespace Foam
+{
+namespace highOrderFit
+{
+
+defineTypeNameAndDebug(inverseDistanceMultipliers, 0);
+addToRunTimeSelectionTable
+(
+    multipliers,
+    inverseDistanceMultipliers,
+    word
+);
+
+}
+}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::inverseDistanceMultipliers::inverseDistanceMultipliers
-(
-    const label size
-)
-:
-    scalarList(size, 1.0)
-{
-    (*this)[0] = 1024.0;
-    (*this)[1] = 1024.0;
-}
+Foam::highOrderFit::inverseDistanceMultipliers::inverseDistanceMultipliers()
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
@@ -46,6 +55,18 @@ Foam::highOrderFit::inverseDistanceMultipliers::~inverseDistanceMultipliers()
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+void Foam::highOrderFit::inverseDistanceMultipliers::calculate
+(
+    const Foam::highOrderFit::stencil& stencil,
+    Foam::scalarList& m
+) const
+{
+    m.setSize(stencil.size());
+    m = 1.0;
+    m[0] = 1024.0;
+    m[1] = 1024.0;
+}
 
 
 // ************************************************************************* //

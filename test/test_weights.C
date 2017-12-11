@@ -60,10 +60,12 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
     const vector Sf;
     const List<highOrderFit::cell> cells(5);
     const highOrderFit::stencil stencil(targetFace, Sf, cells);
-    const highOrderFit::inverseDistanceMultipliers multipliers(5);
+    const highOrderFit::inverseDistanceMultipliers multipliers;
+    scalarList m(5);
+    multipliers.calculate(stencil, m);
     const highOrderFit::weights weights({highOrderFit::order(0, 0, 0)});
 
-    weights.calculate(w, stencil, multipliers);
+    weights.calculate(w, stencil, m);
 
     const label upwind = 0, downwind = 1;
     CHECK( w[upwind] == approx(0.4999992847) ); 

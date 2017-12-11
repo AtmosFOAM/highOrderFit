@@ -42,13 +42,22 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "createFields.H"
 
-    IStringStream schemeName("highOrderFit");
+    ITstream& specification = mesh.interpolationScheme("diagnoseHighOrderFit");
+    const word schemeName(specification);
+    if (schemeName != "highOrderFit")
+    {
+        FatalErrorInFunction
+            << "diagnoseHighOrderFit interpolationScheme must be highOrderFit"
+            << abort(FatalError);
+
+    }
+
     const tmp<surfaceInterpolationScheme<scalar>> scheme = 
         surfaceInterpolationScheme<scalar>::New
     (
         mesh,
         phi,
-        schemeName
+        mesh.interpolationScheme("diagnoseHighOrderFit")
     );
 
 	const highOrderFitScheme<scalar>& highOrderFit =
