@@ -60,6 +60,13 @@ namespace Test
     void checkEqual
     (
         const Foam::List<Type>& actual,
+        const Foam::List<Type>& expected
+    );
+
+    template<class Type>
+    void checkEqual
+    (
+        const Foam::List<Type>& actual,
         const Type expected
     );
 

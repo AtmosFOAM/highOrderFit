@@ -35,4 +35,13 @@ inline bool Foam::highOrderFit::order::operator==
     return x_ == rhs.x_ && y_ == rhs.y_ && z_ == rhs.z_;
 }
 
+
+inline bool Foam::highOrderFit::order::operator!=
+(
+    const Foam::highOrderFit::order& rhs
+) const
+{
+    return !((*this) == rhs);
+}
+
 // ************************************************************************* //

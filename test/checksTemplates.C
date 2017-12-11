@@ -40,6 +40,19 @@ void Test::checkEqual
 }
 
 template<class Type>
+void Test::checkEqual
+(
+    const Foam::List<Type>& actual,
+    const Foam::List<Type>& expected
+)
+{
+    forAll(actual, i)
+    {
+        CHECK( actual[i] == expected[i] );
+    }
+}
+
+template<class Type>
 Foam::label Test::countMatches
 (
     const Foam::List<Type>& list,

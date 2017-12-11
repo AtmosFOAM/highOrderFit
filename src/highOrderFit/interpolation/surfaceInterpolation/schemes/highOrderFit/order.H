@@ -109,6 +109,7 @@ public:
 
         inline bool operator==(const order&) const;
 
+        inline bool operator!=(const order&) const;
 
     // IOstream Operators
 
