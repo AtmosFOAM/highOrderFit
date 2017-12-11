@@ -21,78 +21,32 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Class
-    Foam::highOrderFit::uniformMultipliers
-
-Description
-
-SourceFiles
-    uniformMultipliers.C
-
 \*---------------------------------------------------------------------------*/
 
-#ifndef uniformMultipliers_H
-#define uniformMultipliers_H
-
+#include "catch.hpp"
+#include "checks.H"
 #include "scalarList.H"
 #include "stencil.H"
+#include "uniformMultipliers.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+using namespace Foam;
 
-namespace Foam
+namespace Test
 {
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-namespace highOrderFit
+TEST_CASE("uniformMultipliers_has_all_ones")
 {
+    const highOrderFit::uniformMultipliers multipliers;
+    const highOrderFit::stencil stencil;
+    scalarList m;
 
-/*---------------------------------------------------------------------------*\
-                         Class uniformMultipliers Declaration
-\*---------------------------------------------------------------------------*/
+    multipliers.calculate(stencil, m);
 
-class uniformMultipliers
-{
-    // Private data
-
-
-    // Private Member Functions
-
-        //- Disallow default bitwise copy construct
-        uniformMultipliers(const uniformMultipliers&);
-
-        //- Disallow default bitwise assignment
-        void operator=(const uniformMultipliers&);
-
-
-public:
-
-    // Constructors
-
-        uniformMultipliers();
-
-
-    //- Destructor
-    ~uniformMultipliers();
-
-
-    // Member Functions
-
-        void calculate(const stencil& stencil, scalarList& m) const;
-
-};
-
+    checkEqual(m, 1.0);
+}
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-} // End namespace highOrderFit
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif
+} // End namespace Test
 
 // ************************************************************************* //

@@ -45,7 +45,7 @@ TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
     const vector Sf;
     const List<highOrderFit::cell> cells(12);
     const highOrderFit::stencil stencil(targetFace, Sf, cells);
-    const highOrderFit::uniformMultipliers multipliers(12);
+    const scalarList multipliers(12, 1.0);
     const highOrderFit::weights weights({highOrderFit::order(0, 0, 0)});
 
     weights.calculate(w, stencil, multipliers);
@@ -93,7 +93,7 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     cells[2] = highOrderFit::cell(cell2, cell2[0][0]);
 
     const highOrderFit::stencil stencil(targetFace, Sf, cells);
-    const highOrderFit::uniformMultipliers multipliers(3);
+    const scalarList multipliers(3, 1.0);
     const highOrderFit::weights weights(moments);
 
     autoPtr<scalarRectangularMatrix> actual =

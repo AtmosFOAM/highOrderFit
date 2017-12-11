@@ -62,9 +62,10 @@ weights_(moments)
         w.setSize(size);
 
 //        const inverseDistanceMultipliers multipliers(size);
-        const uniformMultipliers multipliers(size);
-
-        weights_.calculate(w, stencil, multipliers);
+        const uniformMultipliers multipliers;
+        scalarList m;
+        multipliers.calculate(stencil, m); 
+        weights_.calculate(w, stencil, m);
         w[0] -= 1;
     }
 }
@@ -81,20 +82,22 @@ Foam::highOrderFit::weightsField::~weightsField()
 const Foam::autoPtr<Foam::highOrderFit::weightsDiagnostic>
 Foam::highOrderFit::weightsField::diagnose(const Foam::label facei) const
 {
-    const uniformMultipliers uniformMultipliers(stencils_[facei].size());
+    const uniformMultipliers uniformMultipliers;
+    scalarList m;
+    uniformMultipliers.calculate(stencils_[facei], m);
 //    const inverseDistanceMultipliers multipliers(stencils_[facei].size());
 
     const autoPtr<scalarRectangularMatrix> B = weights_.createMatrix
     (
         stencils_[facei],
-        uniformMultipliers
+        m
     );
 
     return autoPtr<weightsDiagnostic>
     (
         new weightsDiagnostic
         (
-            uniformMultipliers,
+            m,
             B,
             stencils_[facei]
         )

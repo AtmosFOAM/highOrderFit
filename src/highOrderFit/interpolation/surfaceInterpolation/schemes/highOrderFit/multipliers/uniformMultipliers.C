@@ -27,9 +27,7 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::uniformMultipliers::uniformMultipliers(const label size)
-:
-    scalarList(size, 1.0)
+Foam::highOrderFit::uniformMultipliers::uniformMultipliers()
 {}
 
 
@@ -41,5 +39,14 @@ Foam::highOrderFit::uniformMultipliers::~uniformMultipliers()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+void Foam::highOrderFit::uniformMultipliers::calculate
+(
+    const Foam::highOrderFit::stencil& stencil,
+    Foam::scalarList& m
+) const
+{
+    m.setSize(stencil.size());
+    m = 1.0;
+}
 
 // ************************************************************************* //
