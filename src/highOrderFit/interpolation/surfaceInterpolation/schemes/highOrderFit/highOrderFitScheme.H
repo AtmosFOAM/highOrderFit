@@ -131,7 +131,7 @@ public:
             mesh_(mesh),
             stencils_(initialiseStencils()),
             moments_(List<highOrderFit::order>(is)),
-            multipliers_(highOrderFit::multipliers::New("uniformMultipliers")),
+            multipliers_(highOrderFit::multipliers::New(word(is))),
             weights_(initialiseWeights())
         {}
 
@@ -148,7 +148,7 @@ public:
             mesh_(mesh),
             stencils_(initialiseStencils()),
             moments_(List<highOrderFit::order>(is)),
-            multipliers_(highOrderFit::multipliers::New("uniformMultipliers")),
+            multipliers_(highOrderFit::multipliers::New(word(is))),
             weights_(initialiseWeights())
         {}
 

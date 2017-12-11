@@ -61,7 +61,8 @@ Test::interpolation::initialiseScheme
     const word& schemeName
 )
 {
-    IStringStream schemeSpecification(schemeName + " ((0 0 0))");
+    IStringStream schemeSpecification(schemeName + " ((0 0 0)) " + 
+            "uniformMultipliers");
     return surfaceInterpolationScheme<scalar>::New
         (
             c_.mesh(),
