@@ -63,7 +63,7 @@ TEST_CASE("cell_has_four_cell_for_each_face_of_cuboid_cell")
     }
 }
 
-TEST_CASE("cell_has_cell_of_face")
+TEST_CASE("cell_has_face_points")
 {
     const Test::testCase c("cartesian4x3Mesh");
     const Test::mesh testMesh(c.mesh());
@@ -72,19 +72,48 @@ TEST_CASE("cell_has_cell_of_face")
     const highOrderFit::cell cell(c.mesh(), celli);
 
     const List<point>& firstFace = cell[0];
-    Test::checkEqual(firstFace[0], point(1, 0, -0.5));
-    Test::checkEqual(firstFace[1], point(1, 1, -0.5));
-    Test::checkEqual(firstFace[2], point(1, 1,  0.5));
-    Test::checkEqual(firstFace[3], point(1, 0,  0.5));
+    checkEqual(firstFace[0], point(1, 0, -0.5));
+    checkEqual(firstFace[1], point(1, 1, -0.5));
+    checkEqual(firstFace[2], point(1, 1,  0.5));
+    checkEqual(firstFace[3], point(1, 0,  0.5));
 }
 
-TEST_CASE("cell_round_trips_through_IOstreams")
+TEST_CASE("cell_has_centre_from_mesh")
+{
+    const Test::testCase c("cartesian4x3Mesh");
+    const Test::mesh testMesh(c.mesh());
+
+    const label celli = testMesh.indexOfCellWithCentreAt(point(0.5, 0.5, 0));
+    const highOrderFit::cell cell(c.mesh(), celli);
+
+    checkEqual(cell.centre(), point(0.5, 0.5, 0)); 
+}
+
+TEST_CASE("cell_has_centre_from_explicit_constructor")
+{
+    const point expectedCentre(2, 3, 4);
+    const List<List<point>> points;
+    const highOrderFit::cell cell(points, expectedCentre);
+
+    checkEqual(cell.centre(), expectedCentre);
+}
+
+TEST_CASE("cell_has_centre_from_Istream", "[!mayfail]")
+{
+    IFstream is("resources/unitCubeCentredAt2,3,4");
+    const highOrderFit::cell cell(is);
+
+    checkEqual(cell.centre(), point(2, 3, 4));
+}
+
+TEST_CASE("cell_round_trips_through_IOstreams", "[!mayfail]")
 {
     List<List<point>> points(1);
     points[0].setSize(1);
     points[0][0] = point(2, 3, 4);
+    const point expectedCentre(2, 3, 4);
 
-    const highOrderFit::cell cellOut(points);
+    const highOrderFit::cell cellOut(points, expectedCentre);
 
     OStringStream o;
     o << cellOut << endl;
@@ -95,6 +124,7 @@ TEST_CASE("cell_round_trips_through_IOstreams")
     REQUIRE( cellIn.size() == 1 );
     REQUIRE( cellIn[0].size() == 1 );
     checkEqual(cellIn[0][0], point(2, 3, 4));
+    checkEqual(cellIn.centre(), expectedCentre);
 }
 
 TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube")

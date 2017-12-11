@@ -38,10 +38,11 @@ SourceFiles
 #define highOrderFit_cell_H
 
 #include "order.H"
-#include "primitiveMesh.H"
+#include "fvMesh.H"
 #include "IOstreams.H"
 #include "List.H"
 #include "point.H"
+#include "volFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -61,6 +62,9 @@ class cell
 :
     public List<List<point>>
 {
+    // Private data
+
+        point C_;
 
     // Private Member Functions
 
@@ -77,10 +81,10 @@ public:
         //- Construct an instance for a given cell.
         //  @param mesh a mesh instance
         //  @param celli an index into <tt>mesh.cells()</tt>
-        cell(const primitiveMesh& mesh, const label celli);
+        cell(const fvMesh& mesh, const label celli);
 
         //- Construct directly from point data.
-        explicit cell(const List<List<point>>& points);
+        explicit cell(const List<List<point>>& points, const point centre);
 
         //- Construct by reading from an input stream.
         cell(Istream&);
@@ -105,6 +109,8 @@ public:
         void rotate(const vector from, const vector to);
 
         scalar moment(const order& o) const;
+
+        point centre() const;
 
         point average() const;
 };

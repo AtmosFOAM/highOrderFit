@@ -36,11 +36,12 @@ License
 
 Foam::highOrderFit::cell::cell
 (
-    const Foam::primitiveMesh& mesh,
+    const Foam::fvMesh& mesh,
     const Foam::label celli
 )
 :
-List<List<point>>(mesh.cells()[celli].size())
+List<List<point>>(mesh.cells()[celli].size()),
+C_(mesh.C()[celli])
 {
     const labelList& faces = mesh.cells()[celli];
     forAll(faces, i)
@@ -59,10 +60,12 @@ List<List<point>>(mesh.cells()[celli].size())
 
 Foam::highOrderFit::cell::cell
 (
-    const Foam::List<Foam::List<Foam::point>>& points
+    const Foam::List<Foam::List<Foam::point>>& points,
+    const Foam::point centre
 )
 :
-List<List<point>>(points)
+List<List<point>>(points),
+C_(centre)
 {}
 
 
@@ -174,6 +177,12 @@ Foam::scalar Foam::highOrderFit::cell::moment
             return 65.0/4.0;
         }
     }
+}
+
+
+Foam::point Foam::highOrderFit::cell::centre() const
+{
+    return C_;
 }
 
 

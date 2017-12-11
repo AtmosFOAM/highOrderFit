@@ -44,7 +44,7 @@ TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
 
     List<highOrderFit::cell> cells(1);
     List<List<point>> points(1, List<point>({point(0, 0, 0)}));
-    cells[0] = highOrderFit::cell(points);
+    cells[0] = highOrderFit::cell(points, points[0][0]);
 
     const highOrderFit::stencil stencil(targetCf, Sf, cells);
 
@@ -58,8 +58,8 @@ TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
     List<highOrderFit::cell> cells(2);
     List<List<point>> upwindPoints(1, List<point>({point(0, -1, 0)}));
     List<List<point>> downwindPoints(1, List<point>({point(0, 2, 0)}));
-    cells[0] = highOrderFit::cell(upwindPoints);
-    cells[1] = highOrderFit::cell(downwindPoints);
+    cells[0] = highOrderFit::cell(upwindPoints, upwindPoints[0][0]);
+    cells[1] = highOrderFit::cell(downwindPoints, downwindPoints[0][0]);
 
     const highOrderFit::stencil stencil(targetCf, Sf, cells);
 

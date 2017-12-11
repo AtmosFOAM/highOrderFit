@@ -88,9 +88,9 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     cell2[0] = List<point>({point(0.5, 0, 0)});
 
     List<highOrderFit::cell> cells(3);
-    cells[0] = highOrderFit::cell(cell0);
-    cells[1] = highOrderFit::cell(cell1);
-    cells[2] = highOrderFit::cell(cell2);
+    cells[0] = highOrderFit::cell(cell0, cell0[0][0]);
+    cells[1] = highOrderFit::cell(cell1, cell1[0][0]);
+    cells[2] = highOrderFit::cell(cell2, cell2[0][0]);
 
     const highOrderFit::stencil stencil(targetFace, Sf, cells);
     const highOrderFit::uniformMultipliers multipliers(3);
