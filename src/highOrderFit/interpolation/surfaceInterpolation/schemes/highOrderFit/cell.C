@@ -70,6 +70,8 @@ C_(centre)
 
 
 Foam::highOrderFit::cell::cell(Istream& is)
+:
+C_(0, 0, 0)
 {
     // Check state of Istream
     is.check("Foam::highOrderFit::cell::cell(Foam::Istream&)");
@@ -92,6 +94,8 @@ Foam::highOrderFit::cell::~cell()
 
 void Foam::highOrderFit::cell::translate(const Foam::vector x)
 {
+    C_ += x;
+
     forAll((*this), facei)
     {
         forAll((*this)[facei], pointi)
@@ -131,11 +135,11 @@ Foam::scalar Foam::highOrderFit::cell::moment
     }
     else if (o == order(1, 0, 0))
     {
-        return average().x();
+        return C_.x();
     }
     else if (o == order(2, 0, 0))
     {
-        const scalar x = average().x();
+        const scalar x = C_.x();
         if (fabs(x) >= 2.5 - SMALL)
         {
             return 19.0/3.0;
@@ -151,7 +155,7 @@ Foam::scalar Foam::highOrderFit::cell::moment
     }
     else
     {
-        const scalar x = average().x();
+        const scalar x = C_.x();
         if (x <= -2.5 + SMALL)
         {
             return -65.0/4.0;
@@ -185,23 +189,5 @@ Foam::point Foam::highOrderFit::cell::centre() const
     return C_;
 }
 
-
-Foam::point Foam::highOrderFit::cell::average() const
-{
-    point average = point(0, 0, 0);
-    label points = 0;
-
-    forAll((*this), facei)
-    {
-        forAll((*this)[facei], pointi)
-        {
-            average += (*this)[facei][pointi];
-            points++;
-        }
-    }
-    average /= points;
-
-    return average;
-}
 
 // ************************************************************************* //

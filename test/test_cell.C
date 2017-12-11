@@ -98,22 +98,14 @@ TEST_CASE("cell_has_centre_from_explicit_constructor")
     checkEqual(cell.centre(), expectedCentre);
 }
 
-TEST_CASE("cell_has_centre_from_Istream", "[!mayfail]")
-{
-    IFstream is("resources/unitCubeCentredAt2,3,4");
-    const highOrderFit::cell cell(is);
-
-    checkEqual(cell.centre(), point(2, 3, 4));
-}
-
-TEST_CASE("cell_round_trips_through_IOstreams", "[!mayfail]")
+TEST_CASE("cell_round_trips_through_IOstreams")
 {
     List<List<point>> points(1);
     points[0].setSize(1);
     points[0][0] = point(2, 3, 4);
-    const point expectedCentre(2, 3, 4);
+    const point centreNotSerialised;
 
-    const highOrderFit::cell cellOut(points, expectedCentre);
+    const highOrderFit::cell cellOut(points, centreNotSerialised);
 
     OStringStream o;
     o << cellOut << endl;
@@ -124,7 +116,6 @@ TEST_CASE("cell_round_trips_through_IOstreams", "[!mayfail]")
     REQUIRE( cellIn.size() == 1 );
     REQUIRE( cellIn[0].size() == 1 );
     checkEqual(cellIn[0][0], point(2, 3, 4));
-    checkEqual(cellIn.centre(), expectedCentre);
 }
 
 TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube")

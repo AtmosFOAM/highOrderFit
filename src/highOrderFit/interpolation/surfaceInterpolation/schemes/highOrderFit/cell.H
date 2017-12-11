@@ -111,8 +111,6 @@ public:
         scalar moment(const order& o) const;
 
         point centre() const;
-
-        point average() const;
 };
 
 

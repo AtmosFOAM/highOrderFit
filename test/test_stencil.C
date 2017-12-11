@@ -49,6 +49,7 @@ TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
     const highOrderFit::stencil stencil(targetCf, Sf, cells);
 
     checkEqual(stencil[0][0][0], point(-2, -1, 0));
+    checkEqual(stencil[0].centre(), point(-2, -1, 0));
 }
 
 TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
