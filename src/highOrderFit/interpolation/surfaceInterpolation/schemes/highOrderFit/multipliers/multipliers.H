@@ -53,21 +53,19 @@ namespace highOrderFit
 
 class multipliers
 {
-    // Private data
-
 
     // Private Member Functions
 
-        //- Disallow default bitwise copy construct
+        // Disallow default bitwise copy construct
         //multipliers(const multipliers&);
 
-        //- Disallow default bitwise assignment
+        // Disallow default bitwise assignment
         //void operator=(const multipliers&);
 
 
 public:
 
-    // Declare run-time constructor selection table
+    //- Declare run-time constructor selection table
 
         declareRunTimeSelectionTable
         (
@@ -78,14 +76,10 @@ public:
             ()
         );
 
-    // Constructors
-
-       //multipliers();
-
 
     // Selectors
 
-        //- Select null constructed
+        //- Select multipliers instance by type name.
         static autoPtr<multipliers> New(const word& type);
 
 
@@ -95,6 +89,9 @@ public:
 
     // Member Functions
 
+        //- Calculate the list of multipliers using the stencil geometry.
+        //  @param[in] stencil
+        //  @param[out] m
         virtual void calculate
         (
             const stencil& stencil, scalarList& m

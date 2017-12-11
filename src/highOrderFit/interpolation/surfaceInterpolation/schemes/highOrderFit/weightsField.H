@@ -37,6 +37,7 @@ SourceFiles
 
 #include "autoPtr.H"
 #include "MeshObject.H"
+#include "multipliers.H"
 #include "order.H"
 #include "stencilField.H"
 #include "scalarList.H"
@@ -64,6 +65,7 @@ class weightsField
     // Private data
         const stencilField stencils_;
         const weights weights_;
+        const autoPtr<multipliers> multipliers_;
 
     // Private Member Functions
 

@@ -44,7 +44,8 @@ Foam::highOrderFit::weightsField::weightsField
 :
 scalarListList(stencils.size()),
 stencils_(stencils),
-weights_(moments)
+weights_(moments),
+multipliers_(Foam::highOrderFit::multipliers::New("uniformMultipliers"))
 {
     for (label facei = 0; facei < mesh.nInternalFaces(); facei++)
     {
@@ -62,9 +63,8 @@ weights_(moments)
         w.setSize(size);
 
 //        const inverseDistanceMultipliers multipliers(size);
-        const uniformMultipliers multipliers;
         scalarList m;
-        multipliers.calculate(stencil, m); 
+        multipliers_->calculate(stencil, m); 
         weights_.calculate(w, stencil, m);
         w[0] -= 1;
     }
@@ -85,13 +85,14 @@ Foam::highOrderFit::weightsField::diagnose(const Foam::label facei) const
     const uniformMultipliers uniformMultipliers;
     scalarList m;
     uniformMultipliers.calculate(stencils_[facei], m);
-//    const inverseDistanceMultipliers multipliers(stencils_[facei].size());
 
     const autoPtr<scalarRectangularMatrix> B = weights_.createMatrix
     (
         stencils_[facei],
         m
     );
+
+    multipliers_->calculate(stencils_[facei], m);
 
     return autoPtr<weightsDiagnostic>
     (
