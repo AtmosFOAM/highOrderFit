@@ -25,6 +25,10 @@ Class
     Foam::highOrderFit::weightsFieldPair
 
 Description
+    Contains \ref weightsField "weightsFields" for owner and neighbour sides.
+
+    A single weightsFieldsPair instance can be associated with an fvMesh
+    using the MeshObject run-time selector.
 
 SourceFiles
     weightsFieldPair.C
@@ -101,6 +105,7 @@ public:
             return neighbour_;
         }
 
+        //- Return the appropriately-sided weightsField depending on \t isOwner.
         const weightsField& side(const bool isOwner) const
         {
             return isOwner ? owner_ : neighbour_;

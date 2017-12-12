@@ -25,11 +25,10 @@ Class
     Foam::highOrderFit::cell
 
 Description
-    A cell belonging to a stencil with vertex points stored per face.
+    A cell belonging to a stencil, comprising a collection of faces.
 
 SourceFiles
     cell.C
-    cellI.H
 
 \*---------------------------------------------------------------------------*/
 
@@ -83,13 +82,14 @@ public:
         //  @param celli an index into <tt>mesh.cells()</tt>
         cell(const fvMesh& mesh, const label celli);
 
-        //- Construct directly from face point data.
+        //- Construct directly from a collection of faces and specified centre.
         cell(const List<face>& faces, const point centre);
 
         //- Construct by reading from an input stream.
+        //  The cell centre is assumed to be <tt>(0, 0, 0)</tt>.
         cell(Istream&);
 
-        //- Construct an empty instance with no vertex points.
+        //- Construct an empty instance with no faces.
         //  Necessary only for initialising collections of cells.
         cell();
 
@@ -108,8 +108,13 @@ public:
         //  cells cannot be rotated 180&deg; or more.
         void rotate(const vector from, const vector to);
 
+        //- The volume moment of the given order.
+        //  Volume moments are calculated using the method of
+        //  <a href="https://doi.org/10.1016/S0031-3203(03)00127-4">
+        //  Tuzikov et al. 2003</a>.
         scalar moment(const order& o) const;
 
+        //- The cell centre as specified during construction.
         point centre() const;
 };
 

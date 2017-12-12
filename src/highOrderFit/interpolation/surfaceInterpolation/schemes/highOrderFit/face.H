@@ -25,6 +25,7 @@ Class
     Foam::highOrderFit::face
 
 Description
+    A right-hand oriented list of face vertex points.
 
 SourceFiles
     face.C
@@ -69,8 +70,11 @@ public:
 
     // Constructors
 
+        //- Construct an empty instance with no vertex points.
+        //  Necessary only for initialising collections of faces.
         face();
 
+        //- Construct from the given initialiser list.
         face(std::initializer_list<point> lst);
 
     //- Destructor

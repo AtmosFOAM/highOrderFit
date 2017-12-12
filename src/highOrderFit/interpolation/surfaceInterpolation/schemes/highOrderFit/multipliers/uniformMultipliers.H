@@ -25,6 +25,7 @@ Class
     Foam::highOrderFit::uniformMultipliers
 
 Description
+    Gives equal weight to every stencil cell in the least squares fit.
 
 SourceFiles
     uniformMultipliers.C

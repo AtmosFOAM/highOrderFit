@@ -25,6 +25,9 @@ Class
     Foam::highOrderFit::multipliers
 
 Description
+    A list of scalars used to weight each cell in the least squares fit.
+
+    \sa Foam::highOrderFit::weights::calculate
 
 SourceFiles
 
