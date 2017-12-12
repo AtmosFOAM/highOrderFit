@@ -44,5 +44,12 @@ Foam::highOrderFit::tet::tet(std::initializer_list<point> lst)
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+Foam::scalar Foam::highOrderFit::tet::moment
+(
+    const Foam::highOrderFit::order& order
+) const
+{
+    return 0.0;
+}
 
 // ************************************************************************* //

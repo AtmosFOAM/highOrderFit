@@ -132,12 +132,17 @@ Foam::scalar Foam::highOrderFit::cell::moment
     const Foam::highOrderFit::order& o
 ) const
 {
-    List<tet> tets;
+    scalar moment;
+
     forAll((*this), facei)
     {
         List<tet> faceTets;
         (*this)[facei].decompose(faceTets);
-        tets.append(faceTets);
+
+        forAll(faceTets, teti)
+        {
+            moment += faceTets[teti].moment(o);
+        }
     }
 
     const scalar epsilon = 1e-6;

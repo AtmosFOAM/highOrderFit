@@ -35,6 +35,7 @@ SourceFiles
 #define tet_H
 
 #include "List.H"
+#include "order.H"
 #include "point.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -80,6 +81,8 @@ public:
 
 
     // Member Functions
+
+        scalar moment(const order& o) const;
 
 };
 
