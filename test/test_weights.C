@@ -82,12 +82,9 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     const point targetFace;
     const vector Sf;
 
-    List<List<point>> cell0(1);
-    cell0[0] = List<point>({point(-1.5, 0, 0)});
-    List<List<point>> cell1(1);
-    cell1[0] = List<point>({point(-0.5, 0, 0)});
-    List<List<point>> cell2(1);
-    cell2[0] = List<point>({point(0.5, 0, 0)});
+    List<highOrderFit::face> cell0(1, highOrderFit::face({point(-1.5, 0, 0)}));
+    List<highOrderFit::face> cell1(1, highOrderFit::face({point(-0.5, 0, 0)}));
+    List<highOrderFit::face> cell2(1, highOrderFit::face({point(0.5, 0, 0)}));
 
     List<highOrderFit::cell> cells(3);
     cells[0] = highOrderFit::cell(cell0, cell0[0][0]);

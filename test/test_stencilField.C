@@ -25,6 +25,7 @@ License
 
 #include "catch.hpp"
 #include "checks.H"
+#include "face.H"
 #include "interpolation.H"
 #include "labelList.H"
 #include "mesh.H"
@@ -89,7 +90,7 @@ TEST_CASE("stencilField_translate_stencil_with_targetCf_as_origin")
     const highOrderFit::stencil& stencil = stencilField[facei];
 
     REQUIRE( stencil.size() == 12 );
-    const List<List<point>>& upwindCell = stencil[0];
+    const List<highOrderFit::face>& upwindCell = stencil[0];
 
     forAll(upwindCell, i)
     {
@@ -116,7 +117,7 @@ TEST_CASE("stencilField_rotates_stencil_for_horizontal_face")
     const highOrderFit::stencil& stencil = stencilField[facei];
 
     REQUIRE( stencil.size() == 12 );
-    const List<List<point>>& upwindCell = stencil[0];
+    const List<highOrderFit::face>& upwindCell = stencil[0];
 
     forAll(upwindCell, i)
     {

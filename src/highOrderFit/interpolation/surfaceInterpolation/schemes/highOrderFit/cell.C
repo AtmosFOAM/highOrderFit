@@ -40,19 +40,19 @@ Foam::highOrderFit::cell::cell
     const Foam::label celli
 )
 :
-List<List<point>>(mesh.cells()[celli].size()),
+List<face>(mesh.cells()[celli].size()),
 C_(mesh.C()[celli])
 {
     const labelList& faces = mesh.cells()[celli];
     forAll(faces, i)
     {
-        List<point>& faceVertices = (*this)[i];
-        const face& face = mesh.faces()[faces[i]];
+        highOrderFit::face& stencilCellFace = (*this)[i];
+        const Foam::face& face = mesh.faces()[faces[i]];
 
-        faceVertices.setSize(face.size());
+        stencilCellFace.setSize(face.size());
         forAll(face, pointi)
         {
-            faceVertices[pointi] = mesh.points()[face[pointi]];
+            stencilCellFace[pointi] = mesh.points()[face[pointi]];
         }
     }
 }
@@ -60,11 +60,11 @@ C_(mesh.C()[celli])
 
 Foam::highOrderFit::cell::cell
 (
-    const Foam::List<Foam::List<Foam::point>>& points,
+    const Foam::List<Foam::highOrderFit::face>& faces,
     const Foam::point centre
 )
 :
-List<List<point>>(points),
+Foam::List<Foam::highOrderFit::face>(faces),
 C_(centre)
 {}
 

@@ -26,6 +26,7 @@ License
 #include "catch.hpp"
 #include "checks.H"
 #include "cell.H"
+#include "face.H"
 #include "IFstream.H"
 #include "IStringStream.H"
 #include "labelList.H"
@@ -92,20 +93,20 @@ TEST_CASE("cell_has_centre_from_mesh")
 TEST_CASE("cell_has_centre_from_explicit_constructor")
 {
     const point expectedCentre(2, 3, 4);
-    const List<List<point>> points;
-    const highOrderFit::cell cell(points, expectedCentre);
+    const List<highOrderFit::face> faces;
+    const highOrderFit::cell cell(faces, expectedCentre);
 
     checkEqual(cell.centre(), expectedCentre);
 }
 
 TEST_CASE("cell_round_trips_through_IOstreams")
 {
-    List<List<point>> points(1);
-    points[0].setSize(1);
-    points[0][0] = point(2, 3, 4);
+    List<highOrderFit::face> faces(1);
+    faces[0].setSize(1);
+    faces[0][0] = point(2, 3, 4);
     const point centreNotSerialised;
 
-    const highOrderFit::cell cellOut(points, centreNotSerialised);
+    const highOrderFit::cell cellOut(faces, centreNotSerialised);
 
     OStringStream o;
     o << cellOut << endl;

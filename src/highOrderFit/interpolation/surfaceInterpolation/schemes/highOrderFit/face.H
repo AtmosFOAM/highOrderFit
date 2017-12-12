@@ -22,27 +22,20 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::cell
+    Foam::highOrderFit::face
 
 Description
-    A cell belonging to a stencil with vertex points stored per face.
 
 SourceFiles
-    cell.C
-    cellI.H
+    face.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef highOrderFit_cell_H
-#define highOrderFit_cell_H
+#ifndef highOrderFit_face_H
+#define highOrderFit_face_H
 
-#include "face.H"
-#include "fvMesh.H"
-#include "order.H"
-#include "IOstreams.H"
 #include "List.H"
 #include "point.H"
-#include "volFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -55,62 +48,38 @@ namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class cell Declaration
+                         Class face Declaration
 \*---------------------------------------------------------------------------*/
 
-class cell
+class face
 :
-    public List<face>
+    public List<point>
 {
-    // Private data
-
-        point C_;
 
     // Private Member Functions
 
         // Disallow default bitwise copy construct
-        //cell(const cell&);
+        //face(const face&);
 
         // Disallow default bitwise assignment
-        //void operator=(const cell&);
+        //void operator=(const face&);
+
 
 public:
 
     // Constructors
 
-        //- Construct an instance for a given cell.
-        //  @param mesh a mesh instance
-        //  @param celli an index into <tt>mesh.cells()</tt>
-        cell(const fvMesh& mesh, const label celli);
+        face();
 
-        //- Construct directly from face point data.
-        cell(const List<face>& faces, const point centre);
-
-        //- Construct by reading from an input stream.
-        cell(Istream&);
-
-        //- Construct an empty instance with no vertex points.
-        //  Necessary only for initialising collections of cells.
-        cell();
-
+        face(std::initializer_list<point> lst);
 
     //- Destructor
-    ~cell();
+    ~face();
 
 
     // Member Functions
 
-        //- Translate the cell by vector \c x.
-        void translate(const vector x);
 
-        //- Rotate the cell to align \c from with \c to.
-        //  The transformation is constrained by the quaternion rotation, so
-        //  cells cannot be rotated 180&deg; or more.
-        void rotate(const vector from, const vector to);
-
-        scalar moment(const order& o) const;
-
-        point centre() const;
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
