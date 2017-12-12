@@ -9,6 +9,7 @@ test_stencil.C
 test_stencilBoundaryExclusion.C
 test_stencilBoundaryInclusion.C
 test_stencilField.C
+test_tet.C
 test_uniformMultipliers.C
 test_weightsField.C
 test_weights.C

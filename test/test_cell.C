@@ -119,7 +119,7 @@ TEST_CASE("cell_round_trips_through_IOstreams")
     checkEqual(cellIn[0][0], point(2, 3, 4));
 }
 
-TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube")
+TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube_at_origin")
 {
     IFstream is("resources/unitCube");
     const highOrderFit::cell cell(is);

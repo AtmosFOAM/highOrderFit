@@ -132,7 +132,7 @@ Foam::scalar Foam::highOrderFit::cell::moment
     const Foam::highOrderFit::order& o
 ) const
 {
-    scalar moment;
+    scalar moment = 0.0;
 
     forAll((*this), facei)
     {

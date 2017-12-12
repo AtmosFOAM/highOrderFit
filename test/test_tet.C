@@ -23,40 +23,25 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+#include "catch.hpp"
+#include "checks.H"
 #include "tet.H"
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+using namespace Foam;
 
-Foam::highOrderFit::tet::tet()
-{}
-
-
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::tet::~tet()
-{}
-
-
-Foam::highOrderFit::tet::tet(std::initializer_list<point> lst)
-:
-    List<point>(lst)
+namespace Test
 {
-    if (size() != 3)
-    {
-        FatalErrorInFunction
-            << "tet must have three points but got " << size()
-            << abort(FatalError);
-    }
+
+TEST_CASE("tet_calculates_zeroth_volume_moment")
+{
+    const point a(0, 0, 1), b(0, 1, 0), c(1, 0, 0);
+    const highOrderFit::tet t({a, b, c});
+
+    CHECK( t.moment(highOrderFit::order(0, 0, 0)) == 1.0/6.0 );
 }
 
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-Foam::scalar Foam::highOrderFit::tet::moment
-(
-    const Foam::highOrderFit::order& order
-) const
-{
-    return 1.0/6.0;
-}
+} // End namespace Test
 
 // ************************************************************************* //
