@@ -23,46 +23,26 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "face.H"
+#include "tet.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::face::face()
-{}
-
-
-Foam::highOrderFit::face::face(std::initializer_list<point> lst)
-:
-    List<point>(lst)
+Foam::highOrderFit::tet::tet()
 {}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::face::~face()
+Foam::highOrderFit::tet::~tet()
 {}
 
 
+Foam::highOrderFit::tet::tet(std::initializer_list<point> lst)
+:
+    List<point>(lst)
+{}
+
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-void Foam::highOrderFit::face::decompose
-(
-    Foam::List<Foam::highOrderFit::tet>& tets
-) const
-{
-    point centre(0, 0, 0);
-
-    forAll((*this), i)
-    {
-        centre += (*this)[i];
-    }
-    centre /= size();
-
-    tets.setSize(size());
-    forAll((*this), i)
-    {
-        tets[i] = tet({centre});
-    }
-}
 
 // ************************************************************************* //

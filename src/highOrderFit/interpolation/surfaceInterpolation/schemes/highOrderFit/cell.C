@@ -27,6 +27,7 @@ License
 #include "face.H"
 #include "labelList.H"
 #include "quaternion.H"
+#include "tet.H"
 #include "transform.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
@@ -131,6 +132,14 @@ Foam::scalar Foam::highOrderFit::cell::moment
     const Foam::highOrderFit::order& o
 ) const
 {
+    List<tet> tets;
+    forAll((*this), facei)
+    {
+        List<tet> faceTets;
+        (*this)[facei].decompose(faceTets);
+        tets.append(faceTets);
+    }
+
     const scalar epsilon = 1e-6;
 
     if (o == order(0, 0, 0))

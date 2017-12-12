@@ -37,6 +37,7 @@ SourceFiles
 
 #include "List.H"
 #include "point.H"
+#include "tet.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -83,6 +84,12 @@ public:
 
     // Member Functions
 
+        //- Decompose into a collection of tetrahedra.
+        //  Each tetrahedron has a point at the origin and the opposite face
+        //  having the same orientation as the original polygonal face.
+        //  @param [out] tets on entry, an empty list; on exit, the tets will
+        //               be initialised
+        void decompose(List<tet>& tets) const;
 
 };
 

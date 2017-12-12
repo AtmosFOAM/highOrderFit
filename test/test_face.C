@@ -23,46 +23,40 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+#include "catch.hpp"
+#include "checks.H"
 #include "face.H"
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+using namespace Foam;
 
-Foam::highOrderFit::face::face()
-{}
-
-
-Foam::highOrderFit::face::face(std::initializer_list<point> lst)
-:
-    List<point>(lst)
-{}
-
-
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::face::~face()
-{}
-
-
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-void Foam::highOrderFit::face::decompose
-(
-    Foam::List<Foam::highOrderFit::tet>& tets
-) const
+namespace Test
 {
-    point centre(0, 0, 0);
 
-    forAll((*this), i)
-    {
-        centre += (*this)[i];
-    }
-    centre /= size();
+TEST_CASE("face_triangle_face_decomposes_into_three_tets_with_common_centre")
+{
+    const highOrderFit::face face
+    (
+        {
+            point(0, 0, 0),
+            point(1, 0, 0),
+            point(0, 1, 0)
+        }
+    );
 
-    tets.setSize(size());
-    forAll((*this), i)
+    List<highOrderFit::tet> tets;
+    face.decompose(tets);
+
+    const point expectedCentre(1.0/3.0, 1.0/3.0, 0);
+
+    CHECK( tets.size() == 3 );
+    forAll(tets, teti)
     {
-        tets[i] = tet({centre});
+        CHECK( countMatches(tets[teti], expectedCentre) == 1 );
     }
 }
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Test
 
 // ************************************************************************* //

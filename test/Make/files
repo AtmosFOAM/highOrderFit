@@ -2,6 +2,7 @@ checks.C
 interpolation.C
 mesh.C
 test_cell.C
+test_face.C
 test_highOrderFitScheme.C
 test_order.C
 test_stencil.C

@@ -22,23 +22,20 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::multipliers
+    Foam::highOrderFit::tet
 
 Description
-    A list of scalars used to weight each cell in the least squares fit.
-
-    \sa Foam::highOrderFit::weights::calculate
 
 SourceFiles
+    tet.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef multipliers_H
-#define multipliers_H
+#ifndef tet_H
+#define tet_H
 
-#include "runTimeSelectionTables.H"
-#include "scalarList.H"
-#include "stencil.H"
+#include "List.H"
+#include "point.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -51,54 +48,38 @@ namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class multipliers Declaration
+                         Class tet Declaration
 \*---------------------------------------------------------------------------*/
 
-class multipliers
+class tet
+    : public List<point>
 {
+    // Private data
+
 
     // Private Member Functions
 
-        // Disallow default bitwise copy construct
-        //multipliers(const multipliers&);
+        //- Disallow default bitwise copy construct
+        tet(const tet&);
 
         // Disallow default bitwise assignment
-        //void operator=(const multipliers&);
+        //void operator=(const tet&);
 
 
 public:
 
-    //- Declare run-time constructor selection table
+    // Constructors
 
-        declareRunTimeSelectionTable
-        (
-            autoPtr,
-            multipliers,
-            word,
-            (),
-            ()
-        );
+        tet();
 
-
-    // Selectors
-
-        //- Select multipliers instance by type name.
-        static autoPtr<multipliers> New(const word& type);
+        tet(std::initializer_list<point> lst);
 
 
     //- Destructor
-    virtual ~multipliers() {};
+    ~tet();
 
 
     // Member Functions
-
-        //- Calculate the list of multipliers using the stencil geometry.
-        //  @param [in] stencil
-        //  @param [out] m
-        virtual void calculate
-        (
-            const stencil& stencil, scalarList& m
-        ) const = 0;
 
 };
 
