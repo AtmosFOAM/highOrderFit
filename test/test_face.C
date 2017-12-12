@@ -55,6 +55,34 @@ TEST_CASE("face_triangle_face_decomposes_into_three_tets_with_common_centre")
     }
 }
 
+TEST_CASE("face_triangle_face_decomposes_into_tets_having_original_orientation")
+{
+    const highOrderFit::face face
+    (
+        {
+            point(0, 0, 0),
+            point(1, 0, 0),
+            point(0, 1, 0)
+        }
+    );
+      
+    List<highOrderFit::tet> tets;
+    face.decompose(tets);
+
+    const vector expectedOrientation(0, 0, 1);
+
+    forAll(tets, teti)
+    {
+        const highOrderFit::tet& t = tets[teti];
+        REQUIRE( t.size() == 3 );
+           
+        vector actualOrientation = (t[1] - t[0]) ^ (t[2] - t[1]);
+        actualOrientation /= mag(actualOrientation);
+
+        checkEqual(actualOrientation, expectedOrientation);
+    }
+}
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test

@@ -61,7 +61,7 @@ void Foam::highOrderFit::face::decompose
     tets.setSize(size());
     forAll((*this), i)
     {
-        tets[i] = tet({centre});
+        tets[i] = tet({centre, (*this)[i], (*this)[(i+1)%size()]});
     }
 }
 
