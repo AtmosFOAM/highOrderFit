@@ -24,7 +24,6 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "order.H"
-#include "labelList.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
@@ -38,9 +37,7 @@ Foam::highOrderFit::order::order
     const Foam::label z
 )
 :
-x_(x),
-y_(y),
-z_(z)
+    Foam::labelVector(x, y, z)
 {}
 
 
@@ -65,56 +62,30 @@ Foam::highOrderFit::order::~order()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-
-// * * * * * * * * * * * * * * * IOstream Operators  * * * * * * * * * * * * //
-
-Foam::Istream& Foam::highOrderFit::operator>>
+Foam::scalar Foam::highOrderFit::order::factorialRatio
 (
-    Foam::Istream& is,
-    Foam::highOrderFit::order& o
-)
+    const label dimensions
+) const
 {
-    labelList l;
-    is >> l;
-
-    if (l.size() != 3)
-    {
-        FatalErrorInFunction
-            << "order must have three components but found " << l.size()
-            << abort(FatalError);
-    }
-
-    o.x_ = l[0];
-    o.y_ = l[1];
-    o.z_ = l[2];
-
-    // Check state of Istream
-    is.check
-    (
-        "Foam::Ostream& Foam::highOrderFit::operator>>(Foam::Istream&, "
-        "Foam::highOrderFit::order&)"
-    );
-
-    return is;
+    return
+        scalar(factorial(x()) * factorial(y()) * factorial(z()))
+        /
+        scalar(factorial(x() + y() + z() + dimensions));
 }
 
-Foam::Ostream& Foam::highOrderFit::operator<<
+
+void Foam::highOrderFit::order::calculateExponentTensors
 (
-    Foam::Ostream& os,
-    const Foam::highOrderFit::order& o
-)
+    Foam::List<Foam::labelTensor>& K
+) const
 {
-    const labelList l({o.x_, o.y_, o.z_});
-    os << l;
-
-    // Check state of Ostream
-    os.check
+    K.setSize(1);
+    K[0] = labelTensor
     (
-        "Foam::Ostream& Foam::highOrderFit::operator<<(Foam::Ostream&, "
-        "const Foam::highOrderFit::order&)"
+        labelVector(0, 0, 0),
+        labelVector(0, 0, 0),
+        labelVector(0, 0, 0)
     );
-
-    return os;
 }
 
 

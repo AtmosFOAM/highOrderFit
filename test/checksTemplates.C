@@ -53,6 +53,16 @@ void Test::checkEqual
 }
 
 template<class Type>
+void Test::checkEqual
+(
+    const Foam::Tensor<Type>& actual,
+    const Foam::Tensor<Type>& expected
+)
+{
+    CHECK( actual.xx() == expected.xx() );
+}
+
+template<class Type>
 Foam::label Test::countMatches
 (
     const Foam::List<Type>& list,
@@ -65,6 +75,22 @@ Foam::label Test::countMatches
     {
         if (list[i] == item) matches++;
     }
+     
+    return matches;
+}
+
+template<class Type>
+Foam::label Test::countMatches
+(
+    const Foam::Vector<Type>& vector,
+    const Type item
+)
+{
+    Foam::label matches = 0;
+
+    if (vector.x() == item) matches++;
+    if (vector.y() == item) matches++;
+    if (vector.z() == item) matches++;
      
     return matches;
 }

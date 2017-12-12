@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "tet.H"
+#include "tensor.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -37,17 +38,15 @@ Foam::highOrderFit::tet::~tet()
 {}
 
 
-Foam::highOrderFit::tet::tet(std::initializer_list<point> lst)
+Foam::highOrderFit::tet::tet
+(
+    const point a,
+    const point b,
+    const point c
+)
 :
-    List<point>(lst)
-{
-    if (size() != 3)
-    {
-        FatalErrorInFunction
-            << "tet must have three points but got " << size()
-            << abort(FatalError);
-    }
-}
+    Vector<point>(a, b, c)
+{}
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
@@ -56,6 +55,8 @@ Foam::scalar Foam::highOrderFit::tet::moment
     const Foam::highOrderFit::order& order
 ) const
 {
+    const tensor A(*this);
+    //Info << "*** " << det(A) << endl;
     return 1.0/6.0;
 }
 

@@ -34,7 +34,7 @@ SourceFiles
 #ifndef tet_H
 #define tet_H
 
-#include "List.H"
+#include "Vector.H"
 #include "order.H"
 #include "point.H"
 
@@ -53,7 +53,7 @@ namespace highOrderFit
 \*---------------------------------------------------------------------------*/
 
 class tet
-    : public List<point>
+    : public Vector<point>
 {
     // Private data
 
@@ -73,7 +73,7 @@ public:
 
         tet();
 
-        tet(std::initializer_list<point> lst);
+        tet(const point a, const point b, const point c);
 
 
     //- Destructor

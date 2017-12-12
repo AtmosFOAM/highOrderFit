@@ -40,6 +40,7 @@ SourceFiles
 #include "GeometricField.H"
 #include "scalar.H"
 #include "scalarList.H"
+#include "Vector.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -61,6 +62,13 @@ namespace Test
     (
         const Foam::List<Type>& actual,
         const Foam::List<Type>& expected
+    );
+
+    template<class Type>
+    void checkEqual
+    (
+        const Foam::Tensor<Type>& actual,
+        const Foam::Tensor<Type>& expected
     );
 
     template<class Type>
@@ -95,6 +103,13 @@ namespace Test
     Foam::label countMatches
     (
         const Foam::List<Type>& list,
+        const Type item
+    );
+
+    template<class Type>
+    Foam::label countMatches
+    (
+        const Foam::Vector<Type>& vector,
         const Type item
     );
 

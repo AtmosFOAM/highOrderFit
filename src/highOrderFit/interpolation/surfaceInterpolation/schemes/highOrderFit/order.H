@@ -38,8 +38,8 @@ SourceFiles
 #ifndef order_H
 #define order_H
 
-#include "IOstreams.H"
-#include "label.H"
+#include "labelVector.H"
+#include "labelTensor.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -48,33 +48,18 @@ namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// Forward declaration of classes                                               
-class Istream;
-class Ostream;
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
 namespace highOrderFit
 {
  
-// Forward declaration of friend functions and operators
-class order;
-Istream& operator>>(Istream&, order&);
-Ostream& operator<<(Ostream&, const order&);
-
-
 /*---------------------------------------------------------------------------*\
                          Class order Declaration
 \*---------------------------------------------------------------------------*/
 
 class order
+    : public labelVector
 {
     // Private data
-
-        label x_;
-        label y_;
-        label z_;
-
+ 
     // Private Member Functions
 
         // Disallow default bitwise copy construct
@@ -104,21 +89,10 @@ public:
 
     // Member Functions
 
+        //- Calculate x!y!z!/(x+y+z+dimensions)!.
+        scalar factorialRatio(const label dimensions) const;
 
-    // Member Operators
-
-        inline bool operator==(const order&) const;
-
-        inline bool operator!=(const order&) const;
-
-    // IOstream Operators
-
-        //- Input the order as a three-component list
-        friend Istream& operator>>(Istream&, order&);
-        
-        //- Output the order as a three-component list
-        friend Ostream& operator<<(Ostream&, const order&);
-
+        void calculateExponentTensors(List<labelTensor>& K) const;
 
 };
 
@@ -130,10 +104,6 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#include "orderI.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

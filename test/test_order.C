@@ -34,6 +34,25 @@ using namespace Foam;
 namespace Test
 {
 
+TEST_CASE("order_calculates_factorial_ratio")
+{
+    const highOrderFit::order order(2, 3, 4);
+    CHECK( order.factorialRatio(3) == 288.0/479001600.0 );
+}
+
+TEST_CASE("order_calculates_exponent_tensor_for_zeroth_moment")
+{
+    const highOrderFit::order order(0, 0, 0);
+    List<labelTensor> K;
+    order.calculateExponentTensors(K);
+
+    IStringStream in("(0 0 0 0 0 0 0 0 0)");
+    const labelTensor expectedExponentTensor(in);
+
+    REQUIRE( K.size() == 1);
+    checkEqual( K[0], expectedExponentTensor );
+}
+
 TEST_CASE("order_round_trips_through_IOstreams")
 {
     const highOrderFit::order orderOut(2, 3, 4);
