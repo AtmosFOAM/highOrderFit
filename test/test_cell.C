@@ -127,7 +127,7 @@ TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube_at_origin")
     CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
 }
 
-TEST_CASE("cell_calculates_zeroth_volume_moment_for_2x2x2_cube", "[!mayfail]")
+TEST_CASE("cell_calculates_zeroth_volume_moment_for_2x2x2_cube")
 {
     IFstream is("resources/2x2x2Cube");
     const highOrderFit::cell cell(is);

@@ -141,7 +141,7 @@ Foam::scalar Foam::highOrderFit::cell::moment
 
         forAll(faceTets, teti)
         {
-            moment += faceTets[teti].moment(o);
+            moment += faceTets[teti].volumeMoment(o);
         }
     }
 
@@ -149,7 +149,7 @@ Foam::scalar Foam::highOrderFit::cell::moment
 
     if (o == order(0, 0, 0))
     {
-        return 1.0;
+        return moment;
     }
     else if (o == order(1, 0, 0))
     {

@@ -34,10 +34,10 @@ namespace Test
 
 TEST_CASE("tet_calculates_zeroth_volume_moment")
 {
-    const point a(0, 0, 1), b(0, 1, 0), c(1, 0, 0);
+    const point a(1, 0 ,0), b(0, 1, 0), c(0, 0, 1);
     const highOrderFit::tet t(a, b, c);
 
-    CHECK( t.moment(highOrderFit::order(0, 0, 0)) == 1.0/6.0 );
+    CHECK( t.volumeMoment(highOrderFit::order(0, 0, 0)) == 1.0/6.0 );
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

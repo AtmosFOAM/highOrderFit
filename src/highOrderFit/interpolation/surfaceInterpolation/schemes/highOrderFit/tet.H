@@ -82,7 +82,7 @@ public:
 
     // Member Functions
 
-        scalar moment(const order& o) const;
+        scalar volumeMoment(const order& o) const;
 
 };
 

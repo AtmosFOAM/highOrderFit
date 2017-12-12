@@ -50,14 +50,14 @@ Foam::highOrderFit::tet::tet
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-Foam::scalar Foam::highOrderFit::tet::moment
+Foam::scalar Foam::highOrderFit::tet::volumeMoment
 (
     const Foam::highOrderFit::order& order
 ) const
 {
     const tensor A(*this);
-    //Info << "*** " << det(A) << endl;
-    return 1.0/6.0;
+
+    return det(A) * order.factorialRatio(3);
 }
 
 // ************************************************************************* //

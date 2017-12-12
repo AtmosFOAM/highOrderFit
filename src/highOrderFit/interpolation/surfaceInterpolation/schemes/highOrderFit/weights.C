@@ -85,7 +85,7 @@ Foam::highOrderFit::weights::createMatrix
         {
             (*B)(row, col) =
                 stencil[row].moment(moments_[col]) * multipliers[row];
-//            (*B)(row, col) /= stencil[row].moment(order(0, 0, 0));
+            (*B)(row, col) /= stencil[row].moment(order(0, 0, 0));
         }
     }
 
