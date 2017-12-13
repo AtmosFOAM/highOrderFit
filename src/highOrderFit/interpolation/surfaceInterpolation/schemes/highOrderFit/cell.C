@@ -49,11 +49,21 @@ C_(mesh.C()[celli])
     {
         highOrderFit::face& stencilCellFace = (*this)[i];
         const Foam::face& face = mesh.faces()[faces[i]];
+        
+        bool owner = (mesh.owner()[faces[i]] == celli);
 
         stencilCellFace.setSize(face.size());
         forAll(face, pointi)
         {
-            stencilCellFace[pointi] = mesh.points()[face[pointi]];
+            if (owner)
+            {
+                stencilCellFace[pointi] = mesh.points()[face[pointi]];
+            }
+            else
+            {
+                stencilCellFace[face.size() - pointi - 1] =
+                    mesh.points()[face[pointi]];
+            }
         }
     }
 }

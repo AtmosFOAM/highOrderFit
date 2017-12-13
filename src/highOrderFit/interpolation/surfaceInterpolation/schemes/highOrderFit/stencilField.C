@@ -38,7 +38,7 @@ Foam::highOrderFit::stencilField::stencilField
     mesh_(mesh)
 {
     List<cell> myCells(map.constructSize());
-    forAll(mesh.cells(), celli)
+    forAll(mesh_.cells(), celli)
     {
         myCells[celli] = cell(mesh_, celli);
     }
