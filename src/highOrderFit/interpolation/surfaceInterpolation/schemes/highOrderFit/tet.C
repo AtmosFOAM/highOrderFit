@@ -55,7 +55,8 @@ Foam::scalar Foam::highOrderFit::tet::volumeMoment
     const Foam::highOrderFit::order& order
 ) const
 {
-    const tensor A(*this);
+    tensor A(*this);
+    A = A.T();
 
     List<exponentTensor> exponentTensors;
     order.calculateExponentTensors(exponentTensors);
@@ -65,6 +66,7 @@ Foam::scalar Foam::highOrderFit::tet::volumeMoment
     forAll(exponentTensors, i)
     {
         const exponentTensor& exponentTensor = exponentTensors[i];
+
         sumOfExponentTensorTerms +=
             exponentTensor.factorialRatio() * 
             exponentTensor.productOfExponentials(A);

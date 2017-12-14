@@ -157,13 +157,9 @@ Foam::scalar Foam::highOrderFit::cell::moment
 
     const scalar epsilon = 1e-6;
 
-    if (o == order(0, 0, 0))
+    if (o == order(0, 0, 0) || o == order(1, 0, 0))
     {
         return moment;
-    }
-    else if (o == order(1, 0, 0))
-    {
-        return C_.x();
     }
     else if (o == order(2, 0, 0))
     {
