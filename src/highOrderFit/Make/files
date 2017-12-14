@@ -1,6 +1,7 @@
 highOrderFit = interpolation/surfaceInterpolation/schemes/highOrderFit
 
 $(highOrderFit)/cell.C
+$(highOrderFit)/exponentTensor.C
 $(highOrderFit)/face.C
 $(highOrderFit)/highOrderFitScheme.C
 $(highOrderFit)/order.C
