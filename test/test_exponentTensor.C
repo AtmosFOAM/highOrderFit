@@ -52,6 +52,18 @@ TEST_CASE("exponentTensor_calculates_product_of_exponentials")
             approx(13588579074408578757989397706630967514844102656e7) );
 }
 
+TEST_CASE("exponentTensor_calculates_factorial_ratio")
+{
+    const highOrderFit::exponentTensor K
+    (
+        0, 1, 0,
+        8, 7, 6,
+        3, 4, 5
+    );
+
+    CHECK( K.factorialRatio() == approx(3.018708e8) );
+}
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test

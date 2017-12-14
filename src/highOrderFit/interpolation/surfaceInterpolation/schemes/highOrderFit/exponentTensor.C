@@ -72,4 +72,26 @@ Foam::scalar Foam::highOrderFit::exponentTensor::productOfExponentials
          * pow(A.zz(), zz());
 }
 
+Foam::scalar Foam::highOrderFit::exponentTensor::factorialRatio() const
+{
+    return
+    (
+        scalar(factorial(xx() + yx() + zx()))
+      * scalar(factorial(xy() + yy() + zy()))
+      * scalar(factorial(xz() + yz() + zz()))
+    )
+    /
+    ( 
+        scalar(factorial(xx()))
+      * scalar(factorial(xy()))
+      * scalar(factorial(xz()))
+      * scalar(factorial(yx()))
+      * scalar(factorial(yy()))
+      * scalar(factorial(yz()))
+      * scalar(factorial(zx()))
+      * scalar(factorial(zy()))
+      * scalar(factorial(zz()))
+    );
+}
+
 // ************************************************************************* //

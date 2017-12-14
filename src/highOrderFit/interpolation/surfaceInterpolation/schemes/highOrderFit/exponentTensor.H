@@ -91,6 +91,8 @@ public:
     // Member Functions
 
         scalar productOfExponentials(const tensor A) const;
+
+        scalar factorialRatio() const;
 };
 
 
