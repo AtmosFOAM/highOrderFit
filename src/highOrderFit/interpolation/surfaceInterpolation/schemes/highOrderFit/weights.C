@@ -81,11 +81,20 @@ Foam::highOrderFit::weights::createMatrix
 
     for (label row = 0; row < B->m(); row++)
     {
+        const scalar volume = stencil[row].moment(order(0, 0, 0));
+
         forAll(moments_, col)
         {
-            (*B)(row, col) =
-                stencil[row].moment(moments_[col]) * multipliers[row];
-            (*B)(row, col) /= stencil[row].moment(order(0, 0, 0));
+            if (moments_[col] == order(0, 0, 0))
+            {
+                (*B)(row, col) = multipliers[row];
+            }
+            else
+            {
+                (*B)(row, col) =
+                    stencil[row].moment(moments_[col]) * multipliers[row];
+                (*B)(row, col) /= volume;
+            }
         }
     }
 
