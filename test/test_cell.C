@@ -127,6 +127,16 @@ TEST_CASE("cell_calculates_zeroth_volume_moment_for_unit_cube_at_origin")
     CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
 }
 
+TEST_CASE("cell_preserves_right_hand_orientation_when_neighbour_of_face")
+{
+    const Test::testCase c("cartesian4x3Mesh");
+    const Test::mesh testMesh(c.mesh());
+
+    const label celli = testMesh.indexOfCellWithCentreAt(point(2.5, 0.5, 0));
+    const highOrderFit::cell cell(c.mesh(), celli);
+    CHECK( cell.moment(highOrderFit::order(0, 0, 0)) == approx(1.0) );
+}
+
 TEST_CASE("cell_calculates_zeroth_volume_moment_for_2x2x2_cube")
 {
     IFstream is("resources/2x2x2Cube");
