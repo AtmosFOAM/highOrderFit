@@ -104,10 +104,6 @@ void Foam::highOrderFit::order::calculateExponentTensors
     calculateRowCandidates(y(), row1Candidates);
     calculateRowCandidates(z(), row2Candidates);
 
-    Info << row0Candidates << endl;
-    Info << row1Candidates << endl;
-    Info << row2Candidates << endl;
-
     forAll(row0Candidates, i)
     {
         forAll(row1Candidates, j)
