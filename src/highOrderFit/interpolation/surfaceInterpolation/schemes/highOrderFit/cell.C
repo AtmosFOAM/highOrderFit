@@ -155,56 +155,7 @@ Foam::scalar Foam::highOrderFit::cell::moment
         }
     }
 
-    const scalar epsilon = 1e-6;
-
-    if (o == order(0, 0, 0) || o == order(1, 0, 0))
-    {
-        return moment;
-    }
-    else if (o == order(2, 0, 0))
-    {
-        const scalar x = C_.x();
-        if (fabs(x) >= 2.5 - epsilon)
-        {
-            return 19.0/3.0;
-        }
-        else if (fabs(x) >= 1.5 - epsilon)
-        {
-            return 7.0/3.0;
-        }
-        else
-        {
-            return 1.0/3.0;
-        }
-    }
-    else
-    {
-        const scalar x = C_.x();
-        if (x <= -2.5 + epsilon)
-        {
-            return -65.0/4.0;
-        }
-        else if (x <= -1.5 + epsilon)
-        {
-            return -15.0/4.0;
-        }
-        else if (x <= -0.5 + epsilon)
-        {
-            return -1.0/4.0;
-        }
-        else if (x <= 0.5 + epsilon)
-        {
-            return 1.0/4.0;
-        }
-        else if (x <= 1.5 + epsilon)
-        {
-            return 15.0/4.0;
-        }
-        else
-        {
-            return 65.0/4.0;
-        }
-    }
+    return moment;
 }
 
 
