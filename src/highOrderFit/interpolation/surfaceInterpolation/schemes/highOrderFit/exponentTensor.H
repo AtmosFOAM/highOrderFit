@@ -58,11 +58,11 @@ class exponentTensor
 
     // Private Member Functions
 
-        //- Disallow default bitwise copy construct
-        exponentTensor(const exponentTensor&);
+        // Disallow default bitwise copy construct
+        //exponentTensor(const exponentTensor&);
 
-        //- Disallow default bitwise assignment
-        void operator=(const exponentTensor&);
+        // Disallow default bitwise assignment
+        //void operator=(const exponentTensor&);
 
 
 public:
@@ -70,6 +70,8 @@ public:
     // Constructors
 
         exponentTensor();
+
+        exponentTensor(const vector& x, const vector& y, const vector& z);
 
         exponentTensor
         (
@@ -83,6 +85,8 @@ public:
             const label zy,
             const label zz
         );
+
+        exponentTensor(Istream&);
 
     //- Destructor
     ~exponentTensor();

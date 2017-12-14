@@ -57,7 +57,20 @@ Foam::scalar Foam::highOrderFit::tet::volumeMoment
 {
     const tensor A(*this);
 
-    return det(A) * order.factorialRatio(3);
+    List<exponentTensor> exponentTensors;
+    order.calculateExponentTensors(exponentTensors);
+
+    scalar sumOfExponentTensorTerms = 0.0;
+
+    forAll(exponentTensors, i)
+    {
+        const exponentTensor& exponentTensor = exponentTensors[i];
+        sumOfExponentTensorTerms +=
+            exponentTensor.factorialRatio() * 
+            exponentTensor.productOfExponentials(A);
+    }
+
+    return det(A) * order.factorialRatio(3) * sumOfExponentTensorTerms;
 }
 
 // ************************************************************************* //

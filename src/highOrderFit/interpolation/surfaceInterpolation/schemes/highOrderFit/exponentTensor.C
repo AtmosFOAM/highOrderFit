@@ -33,6 +33,17 @@ Foam::highOrderFit::exponentTensor::exponentTensor()
 
 Foam::highOrderFit::exponentTensor::exponentTensor
 (
+    const Foam::vector& x,
+    const Foam::vector& y,
+    const Foam::vector& z
+)
+:
+    labelTensor(x, y, z)
+{}
+
+
+Foam::highOrderFit::exponentTensor::exponentTensor
+(
             const Foam::label xx,
             const Foam::label xy,
             const Foam::label xz,
@@ -45,6 +56,15 @@ Foam::highOrderFit::exponentTensor::exponentTensor
 )
 :
     labelTensor(xx, xy, xz, yx, yy, yz, zx, zy, zz)
+{}
+
+
+Foam::highOrderFit::exponentTensor::exponentTensor
+(
+    Foam::Istream& is
+)
+:
+    labelTensor(is)
 {}
 
 

@@ -38,6 +38,7 @@ SourceFiles
 #ifndef order_H
 #define order_H
 
+#include "exponentTensor.H"
 #include "labelVector.H"
 #include "labelTensor.H"
 
@@ -68,6 +69,11 @@ class order
         // Disallow default bitwise assignment
         //void operator=(const order&);
 
+        void calculateRowCandidates
+        (
+            const label target, 
+            List<labelVector>& candidates
+        ) const;
 
 public:
 
@@ -92,7 +98,7 @@ public:
         //- Calculate x!y!z!/(x+y+z+dimensions)!.
         scalar factorialRatio(const label dimensions) const;
 
-        void calculateExponentTensors(List<labelTensor>& K) const;
+        void calculateExponentTensors(List<exponentTensor>& K) const;
 
 };
 

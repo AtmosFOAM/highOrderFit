@@ -74,6 +74,13 @@ namespace Test
     template<class Type>
     void checkEqual
     (
+        const Foam::List<Foam::Tensor<Type>>& actual,
+        const Foam::List<Foam::Tensor<Type>>& expected
+    );
+
+    template<class Type>
+    void checkEqual
+    (
         const Foam::List<Type>& actual,
         const Type expected
     );

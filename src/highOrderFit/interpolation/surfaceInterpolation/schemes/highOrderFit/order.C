@@ -27,6 +27,26 @@ License
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
+void Foam::highOrderFit::order::calculateRowCandidates
+(
+    const Foam::label target, 
+    Foam::List<Foam::labelVector>& candidates
+) const
+{
+    for (label a = 0; a <= target; a++)
+    {
+        for (label b = 0; b <= target; b++)
+        {
+            for (label c = 0; c <= target; c++)
+            {
+                if (a + b + c == target)
+                {
+                    candidates.append(labelVector(a, b, c));
+                }
+            }
+        }
+    }
+}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -76,16 +96,36 @@ Foam::scalar Foam::highOrderFit::order::factorialRatio
 
 void Foam::highOrderFit::order::calculateExponentTensors
 (
-    Foam::List<Foam::labelTensor>& K
+    Foam::List<Foam::highOrderFit::exponentTensor>& K
 ) const
 {
-    K.setSize(1);
-    K[0] = labelTensor
-    (
-        labelVector(0, 0, 0),
-        labelVector(0, 0, 0),
-        labelVector(0, 0, 0)
-    );
+    List<labelVector> row0Candidates, row1Candidates, row2Candidates;
+    calculateRowCandidates(x(), row0Candidates);
+    calculateRowCandidates(y(), row1Candidates);
+    calculateRowCandidates(z(), row2Candidates);
+
+    Info << row0Candidates << endl;
+    Info << row1Candidates << endl;
+    Info << row2Candidates << endl;
+
+    forAll(row0Candidates, i)
+    {
+        forAll(row1Candidates, j)
+        {
+            forAll(row2Candidates, k)
+            {
+                K.append
+                (
+                    exponentTensor
+                    (
+                        row0Candidates[i],
+                        row1Candidates[j],
+                        row2Candidates[k]
+                    )
+                );
+            }
+        }
+    }
 }
 
 

@@ -60,6 +60,27 @@ void Test::checkEqual
 )
 {
     CHECK( actual.xx() == expected.xx() );
+    CHECK( actual.xy() == expected.xy() );
+    CHECK( actual.xz() == expected.xz() );
+    CHECK( actual.yx() == expected.yx() );
+    CHECK( actual.yy() == expected.yy() );
+    CHECK( actual.yz() == expected.yz() );
+    CHECK( actual.zx() == expected.zx() );
+    CHECK( actual.zy() == expected.zy() );
+    CHECK( actual.zz() == expected.zz() );
+}
+
+template<class Type>
+void Test::checkEqual
+(
+    const Foam::List<Foam::Tensor<Type>>& actual,
+    const Foam::List<Foam::Tensor<Type>>& expected
+)
+{
+    forAll(actual, i)
+    {
+        checkEqual(actual[i], expected[i]);
+    }
 }
 
 template<class Type>

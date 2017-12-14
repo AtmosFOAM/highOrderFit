@@ -43,14 +43,32 @@ TEST_CASE("order_calculates_factorial_ratio")
 TEST_CASE("order_calculates_exponent_tensor_for_zeroth_moment")
 {
     const highOrderFit::order order(0, 0, 0);
-    List<labelTensor> K;
+    List<highOrderFit::exponentTensor> K;
     order.calculateExponentTensors(K);
 
     IStringStream in("(0 0 0 0 0 0 0 0 0)");
-    const labelTensor expectedExponentTensor(in);
+    const highOrderFit::exponentTensor expectedExponentTensor(in);
 
     REQUIRE( K.size() == 1);
     checkEqual( K[0], expectedExponentTensor );
+}
+
+TEST_CASE("order_calculates_exponent_tensor_for_1_0_0_moment")
+{
+    const highOrderFit::order order(1, 0, 0);
+    List<highOrderFit::exponentTensor> K;
+    order.calculateExponentTensors(K);
+
+    IStringStream in(R"END(((0 0 1 0 0 0 0 0 0)
+                            (0 1 0 0 0 0 0 0 0)
+                            (1 0 0 0 0 0 0 0 0)))END");
+    const List<highOrderFit::exponentTensor> expectedExponentTensors(in);
+
+    checkEqual
+    (
+        static_cast<List<labelTensor>>(K),
+        static_cast<List<labelTensor>>(expectedExponentTensors)
+    );
 }
 
 TEST_CASE("order_round_trips_through_IOstreams")
