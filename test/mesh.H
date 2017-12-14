@@ -36,6 +36,7 @@ SourceFiles
 #define testMesh_H
 
 #include "fvMesh.H"
+#include "surfaceMesh.H"
 #include "volMesh.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

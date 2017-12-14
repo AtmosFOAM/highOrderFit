@@ -26,10 +26,12 @@ License
 #include "catch.hpp"
 #include "cell.H"
 #include "checks.H"
+#include "mesh.H"
 #include "inverseDistanceMultipliers.H"
 #include "IStringStream.H"
 #include "order.H"
 #include "stencil.H"
+#include "testCase.H"
 #include "uniformMultipliers.H"
 #include "weights.H"
 
@@ -38,14 +40,35 @@ using namespace Foam;
 namespace Test
 {
 
-TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil",
-          "[!mayfail]")
+TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
 {
+    const Test::testCase c("cartesian4x3Mesh");
+    const Test::mesh testMesh(c.mesh());
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    
+    const label uCelli = testMesh.indexOfCellWithCentreAt(point(2.5, 1.5, 0));
+    const label dCelli = testMesh.indexOfCellWithCentreAt(point(3.5, 1.5, 0));
+
+    List<highOrderFit::cell> cells(12);
+    label i = 0;
+    cells[i++] = highOrderFit::cell(c.mesh(), uCelli);
+    cells[i++] = highOrderFit::cell(c.mesh(), dCelli);
+    for (label celli = 0; celli < 12; celli++)
+    {
+        if (celli != uCelli && celli != dCelli)
+        {
+            cells[i++] = highOrderFit::cell(c.mesh(), celli);
+        }
+    }
+
+    const highOrderFit::stencil stencil
+    (
+        c.mesh().Cf()[facei],
+        c.mesh().Sf()[facei],
+        cells
+    );
+    
     scalarList w(12);
-    const point targetFace;
-    const vector Sf;
-    const List<highOrderFit::cell> cells(12);
-    const highOrderFit::stencil stencil(targetFace, Sf, cells);
     const scalarList multipliers(12, 1.0);
     const highOrderFit::weights weights({highOrderFit::order(0, 0, 0)});
 
@@ -54,16 +77,31 @@ TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil",
     checkEqual( w, 1.0/12.0 );
 }
 
-TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely",
-          "[!mayfail]")
+TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
 {
-    scalarList w(5);
-    const point targetFace;
-    const vector Sf;
-    const List<highOrderFit::cell> cells(5);
-    const highOrderFit::stencil stencil(targetFace, Sf, cells);
+    const Test::testCase c("cartesian4x3Mesh");
+    const Test::mesh testMesh(c.mesh());
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    
+    const label uCelli = testMesh.indexOfCellWithCentreAt(point(2.5, 1.5, 0));
+    const label dCelli = testMesh.indexOfCellWithCentreAt(point(3.5, 1.5, 0));
+    const label uuCelli = testMesh.indexOfCellWithCentreAt(point(1.5, 1.5, 0));
+
+    List<highOrderFit::cell> cells(3);
+    cells[0] = highOrderFit::cell(c.mesh(), uCelli);
+    cells[1] = highOrderFit::cell(c.mesh(), dCelli);
+    cells[2] = highOrderFit::cell(c.mesh(), uuCelli);
+
+    const highOrderFit::stencil stencil
+    (
+        c.mesh().Cf()[facei],
+        c.mesh().Sf()[facei],
+        cells
+    );
+
+    scalarList w(3);
     const highOrderFit::inverseDistanceMultipliers multipliers;
-    scalarList m(5);
+    scalarList m(3);
     multipliers.calculate(stencil, m);
     const highOrderFit::weights weights({highOrderFit::order(0, 0, 0)});
 
@@ -74,34 +112,41 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely",
     CHECK( w[downwind] == approx(0.4999992847) ); 
 }
 
-TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments",
-          "[!mayfail]")
+TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
 {
+    const Test::testCase c("cartesian4x3Mesh");
+    const Test::mesh testMesh(c.mesh());
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    
+    const label uCelli = testMesh.indexOfCellWithCentreAt(point(2.5, 1.5, 0));
+    const label dCelli = testMesh.indexOfCellWithCentreAt(point(3.5, 1.5, 0));
+    const label uuCelli = testMesh.indexOfCellWithCentreAt(point(1.5, 1.5, 0));
+
     const List<highOrderFit::order> moments(
     {
         highOrderFit::order(0, 0, 0),
         highOrderFit::order(1, 0, 0)
     });
-    const point targetFace;
-    const vector Sf;
-
-    List<highOrderFit::face> cell0(1, highOrderFit::face({point(-1.5, 0, 0)}));
-    List<highOrderFit::face> cell1(1, highOrderFit::face({point(-0.5, 0, 0)}));
-    List<highOrderFit::face> cell2(1, highOrderFit::face({point(0.5, 0, 0)}));
 
     List<highOrderFit::cell> cells(3);
-    cells[0] = highOrderFit::cell(cell0, cell0[0][0]);
-    cells[1] = highOrderFit::cell(cell1, cell1[0][0]);
-    cells[2] = highOrderFit::cell(cell2, cell2[0][0]);
+    cells[0] = highOrderFit::cell(c.mesh(), uCelli);
+    cells[1] = highOrderFit::cell(c.mesh(), dCelli);
+    cells[2] = highOrderFit::cell(c.mesh(), uuCelli);
 
-    const highOrderFit::stencil stencil(targetFace, Sf, cells);
+    const highOrderFit::stencil stencil
+    (
+        c.mesh().Cf()[facei],
+        c.mesh().Sf()[facei],
+        cells
+    );
+
     const scalarList multipliers(3, 1.0);
     const highOrderFit::weights weights(moments);
 
     autoPtr<scalarRectangularMatrix> actual =
         weights.createMatrix(stencil, multipliers);
 
-    IStringStream in("3 2((1 -1.5)(1 -0.5)(1 0.5))");
+    IStringStream in("3 2((1 -0.5)(1 0.5)(1 -1.5))");
     scalarRectangularMatrix expected(in);
     checkEqual(actual(), expected);
 }
