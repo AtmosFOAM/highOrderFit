@@ -1,13 +1,10 @@
 highOrderFit = interpolation/surfaceInterpolation/schemes/highOrderFit
 
-$(highOrderFit)/cell.C
 $(highOrderFit)/exponentTensor.C
-$(highOrderFit)/face.C
 $(highOrderFit)/highOrderFitScheme.C
 $(highOrderFit)/order.C
 $(highOrderFit)/stencil.C
 $(highOrderFit)/stencilField.C
-$(highOrderFit)/tet.C
 $(highOrderFit)/weights.C
 $(highOrderFit)/weightsField.C
 $(highOrderFit)/weightsFieldPair.C
@@ -16,6 +13,11 @@ multipliers = $(highOrderFit)/multipliers
 $(multipliers)/inverseDistanceMultipliers.C
 $(multipliers)/multipliers.C
 $(multipliers)/uniformMultipliers.C
+
+shapes = $(highOrderFit)/shapes
+$(shapes)/cell.C
+$(shapes)/face.C
+$(shapes)/tet.C
 
 diagnostic = $(highOrderFit)/diagnostic
 $(diagnostic)/weightsDiagnostic.C

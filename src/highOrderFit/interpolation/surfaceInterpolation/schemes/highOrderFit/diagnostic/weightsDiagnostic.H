@@ -25,6 +25,8 @@ Class
     Foam::highOrderFit::weightsDiagnostic
 
 Description
+    Stores diagnostic information relating to the weighted least squares fit
+    for a stencil.
 
 SourceFiles
     weightsDiagnostic.C

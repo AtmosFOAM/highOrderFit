@@ -98,6 +98,13 @@ public:
         //- Calculate x!y!z!/(x+y+z+dimensions)!.
         scalar factorialRatio(const label dimensions) const;
 
+        //- Populate the list of \ref exponentTensor "exponentTensors" K.
+        //  Each exponentTensor has elements k<sub>ij</sub> such that
+        //  0 &le; k<sub>ij</sub> &le; k<sub>i</sub> and 
+        //  k<sub>i,1</sub> + k<sub>i,2</sub> + k<sub>i,3</sub> = k<sub>i</sub>
+        //  where k<sub>i</sub> is the order element x, y or z.
+        //  @param [out] K on entry, an empty list; on exit, a list of 
+        //               exponentTensors.
         void calculateExponentTensors(List<exponentTensor>& K) const;
 
 };

@@ -25,6 +25,7 @@ Class
     Foam::highOrderFit::weights
 
 Description
+    Calculates weighted least squares fits for stencils of cells.
 
 SourceFiles
     weights.C
@@ -72,6 +73,7 @@ public:
 
     // Constructors
 
+        //- Construct an instance to calculate weights for the given moments.
         weights(const List<order>& moments);
 
 
@@ -92,7 +94,7 @@ public:
             const scalarList& multipliers
         ) const;
  
-
+        //- Create the matrix of volume moments used in the weighted least squares fit.
         const autoPtr<scalarRectangularMatrix> createMatrix
         (
             const stencil& stencil,

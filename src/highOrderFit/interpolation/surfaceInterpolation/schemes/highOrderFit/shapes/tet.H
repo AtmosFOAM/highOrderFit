@@ -25,6 +25,7 @@ Class
     Foam::highOrderFit::tet
 
 Description
+    A tetrahedron with one point at the coordinate origin.
 
 SourceFiles
     tet.C
@@ -71,8 +72,13 @@ public:
 
     // Constructors
 
+        //- Construct an uninitialised instance.
+        //  Necessary only for initialising collections of tets.
         tet();
 
+        //- Construct from three points, with the fourth point fixed at the coordinate origin.
+        //  The point order establishes a right-hand orientation for the face
+        //  <tt>(a, b, c)</tt>.
         tet(const point a, const point b, const point c);
 
 
@@ -82,6 +88,10 @@ public:
 
     // Member Functions
 
+        //- Calculate the volume moment of the given order.
+        //  Volumes may be negative depending on the orientation of the face
+        //  <tt>(a, b, c)</tt>.
+        //  \sa Foam::highOrderFit::cell::moment
         scalar volumeMoment(const order& o) const;
 
 };
