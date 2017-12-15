@@ -109,10 +109,7 @@ void Foam::highOrderFit::cell::translate(const Foam::vector x)
 
     forAll((*this), facei)
     {
-        forAll((*this)[facei], pointi)
-        {
-            (*this)[facei][pointi] += x;
-        }
+        (*this)[facei].translate(x);
     }
 }
 
@@ -129,10 +126,7 @@ void Foam::highOrderFit::cell::rotate
 
     forAll((*this), facei)
     {
-        forAll((*this)[facei], pointi)
-        {
-            (*this)[facei][pointi] = q.transform((*this)[facei][pointi]);
-        }
+        (*this)[facei].rotate(q);
     }
 }
 

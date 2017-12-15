@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "face.H"
+#include "transform.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -65,6 +66,34 @@ void Foam::highOrderFit::face::decompose
     }
 }
 
+
+void Foam::highOrderFit::face::translate(const Foam::vector x)
+{
+    forAll((*this), pointi)
+    {
+        (*this)[pointi] += x;
+    }
+}
+
+
+void Foam::highOrderFit::face::rotate
+(
+    const Foam::vector from,
+    const Foam::vector to
+)
+{
+    const quaternion q(rotationTensor(from, to));
+    rotate(q);
+}
+
+
+void Foam::highOrderFit::face::rotate(const Foam::quaternion& q)
+{
+    forAll((*this), pointi)
+    {
+        (*this)[pointi] = q.transform((*this)[pointi]);
+    }
+}
 
 Foam::scalar Foam::highOrderFit::face::moment
 (
