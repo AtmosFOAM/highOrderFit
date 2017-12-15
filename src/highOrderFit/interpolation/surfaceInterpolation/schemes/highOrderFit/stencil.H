@@ -38,6 +38,7 @@ SourceFiles
 
 #include "cell.H"
 #include "label.H"
+#include "order.H"
 #include "scalarList.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -99,6 +100,7 @@ public:
 
     // Member Functions
 
+        scalar targetFaceMoment(const order&) const;
 
 };
 
