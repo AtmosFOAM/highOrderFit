@@ -61,12 +61,8 @@ TEST_CASE("weights_with_uniform_multipliers_average_all_cells_in_stencil")
         }
     }
 
-    const highOrderFit::stencil stencil
-    (
-        c.mesh().Cf()[facei],
-        c.mesh().Sf()[facei],
-        cells
-    );
+    const highOrderFit::targetFace targetFace(c.mesh(), facei);
+    const highOrderFit::stencil stencil(targetFace, cells);
     
     scalarList w(12);
     const scalarList multipliers(12, 1.0);
@@ -92,12 +88,8 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
     cells[1] = highOrderFit::cell(c.mesh(), dCelli);
     cells[2] = highOrderFit::cell(c.mesh(), uuCelli);
 
-    const highOrderFit::stencil stencil
-    (
-        c.mesh().Cf()[facei],
-        c.mesh().Sf()[facei],
-        cells
-    );
+    const highOrderFit::targetFace targetFace(c.mesh(), facei);
+    const highOrderFit::stencil stencil(targetFace, cells);
 
     scalarList w(3);
     const highOrderFit::inverseDistanceMultipliers multipliers;
@@ -133,12 +125,8 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     cells[1] = highOrderFit::cell(c.mesh(), dCelli);
     cells[2] = highOrderFit::cell(c.mesh(), uuCelli);
 
-    const highOrderFit::stencil stencil
-    (
-        c.mesh().Cf()[facei],
-        c.mesh().Sf()[facei],
-        cells
-    );
+    const highOrderFit::targetFace targetFace(c.mesh(), facei);
+    const highOrderFit::stencil stencil(targetFace, cells);
 
     const scalarList multipliers(3, 1.0);
     const highOrderFit::weights weights(moments);

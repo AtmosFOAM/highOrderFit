@@ -5,6 +5,7 @@ $(highOrderFit)/highOrderFitScheme.C
 $(highOrderFit)/order.C
 $(highOrderFit)/stencil.C
 $(highOrderFit)/stencilField.C
+$(highOrderFit)/targetFace.C
 $(highOrderFit)/weights.C
 $(highOrderFit)/weightsField.C
 $(highOrderFit)/weightsFieldPair.C

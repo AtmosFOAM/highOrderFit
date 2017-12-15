@@ -30,6 +30,7 @@ License
 #include "mesh.H"
 #include "order.H"
 #include "stencil.H"
+#include "targetFace.H"
 #include "testCase.H"
 
 using namespace Foam;
@@ -39,14 +40,18 @@ namespace Test
 
 TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
 {
-    const point targetCf(2, 1, 0);
-    const vector Sf(1, 0, 0);
+    const highOrderFit::targetFace targetFace
+    (
+        point(2, 1, 0),
+        vector(1, 0, 0),
+        highOrderFit::face({})
+    );
 
     List<highOrderFit::cell> cells(1);
     List<highOrderFit::face> faces(1, highOrderFit::face({point(0, 0, 0)}));
     cells[0] = highOrderFit::cell(faces, faces[0][0]);
 
-    const highOrderFit::stencil stencil(targetCf, Sf, cells);
+    const highOrderFit::stencil stencil(targetFace, cells);
 
     checkEqual(stencil[0][0][0], point(-2, -1, 0));
     checkEqual(stencil[0].centre(), point(-2, -1, 0));
@@ -54,8 +59,13 @@ TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
 
 TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
 {
-    const point targetCf(0, 0, 0);
-    const vector Sf(0, 3, 0);
+    const highOrderFit::targetFace targetFace
+    (
+        point(0, 0, 0),
+        vector(0, 3, 0),
+        highOrderFit::face({})
+    );
+
     List<highOrderFit::cell> cells(2);
     List<highOrderFit::face> upwindFaces
     (
@@ -70,13 +80,35 @@ TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
     cells[0] = highOrderFit::cell(upwindFaces, upwindFaces[0][0]);
     cells[1] = highOrderFit::cell(downwindFaces, downwindFaces[0][0]);
 
-    const highOrderFit::stencil stencil(targetCf, Sf, cells);
+    const highOrderFit::stencil stencil(targetFace, cells);
 
     checkEqual(stencil[0][0][0], point(-1, 0, 0));
     checkEqual(stencil[0].centre(), point(-1, 0, 0));
     
     checkEqual(stencil[1][0][0], point(2, 0, 0));
     checkEqual(stencil[1].centre(), point(2, 0, 0));
+}
+
+TEST_CASE("stencil_calculates_zeroth_moment_of_unit_square_target_face")
+{
+    const highOrderFit::targetFace targetFace
+    (
+        point(0, 0, 0),
+        vector(1, 0, 0),
+        highOrderFit::face
+        (
+            {
+                point(-0.5, -0.5, 0),
+                point( 0.5, -0.5, 0),
+                point( 0.5,  0.5, 0),
+                point(-0.5,  0.5, 0)
+            }
+        )
+    );
+
+    const List<highOrderFit::cell> cells;
+
+    const highOrderFit::stencil stencil(targetFace, cells);
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

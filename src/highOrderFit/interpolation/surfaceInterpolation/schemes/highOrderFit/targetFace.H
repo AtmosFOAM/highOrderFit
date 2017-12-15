@@ -22,25 +22,22 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::stencil
+    Foam::highOrderFit::targetFace
 
 Description
-    A stencil of \ref Foam::highOrderFit::cell "cells" used to approximate
-    the high order surface interpolation.
 
 SourceFiles
-    stencil.C
+    targetFace.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef stencil_H
-#define stencil_H
+#ifndef targetFace_H
+#define targetFace_H
 
-#include "cell.H"
-#include "label.H"
-#include "order.H"
-#include "scalarList.H"
-#include "targetFace.H"
+#include "face.H"
+#include "point.H"
+#include "stencil.H"
+#include "vector.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -53,56 +50,47 @@ namespace highOrderFit
 {
 
 // Forward declaration of classes
-class targetFace;
+class stencil;
 
 /*---------------------------------------------------------------------------*\
-                         Class stencil Declaration
+                         Class targetFace Declaration
 \*---------------------------------------------------------------------------*/
 
-class stencil
-:
-    public List<cell>
+class targetFace
 {
+    // Private data
+
+        const point Cf_;
+        const vector Sf_;
+
     // Private Member Functions
 
-        //- Disallow default bitwise copy construct
-        stencil(const stencil&);
+        // Disallow default bitwise copy construct
+        //targetFace(const targetFace&);
 
-        //Disallow default bitwise assignment
-        //void operator=(const stencil&);
+        // Disallow default bitwise assignment
+        //void operator=(const targetFace&);
 
 
 public:
 
+
     // Constructors
+    
+        targetFace(const fvMesh& mesh, const label facei);
 
-        //- Construct an empty stencil with no cells.
-        //  Necessary only for initialising collections of stencils.
-        stencil();
-
-        //- Construct a stencil comprising the given cells, transformed into the local coordinate system.
-        //  The target face centre is used as the origin of the local
-        //  coordinate system, and the stencil is rotated such that the
-        //  primary direction of the local coordinate system is parallel to the
-        //  target face area vector.
-        //  @param targetFace the stencil's target face that determines the
-        //                    origin and orientation of the local coordinate
-        //                    system
-        stencil
-        (
-            const targetFace& f,
-            const List<cell>& cells
-        );
+        targetFace(const point Cf, const vector Sf, const face f);
 
 
     //- Destructor
-    ~stencil();
+    ~targetFace();
 
 
     // Member Functions
 
-        scalar targetFaceMoment(const order&) const;
+        void translate(stencil& s) const;
 
+        void rotate(stencil& s) const;
 };
 
 

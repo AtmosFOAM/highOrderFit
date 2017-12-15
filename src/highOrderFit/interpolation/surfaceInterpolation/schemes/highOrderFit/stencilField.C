@@ -25,6 +25,7 @@ License
 
 #include "stencilField.H"
 #include "extendedCellToFaceStencil.H"
+#include "targetFace.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 Foam::highOrderFit::stencilField::stencilField
@@ -55,10 +56,8 @@ Foam::highOrderFit::stencilField::stencilField
             cells[i] = myCells[stencilCells[i]];
         }
 
-        const point targetCf(mesh_.Cf()[facei]);
-        const vector Sf(mesh_.Sf()[facei]);
-
-        (*this)[facei] = stencil(targetCf, Sf, cells);
+        const targetFace targetFace(mesh_, facei);
+        (*this)[facei] = stencil(targetFace, cells);
     }
 }
 

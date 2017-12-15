@@ -23,48 +23,63 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "stencil.H"
+#include "targetFace.H"
+#include "surfaceMesh.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::stencil::stencil()
-{
-}
-
-Foam::highOrderFit::stencil::stencil
+Foam::highOrderFit::targetFace::targetFace
 (
-    const Foam::highOrderFit::targetFace& f,
-    const Foam::List<Foam::highOrderFit::cell>& cells
+    const Foam::fvMesh& mesh,
+    const Foam::label facei
 )
 :
-Foam::List<Foam::highOrderFit::cell>(cells)
-{
-    f.translate(*this);
-    f.rotate(*this);
-}
+Cf_(mesh.Cf()[facei]),
+Sf_(mesh.Sf()[facei])
+{}
+
+Foam::highOrderFit::targetFace::targetFace
+(
+    const Foam::point Cf,
+    const Foam::vector Sf,
+    const Foam::highOrderFit::face f
+)
+:
+Cf_(Cf),
+Sf_(Sf)
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::stencil::~stencil()
+Foam::highOrderFit::targetFace::~targetFace()
 {}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-Foam::scalar Foam::highOrderFit::stencil::targetFaceMoment
+void Foam::highOrderFit::targetFace::translate
 (
-    const Foam::highOrderFit::order& o
+    Foam::highOrderFit::stencil& stencil
 ) const
 {
-    if (o == order(0, 0, 0))
+    forAll(stencil, i)
     {
-        return 1.0;
-    }
-    else
-    {
-        return 0.0;
+        stencil[i].translate(-Cf_);
     }
 }
+
+
+void Foam::highOrderFit::targetFace::rotate
+(
+    Foam::highOrderFit::stencil& stencil
+) const
+{
+    forAll(stencil, i)
+    {
+        stencil[i].rotate(Sf_/mag(Sf_), vector(1, 0, 0));
+    }
+}
+
 
 // ************************************************************************* //
