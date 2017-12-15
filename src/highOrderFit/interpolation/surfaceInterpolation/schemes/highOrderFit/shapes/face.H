@@ -36,6 +36,7 @@ SourceFiles
 #define highOrderFit_face_H
 
 #include "List.H"
+#include "order.H"
 #include "point.H"
 #include "tet.H"
 
@@ -91,6 +92,7 @@ public:
         //               be initialised
         void decompose(List<tet>& tets) const;
 
+        scalar moment(const order&) const;
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

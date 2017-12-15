@@ -92,14 +92,7 @@ Foam::scalar Foam::highOrderFit::targetFace::moment
     const Foam::highOrderFit::order& o
 ) const
 {
-    if (o == order(0, 0, 0))
-    {
-        return 1.0;
-    }
-    else
-    {
-        return 0.0;
-    }
+    return face_.moment(o);
 }
 
 // ************************************************************************* //

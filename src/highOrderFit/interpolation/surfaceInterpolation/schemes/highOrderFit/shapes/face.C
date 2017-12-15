@@ -65,4 +65,20 @@ void Foam::highOrderFit::face::decompose
     }
 }
 
+
+Foam::scalar Foam::highOrderFit::face::moment
+(
+    const Foam::highOrderFit::order& o
+) const
+{
+    if (o == order(0, 0, 0))
+    {
+        return 1.0;
+    }
+    else
+    {
+        return 0.0;
+    }
+}
+
 // ************************************************************************* //

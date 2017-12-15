@@ -64,6 +64,7 @@ class targetFace
 
         point Cf_;
         vector Sf_;
+        face face_;
 
     // Private Member Functions
 
