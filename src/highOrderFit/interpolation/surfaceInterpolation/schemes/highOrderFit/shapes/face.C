@@ -100,14 +100,17 @@ Foam::scalar Foam::highOrderFit::face::moment
     const Foam::highOrderFit::order& o
 ) const
 {
-    if (o == order(0, 0, 0))
+    scalar moment = 0.0;
+
+    List<tet> faceTets;
+    decompose(faceTets);
+
+    forAll(faceTets, teti)
     {
-        return 1.0;
+        moment += faceTets[teti].surfaceMoment(o);
     }
-    else
-    {
-        return 0.0;
-    }
+
+    return moment;
 }
 
 // ************************************************************************* //

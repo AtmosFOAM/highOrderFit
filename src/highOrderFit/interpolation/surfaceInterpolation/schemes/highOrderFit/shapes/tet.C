@@ -26,6 +26,43 @@ License
 #include "tet.H"
 #include "tensor.H"
 
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+
+Foam::scalar Foam::highOrderFit::tet::moment
+(
+    const Foam::highOrderFit::order& order,
+    const Foam::tensor& A,
+    const Foam::label dimensions
+) const
+{
+    List<exponentTensor> exponentTensors;
+    order.calculateExponentTensors(exponentTensors);
+
+    scalar sumOfExponentTensorTerms = 0.0;
+
+    forAll(exponentTensors, i)
+    {
+        const exponentTensor& exponentTensor = exponentTensors[i];
+
+        sumOfExponentTensorTerms +=
+            exponentTensor.factorialRatio() * 
+            exponentTensor.productOfExponentials(A);
+    }
+    
+    return order.factorialRatio(dimensions) * sumOfExponentTensorTerms;
+}
+
+
+Foam::scalar Foam::highOrderFit::tet::area() const
+{
+    const scalar a = mag(x() - y());
+    const scalar b = mag(y() - z());
+    const scalar c = mag(z() - x());
+    const scalar s = 0.5*(a + b + c);
+
+    return sqrt(s*(s-a)*(s-b)*(s-c));
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::tet::tet()
@@ -58,21 +95,19 @@ Foam::scalar Foam::highOrderFit::tet::volumeMoment
     tensor A(*this);
     A = A.T();
 
-    List<exponentTensor> exponentTensors;
-    order.calculateExponentTensors(exponentTensors);
+    return det(A) * moment(order, A, 3);
+}
 
-    scalar sumOfExponentTensorTerms = 0.0;
 
-    forAll(exponentTensors, i)
-    {
-        const exponentTensor& exponentTensor = exponentTensors[i];
+Foam::scalar Foam::highOrderFit::tet::surfaceMoment
+(
+    const Foam::highOrderFit::order& order
+) const
+{
+    tensor A(*this);
+    A = A.T();
 
-        sumOfExponentTensorTerms +=
-            exponentTensor.factorialRatio() * 
-            exponentTensor.productOfExponentials(A);
-    }
-
-    return det(A) * order.factorialRatio(3) * sumOfExponentTensorTerms;
+    return 2 * area() * moment(order, A, 2);
 }
 
 // ************************************************************************* //

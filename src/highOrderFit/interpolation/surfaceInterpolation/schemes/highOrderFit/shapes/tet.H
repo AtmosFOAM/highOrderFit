@@ -56,8 +56,6 @@ namespace highOrderFit
 class tet
     : public Vector<point>
 {
-    // Private data
-
 
     // Private Member Functions
 
@@ -66,7 +64,15 @@ class tet
 
         // Disallow default bitwise assignment
         //void operator=(const tet&);
+        
+        scalar moment
+        (
+            const order& order,
+            const tensor& A,
+            const label dimensions
+        ) const;
 
+        scalar area() const;
 
 public:
 
@@ -94,6 +100,9 @@ public:
         //  \sa Foam::highOrderFit::cell::moment
         scalar volumeMoment(const order& o) const;
 
+        //- Calculate the surface moment of the given order.
+        //  \sa Foam::highOrderFit::face::moment
+        scalar surfaceMoment(const order& o) const;
 };
 
 

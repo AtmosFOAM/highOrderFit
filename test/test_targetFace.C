@@ -23,50 +23,30 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "stencil.H"
+#include "catch.hpp"
+#include "checks.H"
+#include "targetFace.H"
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+using namespace Foam;
 
-Foam::highOrderFit::stencil::stencil()
+namespace Test
 {
+
+TEST_CASE("targetFace_translates_itself_such_that_Cf_is_origin")
+{
+    const highOrderFit::targetFace targetFace
+    (
+        point(2, 4, 3),
+        vector(1, 0, 0),
+        highOrderFit::face({point(0, 0, 0)})
+    );
+
+    
 }
 
-Foam::highOrderFit::stencil::stencil
-(
-    const Foam::highOrderFit::targetFace& targetFace,
-    const Foam::List<Foam::highOrderFit::cell>& cells
-)
-:
-Foam::List<Foam::highOrderFit::cell>(cells),
-targetFace_(targetFace)
-{
-    targetFace_.translate(*this);
-    targetFace_.rotate(*this);
-}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+} // End namespace Test
 
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
-
-Foam::highOrderFit::stencil::~stencil()
-{}
-
-
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-Foam::scalar Foam::highOrderFit::stencil::targetFaceMoment
-(
-    const Foam::highOrderFit::order& o
-) const
-{
-    if (o == order(0, 0, 0))
-    {
-        return 1.0;
-    }
-    else
-    {
-        return 0.0;
-    }
-    //return targetFace_.moment(o);
-}
 
 // ************************************************************************* //

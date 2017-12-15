@@ -83,6 +83,22 @@ TEST_CASE("face_triangle_face_decomposes_into_tets_having_original_orientation")
     }
 }
 
+TEST_CASE("face_calculates_1_0_0_moment_for_unit_square_centred_at_0.5_0_0")
+{
+    highOrderFit::face face
+    (
+        {
+            point(-0.5, -0.5, 0),
+            point( 0.5, -0.5, 0),
+            point( 0.5,  0.5, 0),
+            point(-0.5,  0.5, 0)
+        }
+    );
+    face.translate(vector(0.5, 0, 0));
+
+    CHECK( face.moment(highOrderFit::order(1, 0, 0)) == approx(0.5) );
+}
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test
