@@ -33,14 +33,15 @@ Foam::highOrderFit::stencil::stencil()
 
 Foam::highOrderFit::stencil::stencil
 (
-    const Foam::highOrderFit::targetFace& f,
+    const Foam::highOrderFit::targetFace& targetFace,
     const Foam::List<Foam::highOrderFit::cell>& cells
 )
 :
-Foam::List<Foam::highOrderFit::cell>(cells)
+Foam::List<Foam::highOrderFit::cell>(cells),
+targetFace_(targetFace)
 {
-    f.translate(*this);
-    f.rotate(*this);
+    targetFace_.translate(*this);
+    targetFace_.rotate(*this);
 }
 
 
@@ -57,14 +58,7 @@ Foam::scalar Foam::highOrderFit::stencil::targetFaceMoment
     const Foam::highOrderFit::order& o
 ) const
 {
-    if (o == order(0, 0, 0))
-    {
-        return 1.0;
-    }
-    else
-    {
-        return 0.0;
-    }
+    return targetFace_.moment(o);
 }
 
 // ************************************************************************* //

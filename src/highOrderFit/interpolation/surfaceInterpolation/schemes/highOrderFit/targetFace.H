@@ -25,6 +25,9 @@ Class
     Foam::highOrderFit::targetFace
 
 Description
+    Represents the target face of a stencil through which a flux is calculated.
+
+    \sa Foam::highOrderFit::stencil
 
 SourceFiles
     targetFace.C
@@ -34,9 +37,11 @@ SourceFiles
 #ifndef targetFace_H
 #define targetFace_H
 
+#include "cell.H"
 #include "face.H"
+#include "fvMesh.H"
 #include "point.H"
-#include "stencil.H"
+#include "surfaceFields.H"
 #include "vector.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -49,9 +54,6 @@ namespace Foam
 namespace highOrderFit
 {
 
-// Forward declaration of classes
-class stencil;
-
 /*---------------------------------------------------------------------------*\
                          Class targetFace Declaration
 \*---------------------------------------------------------------------------*/
@@ -60,8 +62,8 @@ class targetFace
 {
     // Private data
 
-        const point Cf_;
-        const vector Sf_;
+        point Cf_;
+        vector Sf_;
 
     // Private Member Functions
 
@@ -74,8 +76,9 @@ class targetFace
 
 public:
 
-
     // Constructors
+
+        targetFace();
     
         targetFace(const fvMesh& mesh, const label facei);
 
@@ -88,9 +91,13 @@ public:
 
     // Member Functions
 
-        void translate(stencil& s) const;
+        //- Translate the stencil such that target face centre is at the origin.
+        void translate(List<cell>&) const;
 
-        void rotate(stencil& s) const;
+        //- Rotate the stencil such that the primary direction is parallel to the target face area vector.
+        void rotate(List<cell>&) const;
+
+        scalar moment(const order&) const;
 };
 
 

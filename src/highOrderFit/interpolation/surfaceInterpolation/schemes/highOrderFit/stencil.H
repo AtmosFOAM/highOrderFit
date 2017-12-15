@@ -52,9 +52,6 @@ namespace Foam
 namespace highOrderFit
 {
 
-// Forward declaration of classes
-class targetFace;
-
 /*---------------------------------------------------------------------------*\
                          Class stencil Declaration
 \*---------------------------------------------------------------------------*/
@@ -63,6 +60,12 @@ class stencil
 :
     public List<cell>
 {
+
+    // Private data
+
+        targetFace targetFace_;
+    
+
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
@@ -90,7 +93,7 @@ public:
         //                    system
         stencil
         (
-            const targetFace& f,
+            const targetFace& targetFace,
             const List<cell>& cells
         );
 

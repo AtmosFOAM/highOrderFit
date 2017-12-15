@@ -28,6 +28,12 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
+Foam::highOrderFit::targetFace::targetFace()
+:
+Cf_(0, 0, 0),
+Sf_(0, 0, 0)
+{}
+
 Foam::highOrderFit::targetFace::targetFace
 (
     const Foam::fvMesh& mesh,
@@ -60,7 +66,7 @@ Foam::highOrderFit::targetFace::~targetFace()
 
 void Foam::highOrderFit::targetFace::translate
 (
-    Foam::highOrderFit::stencil& stencil
+    Foam::List<Foam::highOrderFit::cell>& stencil
 ) const
 {
     forAll(stencil, i)
@@ -72,7 +78,7 @@ void Foam::highOrderFit::targetFace::translate
 
 void Foam::highOrderFit::targetFace::rotate
 (
-    Foam::highOrderFit::stencil& stencil
+    Foam::List<Foam::highOrderFit::cell>& stencil
 ) const
 {
     forAll(stencil, i)
@@ -81,5 +87,19 @@ void Foam::highOrderFit::targetFace::rotate
     }
 }
 
+Foam::scalar Foam::highOrderFit::targetFace::moment
+(
+    const Foam::highOrderFit::order& o
+) const
+{
+    if (o == order(0, 0, 0))
+    {
+        return 1.0;
+    }
+    else
+    {
+        return 0.0;
+    }
+}
 
 // ************************************************************************* //
