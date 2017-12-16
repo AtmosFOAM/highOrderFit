@@ -42,9 +42,9 @@ TEST_CASE("stencil_is_translated_such_that_targetCf_is_coordinate_origin")
 {
     const highOrderFit::targetFace targetFace
     (
+        {},
         point(2, 1, 0),
-        vector(1, 0, 0),
-        highOrderFit::face({})
+        vector(1, 0, 0)
     );
 
     List<highOrderFit::cell> cells(1);
@@ -61,9 +61,9 @@ TEST_CASE("stencil_is_rotated_such_that_primary_direction_is_downwind")
 {
     const highOrderFit::targetFace targetFace
     (
+        {},
         point(0, 0, 0),
-        vector(0, 3, 0),
-        highOrderFit::face({})
+        vector(0, 3, 0)
     );
 
     List<highOrderFit::cell> cells(2);
@@ -93,17 +93,14 @@ TEST_CASE("stencil_calculates_zeroth_moment_of_unit_square_target_face")
 {
     const highOrderFit::targetFace targetFace
     (
+        {
+            point(-0.5, -0.5, 0),
+            point( 0.5, -0.5, 0),
+            point( 0.5,  0.5, 0),
+            point(-0.5,  0.5, 0)
+        },
         point(0, 0, 0),
-        vector(1, 0, 0),
-        highOrderFit::face
-        (
-            {
-                point(-0.5, -0.5, 0),
-                point( 0.5, -0.5, 0),
-                point( 0.5,  0.5, 0),
-                point(-0.5,  0.5, 0)
-            }
-        )
+        vector(1, 0, 0)
     );
 
     const List<highOrderFit::cell> cells;

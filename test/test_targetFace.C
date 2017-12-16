@@ -36,12 +36,24 @@ TEST_CASE("targetFace_translates_itself_such_that_Cf_is_origin")
 {
     const highOrderFit::targetFace targetFace
     (
+        {point(0, 0, 0)},
         point(2, 4, 3),
-        vector(1, 0, 0),
-        highOrderFit::face({point(0, 0, 0)})
+        vector(1, 0, 0)
     );
 
+    checkEqual(targetFace[0], point(-2, -4, -3));
+}
+
+TEST_CASE("targetFace_rotates_itself_such_that_primary_direction_is_downwind")
+{
+    const highOrderFit::targetFace targetFace
+    (
+        {point(0, -1, 0)},
+        point(0, 0, 0),
+        vector(0, 3, 0)
+    );
     
+    checkEqual(targetFace[0], point(-1, 0, 0));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

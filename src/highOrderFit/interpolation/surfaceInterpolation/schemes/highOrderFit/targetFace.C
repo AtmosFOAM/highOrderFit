@@ -26,12 +26,20 @@ License
 #include "targetFace.H"
 #include "surfaceMesh.H"
 
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+
+void Foam::highOrderFit::targetFace::transform()
+{
+    face::translate(-Cf_);
+    face::rotate(unitNormal_, vector(1, 0, 0));
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::targetFace::targetFace()
 :
 Cf_(0, 0, 0),
-Sf_(0, 0, 0)
+unitNormal_(0, 0, 0)
 {}
 
 Foam::highOrderFit::targetFace::targetFace
@@ -41,19 +49,24 @@ Foam::highOrderFit::targetFace::targetFace
 )
 :
 Cf_(mesh.Cf()[facei]),
-Sf_(mesh.Sf()[facei])
-{}
+unitNormal_(mesh.Sf()[facei]/mag(mesh.Sf()[facei]))
+{
+    transform();
+}
 
 Foam::highOrderFit::targetFace::targetFace
 (
+    std::initializer_list<point> lst,
     const Foam::point Cf,
-    const Foam::vector Sf,
-    const Foam::highOrderFit::face f
+    const Foam::vector Sf
 )
 :
+face(lst),
 Cf_(Cf),
-Sf_(Sf)
-{}
+unitNormal_(Sf/mag(Sf))
+{
+    transform();
+}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
@@ -83,16 +96,8 @@ void Foam::highOrderFit::targetFace::rotate
 {
     forAll(stencil, i)
     {
-        stencil[i].rotate(Sf_/mag(Sf_), vector(1, 0, 0));
+        stencil[i].rotate(unitNormal_, vector(1, 0, 0));
     }
-}
-
-Foam::scalar Foam::highOrderFit::targetFace::moment
-(
-    const Foam::highOrderFit::order& o
-) const
-{
-    return face_.moment(o);
 }
 
 // ************************************************************************* //

@@ -59,12 +59,12 @@ namespace highOrderFit
 \*---------------------------------------------------------------------------*/
 
 class targetFace
+    : public face
 {
     // Private data
 
         point Cf_;
-        vector Sf_;
-        face face_;
+        vector unitNormal_;
 
     // Private Member Functions
 
@@ -74,6 +74,7 @@ class targetFace
         // Disallow default bitwise assignment
         //void operator=(const targetFace&);
 
+        void transform();
 
 public:
 
@@ -83,7 +84,12 @@ public:
     
         targetFace(const fvMesh& mesh, const label facei);
 
-        targetFace(const point Cf, const vector Sf, const face f);
+        targetFace
+        (
+            std::initializer_list<point> lst,
+            const point Cf,
+            const vector Sf
+        );
 
 
     //- Destructor
@@ -98,7 +104,6 @@ public:
         //- Rotate the stencil such that the primary direction is parallel to the target face area vector.
         void rotate(List<cell>&) const;
 
-        scalar moment(const order&) const;
 };
 
 
