@@ -53,12 +53,12 @@ Foam::highOrderFit::stencil::~stencil()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-Foam::scalar Foam::highOrderFit::stencil::targetFaceMoment
+Foam::scalar Foam::highOrderFit::stencil::targetFaceMomentAverage
 (
     const Foam::highOrderFit::order& o
 ) const
 {
-    return targetFace_.moment(o);
+    return targetFace_.momentAverage(o);
 }
 
 // ************************************************************************* //

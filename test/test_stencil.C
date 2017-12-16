@@ -108,7 +108,7 @@ TEST_CASE("stencil_calculates_zeroth_moment_of_unit_square_target_face")
     const highOrderFit::stencil stencil(targetFace, cells);
     CHECK
     (
-        stencil.targetFaceMoment(highOrderFit::order(0, 0, 0))
+        stencil.targetFaceMomentAverage(highOrderFit::order(0, 0, 0))
         ==
         approx(1.0)
     );

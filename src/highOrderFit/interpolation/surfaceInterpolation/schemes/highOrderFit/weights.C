@@ -65,7 +65,7 @@ void Foam::highOrderFit::weights::calculate
         forAll(moments_, row)
         {
             weights[col] += Binv(row, col) *
-                stencil.targetFaceMoment(moments_[row]);
+                stencil.targetFaceMomentAverage(moments_[row]);
         }
         weights[col] *= multipliers[col];
     }

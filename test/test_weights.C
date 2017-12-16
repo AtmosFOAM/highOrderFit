@@ -139,6 +139,33 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     checkEqual(actual(), expected);
 }
 
+TEST_CASE("weights_uses_face_average_moment")
+{
+    const Test::testCase c("cartesian4x3HalfSizeMesh");
+    const Test::mesh testMesh(c.mesh());
+    const label facei = testMesh.indexOfFaceWithCentreAt(point(1.5, 0.75, 0));
+
+    const label uCelli = testMesh.indexOfCellWithCentreAt(point(1.25, 0.75, 0));
+    const label dCelli = testMesh.indexOfCellWithCentreAt(point(1.75, 0.75, 0));
+
+    List<highOrderFit::cell> cells(2);
+    cells[0] = highOrderFit::cell(c.mesh(), uCelli);
+    cells[1] = highOrderFit::cell(c.mesh(), dCelli);
+    const highOrderFit::targetFace targetFace(c.mesh(), facei);
+    const highOrderFit::stencil stencil(targetFace, cells);
+
+    const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
+    const scalarList multipliers(2, 1.0);
+    const highOrderFit::weights weights(moments);
+
+    scalarList w(2);
+    weights.calculate(w, stencil, multipliers);
+
+    const label upwind = 0, downwind = 1;
+    CHECK( w[upwind] == approx(0.5) ); 
+    CHECK( w[downwind] == approx(0.5) ); 
+}
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test

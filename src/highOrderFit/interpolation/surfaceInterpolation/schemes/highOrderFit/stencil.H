@@ -104,7 +104,7 @@ public:
 
     // Member Functions
 
-        scalar targetFaceMoment(const order&) const;
+        scalar targetFaceMomentAverage(const order&) const;
 
 };
 

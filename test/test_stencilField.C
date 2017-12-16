@@ -131,7 +131,6 @@ TEST_CASE("stencilField_rotates_stencil_for_horizontal_face")
     }
 }
 
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test

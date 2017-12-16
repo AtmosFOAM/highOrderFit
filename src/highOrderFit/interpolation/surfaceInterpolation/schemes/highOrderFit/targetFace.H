@@ -65,6 +65,7 @@ class targetFace
 
         point Cf_;
         vector unitNormal_;
+        scalar area_;
 
     // Private Member Functions
 
@@ -103,6 +104,8 @@ public:
 
         //- Rotate the stencil such that the primary direction is parallel to the target face area vector.
         void rotate(List<cell>&) const;
+
+        scalar momentAverage(const order&) const;
 
 };
 

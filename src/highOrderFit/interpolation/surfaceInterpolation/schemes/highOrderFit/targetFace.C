@@ -39,7 +39,8 @@ void Foam::highOrderFit::targetFace::transform()
 Foam::highOrderFit::targetFace::targetFace()
 :
 Cf_(0, 0, 0),
-unitNormal_(0, 0, 0)
+unitNormal_(0, 0, 0),
+area_(0)
 {}
 
 Foam::highOrderFit::targetFace::targetFace
@@ -50,7 +51,8 @@ Foam::highOrderFit::targetFace::targetFace
 :
 face(mesh, facei),
 Cf_(mesh.Cf()[facei]),
-unitNormal_(mesh.Sf()[facei]/mag(mesh.Sf()[facei]))
+unitNormal_(mesh.Sf()[facei]/mag(mesh.Sf()[facei])),
+area_(mag(mesh.Sf()[facei]))
 {
     transform();
 }
@@ -64,7 +66,8 @@ Foam::highOrderFit::targetFace::targetFace
 :
 face(lst),
 Cf_(Cf),
-unitNormal_(Sf/mag(Sf))
+unitNormal_(Sf/mag(Sf)),
+area_(mag(Sf))
 {
     transform();
 }
@@ -99,6 +102,15 @@ void Foam::highOrderFit::targetFace::rotate
     {
         stencil[i].rotate(unitNormal_, vector(1, 0, 0));
     }
+}
+
+
+Foam::scalar Foam::highOrderFit::targetFace::momentAverage
+(
+    const Foam::highOrderFit::order& o
+) const
+{
+    return face::moment(o) / area_;
 }
 
 // ************************************************************************* //
