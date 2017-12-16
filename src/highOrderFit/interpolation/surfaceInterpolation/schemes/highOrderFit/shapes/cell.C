@@ -47,23 +47,11 @@ C_(mesh.C()[celli])
     const labelList& faces = mesh.cells()[celli];
     forAll(faces, i)
     {
-        highOrderFit::face& stencilCellFace = (*this)[i];
-        const Foam::face& face = mesh.faces()[faces[i]];
-        
-        bool owner = (mesh.owner()[faces[i]] == celli);
+        (*this)[i] = face(mesh, faces[i]);
 
-        stencilCellFace.setSize(face.size());
-        forAll(face, pointi)
+        if (mesh.neighbour()[faces[i]] == celli)
         {
-            if (owner)
-            {
-                stencilCellFace[pointi] = mesh.points()[face[pointi]];
-            }
-            else
-            {
-                stencilCellFace[face.size() - pointi - 1] =
-                    mesh.points()[face[pointi]];
-            }
+            (*this)[i].flip();
         }
     }
 }

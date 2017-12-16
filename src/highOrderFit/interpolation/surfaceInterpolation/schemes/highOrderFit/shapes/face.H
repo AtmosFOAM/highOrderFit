@@ -35,6 +35,7 @@ SourceFiles
 #ifndef highOrderFit_face_H
 #define highOrderFit_face_H
 
+#include "fvMesh.H"
 #include "List.H"
 #include "order.H"
 #include "point.H"
@@ -77,6 +78,8 @@ public:
         //  Necessary only for initialising collections of faces.
         face();
 
+        face(const fvMesh& mesh, const label facei);
+
         //- Construct from the given initialiser list.
         face(std::initializer_list<point> lst);
 
@@ -105,6 +108,9 @@ public:
         void rotate(const quaternion& q);
 
         scalar moment(const order&) const;
+
+        //- Flip this face by reversing the order of its points.
+        void flip();
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

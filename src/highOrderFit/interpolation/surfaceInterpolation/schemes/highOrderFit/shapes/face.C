@@ -32,6 +32,22 @@ Foam::highOrderFit::face::face()
 {}
 
 
+Foam::highOrderFit::face::face
+(
+    const Foam::fvMesh& mesh,
+    const Foam::label facei
+)
+:
+List<point>(mesh.faces()[facei].size())
+{
+    const Foam::face& f = mesh.faces()[facei];
+    forAll(f, pointi)
+    {
+        (*this)[pointi] = mesh.points()[f[pointi]];
+    }
+}
+
+
 Foam::highOrderFit::face::face(std::initializer_list<point> lst)
 :
     List<point>(lst)
@@ -95,6 +111,7 @@ void Foam::highOrderFit::face::rotate(const Foam::quaternion& q)
     }
 }
 
+
 Foam::scalar Foam::highOrderFit::face::moment
 (
     const Foam::highOrderFit::order& o
@@ -111,6 +128,17 @@ Foam::scalar Foam::highOrderFit::face::moment
     }
 
     return moment;
+}
+
+
+void Foam::highOrderFit::face::flip()
+{
+    const label n = size();
+
+    for (label i=1; i < (n+1)/2; ++i)
+    {
+        Swap(operator[](i), operator[](n-i));
+    }
 }
 
 // ************************************************************************* //
