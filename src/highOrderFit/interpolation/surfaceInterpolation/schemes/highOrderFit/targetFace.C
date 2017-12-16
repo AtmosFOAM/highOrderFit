@@ -48,6 +48,7 @@ Foam::highOrderFit::targetFace::targetFace
     const Foam::label facei
 )
 :
+face(mesh, facei),
 Cf_(mesh.Cf()[facei]),
 unitNormal_(mesh.Sf()[facei]/mag(mesh.Sf()[facei]))
 {

@@ -58,15 +58,7 @@ Foam::scalar Foam::highOrderFit::stencil::targetFaceMoment
     const Foam::highOrderFit::order& o
 ) const
 {
-    if (o == order(0, 0, 0))
-    {
-        return 1.0;
-    }
-    else
-    {
-        return 0.0;
-    }
-    //return targetFace_.moment(o);
+    return targetFace_.moment(o);
 }
 
 // ************************************************************************* //
