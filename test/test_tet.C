@@ -25,6 +25,7 @@ License
 
 #include "catch.hpp"
 #include "checks.H"
+#include "HashTable.H"
 #include "tet.H"
 
 using namespace Foam;
@@ -35,7 +36,7 @@ namespace Test
 TEST_CASE("tet_calculates_zeroth_volume_moment")
 {
     const point a(1, 0 ,0), b(0, 1, 0), c(0, 0, 1);
-    const highOrderFit::tet t(a, b, c);
+    highOrderFit::tet t(a, b, c);
 
     CHECK( t.volumeMoment(highOrderFit::order(0, 0, 0)) == approx(1.0/6.0) );
 }
@@ -43,7 +44,7 @@ TEST_CASE("tet_calculates_zeroth_volume_moment")
 TEST_CASE("tet_calculates_1_0_0_volume_moment")
 {
     const point a(2, 3, 1), b(1, 1, 4), c(4, 4, 2);
-    const highOrderFit::tet t(a, b, c);
+    highOrderFit::tet t(a, b, c);
 
     tensor A(a, b, c);
     A = A.T();
@@ -55,7 +56,7 @@ TEST_CASE("tet_calculates_1_0_0_volume_moment")
 TEST_CASE("tet_calculates_0_2_0_volume_moment")
 {
     const point a(2, 3, 1), b(1, 1, 4), c(4, 4, 2);
-    const highOrderFit::tet t(a, b, c);
+    highOrderFit::tet t(a, b, c);
 
     tensor A(a, b, c);
     A = A.T();
