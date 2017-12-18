@@ -48,7 +48,7 @@ Foam::scalar Foam::highOrderFit::tet::moment
             exponentTensor.factorialRatio() * 
             exponentTensor.productOfExponentials(A);
     }
-    
+
     return order.factorialRatio(dimensions) * sumOfExponentTensorTerms;
 }
 
@@ -90,12 +90,21 @@ Foam::highOrderFit::tet::tet
 Foam::scalar Foam::highOrderFit::tet::volumeMoment
 (
     const Foam::highOrderFit::order& order
-) const
+)
 {
-    tensor A(*this);
-    A = A.T();
+    if (!cache_.found(order))
+    {
+        tensor A(*this);
+        A = A.T();
 
-    return det(A) * moment(order, A, 3);
+        cache_.insert
+        (
+            order,
+            det(A) * moment(order, A, 3)
+        );
+    }
+
+    return cache_[order];
 }
 
 

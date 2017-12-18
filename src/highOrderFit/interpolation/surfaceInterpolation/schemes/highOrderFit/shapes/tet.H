@@ -56,14 +56,14 @@ namespace highOrderFit
 class tet
     : public Vector<point>
 {
+    // Private data
+
+        HashTable<scalar, order, Hash<order>> cache_;
 
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
         tet(const tet&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const tet&);
         
         scalar moment
         (
@@ -98,7 +98,7 @@ public:
         //  Volumes may be negative depending on the orientation of the face
         //  <tt>(a, b, c)</tt>.
         //  \sa Foam::highOrderFit::cell::moment
-        scalar volumeMoment(const order& o) const;
+        scalar volumeMoment(const order& o);
 
         //- Calculate the surface moment of the given order.
         //  \sa Foam::highOrderFit::face::moment
