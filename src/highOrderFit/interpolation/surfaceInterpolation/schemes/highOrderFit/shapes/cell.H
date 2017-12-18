@@ -65,14 +65,6 @@ class cell
 
         point C_;
 
-    // Private Member Functions
-
-        // Disallow default bitwise copy construct
-        //cell(const cell&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const cell&);
-
 public:
 
     // Constructors

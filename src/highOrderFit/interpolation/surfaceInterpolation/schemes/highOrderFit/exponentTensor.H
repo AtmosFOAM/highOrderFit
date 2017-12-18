@@ -61,15 +61,6 @@ class exponentTensor
     public labelTensor
 {
 
-    // Private Member Functions
-
-        // Disallow default bitwise copy construct
-        //exponentTensor(const exponentTensor&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const exponentTensor&);
-
-
 public:
 
     // Constructors
@@ -78,8 +69,10 @@ public:
         //  Necessary only for initialising collections of exponentTensors.
         exponentTensor();
 
+        //- Construct an instance from the given row vectors.
         exponentTensor(const vector& x, const vector& y, const vector& z);
 
+        //- Construct an instance from the given elements.
         exponentTensor
         (
             const label xx,

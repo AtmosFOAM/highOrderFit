@@ -177,6 +177,7 @@ public:
             );
         }
 
+        //- Obtain interpolation diagnostics for a face of the specified field.
         autoPtr<highOrderFit::Diagnostic<Type>> diagnose
         (
             const label facei,
@@ -196,6 +197,7 @@ public:
                 )
             );
         }
+
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

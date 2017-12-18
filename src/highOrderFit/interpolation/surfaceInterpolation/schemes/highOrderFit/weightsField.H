@@ -96,6 +96,7 @@ public:
 
     // Member Functions
 
+        //- Return diagnostics about the stencil weights for the given face.
         const autoPtr<weightsDiagnostic> diagnose(const label facei) const;
 
 };

@@ -59,15 +59,8 @@ namespace highOrderFit
 class order
     : public labelVector
 {
-    // Private data
  
     // Private Member Functions
-
-        // Disallow default bitwise copy construct
-        //order(const order&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const order&);
 
         void calculateRowCandidates
         (

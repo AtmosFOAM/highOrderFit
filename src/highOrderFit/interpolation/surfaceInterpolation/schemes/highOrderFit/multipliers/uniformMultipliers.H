@@ -72,6 +72,7 @@ public:
 
     // Constructors
 
+        //- Construct a default instance.
         uniformMultipliers();
 
 

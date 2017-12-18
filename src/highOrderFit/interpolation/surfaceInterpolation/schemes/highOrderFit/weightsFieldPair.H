@@ -80,6 +80,7 @@ public:
 
     // Constructors
 
+        //- Construct a pair of \ref weightsField "weightsFields" for the given mesh, stencil, and configuration parameters.
         weightsFieldPair
         (
             const fvMesh& mesh,
@@ -95,11 +96,13 @@ public:
 
     // Member Functions
     
+        //- Obtain a reference to the owner side weightsField.
         const weightsField& owner() const
         {
             return owner_;
         }
     
+        //- Obtain a reference to the neighbour side weightsField.
         const weightsField& neighbour() const
         {
             return neighbour_;
@@ -111,6 +114,7 @@ public:
             return isOwner ? owner_ : neighbour_;
         }
 
+        //- Does nothing since moving meshes are not currently supported.
         bool movePoints();
 };
 

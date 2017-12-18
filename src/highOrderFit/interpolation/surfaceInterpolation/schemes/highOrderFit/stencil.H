@@ -71,9 +71,6 @@ class stencil
         //- Disallow default bitwise copy construct
         stencil(const stencil&);
 
-        //Disallow default bitwise assignment
-        //void operator=(const stencil&);
-
 
 public:
 
@@ -104,6 +101,8 @@ public:
 
     // Member Functions
 
+        //- Calculate a moment for the stencil's target face, divided by the face area.
+        //  \sa Foam::highOrderFit::targetFace::momentAverage
         scalar targetFaceMomentAverage(const order&) const;
 
 };

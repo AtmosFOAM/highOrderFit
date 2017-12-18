@@ -64,9 +64,6 @@ class stencilField
 
     // Private Member Functions
 
-        // Disallow default bitwise copy construct
-        //stencilField(const stencilField&);
-
         //- Disallow default bitwise assignment
         void operator=(const stencilField&);
 

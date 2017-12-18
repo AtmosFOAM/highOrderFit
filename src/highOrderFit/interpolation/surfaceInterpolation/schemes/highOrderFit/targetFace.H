@@ -69,22 +69,25 @@ class targetFace
 
     // Private Member Functions
 
-        // Disallow default bitwise copy construct
-        //targetFace(const targetFace&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const targetFace&);
-
         void transform();
 
 public:
 
     // Constructors
 
-        targetFace();
-    
+        //- Construct an instance for a given face.
+        //  @param mesh a mesh instance
+        //  @param facei an index into <tt>mesh.faces()</tt>
         targetFace(const fvMesh& mesh, const label facei);
 
+        //- Construct an empty instance.
+        //  Necessary only for initialising collections involving targetFaces.
+        targetFace();
+
+        //- Construct from the given initialiser list, face centre and face area vector.
+        //  @param lst an oriented list of vertex points
+        //  @param Cf  the face centre
+        //  @param Sf  the face area vector
         targetFace
         (
             std::initializer_list<point> lst,
@@ -105,6 +108,8 @@ public:
         //- Rotate the stencil such that the primary direction is parallel to the target face area vector.
         void rotate(List<cell>&) const;
 
+        //- Calculate a moment for the stencil's target face, divided by the face area.
+        //  \sa Foam::highOrderFit::face::moment
         scalar momentAverage(const order&) const;
 
 };

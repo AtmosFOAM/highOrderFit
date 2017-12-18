@@ -61,24 +61,18 @@ class face
     public List<point>
 {
 
-    // Private Member Functions
-
-        // Disallow default bitwise copy construct
-        //face(const face&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const face&);
-
-
 public:
 
     // Constructors
 
+        //- Construct an instance for a given face.
+        //  @param mesh a mesh instance
+        //  @param facei an index into <tt>mesh.faces()</tt>
+        face(const fvMesh& mesh, const label facei);
+
         //- Construct an empty instance with no vertex points.
         //  Necessary only for initialising collections of faces.
         face();
-
-        face(const fvMesh& mesh, const label facei);
 
         //- Construct from the given initialiser list.
         face(std::initializer_list<point> lst);
@@ -107,6 +101,7 @@ public:
         //- Rotate the face by the given quaternion.
         void rotate(const quaternion& q);
 
+        //- Calculate the surface moment of the given order.
         scalar moment(const order&) const;
 
         //- Flip this face by reversing the order of its points.
