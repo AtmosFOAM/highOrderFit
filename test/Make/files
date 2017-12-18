@@ -4,6 +4,7 @@ mesh.C
 test_cell.C
 test_exponentTensor.C
 test_face.C
+test_faceCache.C
 test_highOrderFitScheme.C
 test_order.C
 test_stencil.C
