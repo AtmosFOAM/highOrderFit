@@ -39,6 +39,7 @@ SourceFiles
 #define order_H
 
 #include "exponentTensor.H"
+#include "Hash.H"
 #include "labelVector.H"
 #include "labelTensor.H"
 
@@ -69,6 +70,21 @@ class order
         ) const;
 
 public:
+
+    //- Hashing function class.
+    template<class HashT=Hash<Foam::highOrderFit::order>>
+    class Hash
+    {
+    public:
+        Hash()
+        {}
+
+        inline unsigned operator()
+        (
+            const order&,
+            unsigned seed = 0
+        ) const;
+    };
 
     // Constructors
     
@@ -110,6 +126,10 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include "orderI.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
