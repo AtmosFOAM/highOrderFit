@@ -39,6 +39,7 @@ SourceFiles
 #include "autoPtr.H"
 #include "Diagnostic.H"
 #include "extendedUpwindCellToFaceStencil.H"
+#include "faceCache.H"
 #include "multipliers.H"
 #include "order.H"
 #include "stencilBoundaryPolicy.H"
@@ -70,6 +71,7 @@ class highOrderFitScheme
         const scalar minOpposedness_ = 0.5;
 
         const fvMesh& mesh_;
+        highOrderFit::faceCache faceCache_;
         const extendedUpwindCellToFaceStencil& stencils_;
         const List<highOrderFit::order> moments_;
         const autoPtr<highOrderFit::multipliers> multipliers_;
@@ -83,7 +85,7 @@ class highOrderFitScheme
         //- Disallow default bitwise assignment
         void operator=(const highOrderFitScheme&);
 
-        const extendedUpwindCellToFaceStencil& initialiseStencils()
+        const extendedUpwindCellToFaceStencil& initialiseStencils() const
         {
             return upwindCPCCellToFaceStencilObject::New
             (
@@ -98,7 +100,23 @@ class highOrderFitScheme
             );
         }
 
-        const highOrderFit::weightsFieldPair& initialiseWeights()
+        const List<highOrderFit::order> initialiseMoments
+        (
+            Istream& is
+        )
+        {
+            const List<labelVector> labelVectors(is);
+
+            List<highOrderFit::order> moments(labelVectors.size());
+            forAll(labelVectors, i)
+            {
+                moments[i] = highOrderFit::order(labelVectors[i], faceCache_);
+            }
+
+            return moments;
+        }
+
+        const highOrderFit::weightsFieldPair& initialiseWeights() const
         {
             return highOrderFit::weightsFieldPair::New
             (
@@ -130,7 +148,7 @@ public:
             ),
             mesh_(mesh),
             stencils_(initialiseStencils()),
-            moments_(List<highOrderFit::order>(is)),
+            moments_(initialiseMoments(is)),
             multipliers_(highOrderFit::multipliers::New(word(is))),
             weights_(initialiseWeights())
         {}
@@ -147,7 +165,7 @@ public:
             upwind<Type>(mesh, faceFlux),
             mesh_(mesh),
             stencils_(initialiseStencils()),
-            moments_(List<highOrderFit::order>(is)),
+            moments_(initialiseMoments(is)),
             multipliers_(highOrderFit::multipliers::New(word(is))),
             weights_(initialiseWeights())
         {}

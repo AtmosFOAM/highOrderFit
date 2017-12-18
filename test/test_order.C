@@ -71,36 +71,8 @@ TEST_CASE("order_calculates_exponent_tensor_for_1_0_0_moment")
     );
 }
 
-TEST_CASE("order_round_trips_through_IOstreams")
-{
-    const highOrderFit::order orderOut(2, 3, 4);
-
-    OStringStream o;
-    o << orderOut << endl;
-
-    IStringStream i(o.str());
-    const highOrderFit::order orderIn(i);
-
-    CHECK( orderIn == orderOut );
-}
-
-TEST_CASE("order_round_trips_list_through_IOstreams")
-{
-    List<highOrderFit::order> orderOut(1);
-    orderOut[0] = highOrderFit::order(2, 3, 4);
-
-    OStringStream o;
-    o << orderOut << endl;
-
-    IStringStream i(o.str());
-    List<highOrderFit::order> orderIn;
-
-    checkEqual(orderIn, orderOut);
-}
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test
-
 
 // ************************************************************************* //

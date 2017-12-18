@@ -57,18 +57,15 @@ Foam::highOrderFit::order::order
     const Foam::label z
 )
 :
-    Foam::labelVector(x, y, z)
+Foam::labelVector(x, y, z)
 {}
 
 
-Foam::highOrderFit::order::order(Istream& is)
-{
-    // Check state of Istream
-    is.check("Foam::highOrderFit::order::order(Foam::Istream&)");
-
-    operator>>(is, *this);
-}
-
+Foam::highOrderFit::order::order(const labelVector& v, faceCache& cache)
+:
+Foam::labelVector(v),
+cache_(&cache)        
+{}
 
 Foam::highOrderFit::order::order()
 {}

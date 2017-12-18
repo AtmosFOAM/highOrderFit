@@ -52,7 +52,9 @@ namespace Foam
 
 namespace highOrderFit
 {
- 
+
+class faceCache;
+
 /*---------------------------------------------------------------------------*\
                          Class order Declaration
 \*---------------------------------------------------------------------------*/
@@ -60,6 +62,9 @@ namespace highOrderFit
 class order
     : public labelVector
 {
+    // Private data
+
+        faceCache* cache_ = nullptr;
  
     // Private Member Functions
 
@@ -88,14 +93,15 @@ public:
 
     // Constructors
     
+        //- Construct with specified exponents.
         order(const label x, const label y, const label z);
+
+        //- Construct with exponents specified by the labelVector.
+        order(const labelVector&, faceCache& cache);
 
         //- Construct an instance with zero exponents.
         //  Necessary only for initialising collections of orders.
         order();
-
-        //- Construct by reading from an input stream.
-        order(Istream&);
 
 
     //- Destructor
