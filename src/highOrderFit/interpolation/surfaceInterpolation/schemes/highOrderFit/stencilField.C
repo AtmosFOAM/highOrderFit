@@ -28,6 +28,7 @@ License
 #include "targetFace.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
 Foam::highOrderFit::stencilField::stencilField
 (
     const Foam::labelListList& stencilCellsList,

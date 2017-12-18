@@ -63,7 +63,6 @@ multipliers_(multipliers)
 
         w.setSize(size);
 
-//        const inverseDistanceMultipliers multipliers(size);
         scalarList m;
         multipliers_.calculate(stencil, m); 
         weights_.calculate(w, stencil, m);
