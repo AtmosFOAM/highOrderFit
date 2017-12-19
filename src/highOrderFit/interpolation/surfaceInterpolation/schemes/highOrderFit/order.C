@@ -122,4 +122,15 @@ void Foam::highOrderFit::order::calculateExponentTensors
 }
 
 
+bool Foam::highOrderFit::order::cacheEnabled() const
+{
+    return cache_ != nullptr;
+}
+
+
+/*faceCache& Foam::highOrderFit::order::cache() const
+{
+    return *cache_;
+}*/
+
 // ************************************************************************* //

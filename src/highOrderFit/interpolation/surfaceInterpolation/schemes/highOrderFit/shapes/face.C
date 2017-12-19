@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "face.H"
+#include "faceCache.H"
 #include "transform.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
@@ -119,6 +120,12 @@ Foam::scalar Foam::highOrderFit::face::moment
 {
     scalar moment = 0.0;
 
+    /*if (o.cacheEnabled())
+    {
+
+        const faceCache::decomposer func = std::bind(&face::decompose, this, std::placeholders::_1);
+        o.cache().calculateIfNecessary(*this, func);
+    }*/
     List<tet> faceTets;
     decompose(faceTets);
 

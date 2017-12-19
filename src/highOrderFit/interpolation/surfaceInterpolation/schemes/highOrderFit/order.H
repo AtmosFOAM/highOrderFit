@@ -122,6 +122,9 @@ public:
         //               exponentTensors.
         void calculateExponentTensors(List<exponentTensor>& K) const;
 
+        bool cacheEnabled() const;
+
+        //faceCache& cache() const;
 };
 
 
