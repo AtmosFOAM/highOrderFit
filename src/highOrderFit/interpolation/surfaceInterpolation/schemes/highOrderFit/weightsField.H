@@ -75,6 +75,7 @@ class weightsField
         //- Disallow default bitwise assignment
         void operator=(const weightsField&);
 
+        void calculateWeightsFor(const label facei);
 
 public:
 

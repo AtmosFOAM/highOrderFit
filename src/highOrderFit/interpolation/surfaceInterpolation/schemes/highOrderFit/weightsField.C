@@ -32,6 +32,29 @@ License
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
+void Foam::highOrderFit::weightsField::calculateWeightsFor
+(
+    const Foam::label facei
+)
+{
+    scalarList& w = (*this)[facei];
+    const stencil& stencil = stencils_[facei];
+    const label size = stencil.size();
+
+    if (size < 2)
+    {
+        FatalErrorInFunction
+            << "stencil for facei " << facei << " has fewer than two cells"
+            << abort(FatalError);
+    }
+
+    w.setSize(size);
+
+    scalarList m;
+    multipliers_.calculate(stencil, m); 
+    weights_.calculate(w, stencil, m);
+    w[0] -= 1;
+}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -50,23 +73,25 @@ multipliers_(multipliers)
 {
     for (label facei = 0; facei < mesh.nInternalFaces(); facei++)
     {
-        scalarList& w = (*this)[facei];
-        const stencil& stencil = stencils_[facei];
-        const label size = stencil.size();
+        calculateWeightsFor(facei);
+    }
 
-        if (size < 2)
+    const fvBoundaryMesh& boundary = mesh.boundary();
+
+    forAll(boundary, patchi)
+    {
+        const fvPatch& patch = boundary[patchi];
+
+        if (patch.coupled())
         {
-            FatalErrorInFunction
-                << "stencil for facei " << facei << " has fewer than two cells"
-                << abort(FatalError);
+            forAll(patch, i)
+            {
+                const label facei = patch.start() + i;
+
+                calculateWeightsFor(facei);
+                //std::cerr << (*this)[facei][0] << " " << (*this)[facei][1] << endl;
+            }
         }
-
-        w.setSize(size);
-
-        scalarList m;
-        multipliers_.calculate(stencil, m); 
-        weights_.calculate(w, stencil, m);
-        w[0] -= 1;
     }
 }
 
