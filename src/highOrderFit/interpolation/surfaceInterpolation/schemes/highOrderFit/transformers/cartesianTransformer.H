@@ -22,103 +22,60 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::weightsFieldPair
+    Foam::highOrderFit::cartesianTransformer
 
 Description
-    Contains \ref weightsField "weightsFields" for owner and neighbour sides.
-
-    A single weightsFieldsPair instance can be associated with an fvMesh
-    using the MeshObject run-time selector.
 
 SourceFiles
-    weightsFieldPair.C
+    cartesianTransformer.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef weightsFieldPair_H
-#define weightsFieldPair_H
-
-#include "cartesianTransformer.H"
-#include "extendedUpwindCellToFaceStencil.H"
-#include "fvMesh.H"
-#include "MeshObject.H"
-#include "order.H"
-#include "weightsField.H"
+#ifndef cartesianTransformer_H
+#define cartesianTransformer_H
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
- 
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace highOrderFit
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class weightsFieldPair Declaration
+                         Class cartesianTransformer Declaration
 \*---------------------------------------------------------------------------*/
 
-class weightsFieldPair
-:
-    public MeshObject<fvMesh, MoveableMeshObject, weightsFieldPair>
+class cartesianTransformer
 {
     // Private data
-
-        const weightsField owner_;
-        const weightsField neighbour_;
 
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        weightsFieldPair(const weightsFieldPair&);
+        cartesianTransformer(const cartesianTransformer&);
 
         //- Disallow default bitwise assignment
-        void operator=(const weightsFieldPair&);
+        void operator=(const cartesianTransformer&);
 
 
 public:
 
     // Constructors
 
-        //- Construct a pair of \ref weightsField "weightsFields" for the given mesh, stencil, and configuration parameters.
-        weightsFieldPair
-        (
-            const fvMesh& mesh,
-            const extendedUpwindCellToFaceStencil& stencils,
-            const cartesianTransformer& transformer,
-            const List<order>& moments,
-            const multipliers& multipliers
-        );
+        cartesianTransformer();
 
 
     //- Destructor
-    ~weightsFieldPair();
+    ~cartesianTransformer();
 
 
     // Member Functions
-    
-        //- Obtain a reference to the owner side weightsField.
-        const weightsField& owner() const
-        {
-            return owner_;
-        }
-    
-        //- Obtain a reference to the neighbour side weightsField.
-        const weightsField& neighbour() const
-        {
-            return neighbour_;
-        }
 
-        //- Return the appropriately-sided weightsField depending on \t isOwner.
-        const weightsField& side(const bool isOwner) const
-        {
-            return isOwner ? owner_ : neighbour_;
-        }
-
-        //- Does nothing since moving meshes are not currently supported.
-        bool movePoints();
 };
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

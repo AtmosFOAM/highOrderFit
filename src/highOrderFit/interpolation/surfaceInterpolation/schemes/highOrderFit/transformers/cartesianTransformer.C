@@ -23,68 +23,21 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "weightsFieldPair.H"
-
-#include "stencilField.H"
+#include "cartesianTransformer.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weightsFieldPair::weightsFieldPair
-(
-    const Foam::fvMesh& mesh,
-    const Foam::extendedUpwindCellToFaceStencil& stencils,
-    const Foam::highOrderFit::cartesianTransformer& transformer,
-    const Foam::List<Foam::highOrderFit::order>& moments,
-    const Foam::highOrderFit::multipliers& multipliers
-)
-:
-Foam::MeshObject
-<
-    Foam::fvMesh,
-    Foam::MoveableMeshObject,
-    Foam::highOrderFit::weightsFieldPair
->
-(
-    mesh
-),
-owner_
-(
-    mesh,
-    highOrderFit::stencilField
-    (
-        stencils.ownStencil(),
-        stencils.ownMap(),
-        mesh
-    ),
-    moments,
-    multipliers
-),
-neighbour_
-(
-    mesh,
-    highOrderFit::stencilField
-    (
-        stencils.neiStencil(),
-        stencils.neiMap(),
-        mesh
-    ),
-    moments,
-    multipliers
-)
+Foam::highOrderFit::cartesianTransformer::cartesianTransformer()
 {}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::weightsFieldPair::~weightsFieldPair()
+Foam::highOrderFit::cartesianTransformer::~cartesianTransformer()
 {}
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-bool Foam::highOrderFit::weightsFieldPair::movePoints()
-{
-    return true;
-}
 
 // ************************************************************************* //

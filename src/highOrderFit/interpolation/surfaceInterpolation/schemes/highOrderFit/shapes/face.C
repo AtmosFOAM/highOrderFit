@@ -98,7 +98,15 @@ void Foam::highOrderFit::face::rotate
     const Foam::vector to
 )
 {
-    const quaternion q(rotationTensor(from, to));
+    const scalar s = from & to;
+    const scalar magSqrN3 = magSqr(from ^ to);
+
+    tensor t = rotationTensor(from, to);
+    if (magSqrN3 <= SMALL && s < 0)
+    {
+        t = I;
+    }
+    const quaternion q(t);
     rotate(q);
 }
 

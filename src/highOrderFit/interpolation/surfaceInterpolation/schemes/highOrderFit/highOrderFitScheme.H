@@ -37,6 +37,7 @@ SourceFiles
 #define highOrderFitScheme_H
 
 #include "autoPtr.H"
+#include "cartesianTransformer.H"
 #include "Diagnostic.H"
 #include "extendedUpwindCellToFaceStencil.H"
 #include "multipliers.H"
@@ -71,6 +72,7 @@ class highOrderFitScheme
 
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
+        const highOrderFit::cartesianTransformer transformer_;
         const List<highOrderFit::order> moments_;
         const autoPtr<highOrderFit::multipliers> multipliers_;
         const highOrderFit::weightsFieldPair& weights_;
@@ -104,6 +106,7 @@ class highOrderFitScheme
             (
                 mesh_,
                 stencils_,
+                transformer_,
                 moments_,
                 multipliers_
             );

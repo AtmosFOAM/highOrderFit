@@ -10,6 +10,9 @@ $(highOrderFit)/weights.C
 $(highOrderFit)/weightsField.C
 $(highOrderFit)/weightsFieldPair.C
 
+diagnostic = $(highOrderFit)/diagnostic
+$(diagnostic)/weightsDiagnostic.C
+
 multipliers = $(highOrderFit)/multipliers
 $(multipliers)/inverseDistanceMultipliers.C
 $(multipliers)/multipliers.C
@@ -20,7 +23,7 @@ $(shapes)/cell.C
 $(shapes)/face.C
 $(shapes)/tet.C
 
-diagnostic = $(highOrderFit)/diagnostic
-$(diagnostic)/weightsDiagnostic.C
+transformers = $(highOrderFit)/transformers
+$(transformers)/cartesianTransformer.C
 
 LIB = $(FOAM_USER_LIBBIN)/libhighOrderFit
