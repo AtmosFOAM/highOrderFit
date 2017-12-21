@@ -83,38 +83,27 @@ void Foam::highOrderFit::face::decompose
 }
 
 
-void Foam::highOrderFit::face::translate(const Foam::vector x)
-{
-    forAll((*this), pointi)
-    {
-        (*this)[pointi] += x;
-    }
-}
-
-
-void Foam::highOrderFit::face::rotate
+void Foam::highOrderFit::face::transform
 (
+    const Foam::vector x,
     const Foam::vector from,
     const Foam::vector to
 )
 {
-    const scalar s = from & to;
-    const scalar magSqrN3 = magSqr(from ^ to);
+    //const scalar s = from & to;
+    //const scalar magSqrN3 = magSqr(from ^ to);
 
-    tensor t = rotationTensor(from, to);
-    if (magSqrN3 <= SMALL && s < 0)
-    {
-        t = I;
-    }
-    const quaternion q(t);
-    rotate(q);
-}
+    //tensor t = rotationTensor(from, to);
+    //if (magSqrN3 <= SMALL && s < 0)
+    //{
+    //    t = I;
+    //}
+    const quaternion q(rotationTensor(from, to));
 
-
-void Foam::highOrderFit::face::rotate(const Foam::quaternion& q)
-{
     forAll((*this), pointi)
     {
+        (*this)[pointi] += x;
+
         (*this)[pointi] = q.transform((*this)[pointi]);
     }
 }

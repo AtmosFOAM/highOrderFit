@@ -94,7 +94,7 @@ TEST_CASE("face_calculates_1_0_0_moment_for_unit_square_centred_at_0.5_0_0")
             point(-0.5,  0.5, 0)
         }
     );
-    face.translate(vector(0.5, 0, 0));
+    face.transform(vector(0.5, 0, 0), vector(1, 0, 0), vector(1, 0, 0));
 
     CHECK( face.moment(highOrderFit::order(1, 0, 0)) == approx(0.5) );
 }

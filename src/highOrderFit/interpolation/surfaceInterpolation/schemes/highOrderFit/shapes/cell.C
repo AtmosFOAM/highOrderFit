@@ -105,8 +105,7 @@ void Foam::highOrderFit::cell::transform
 
     forAll((*this), facei)
     {
-        (*this)[facei].rotate(q);
-        (*this)[facei].translate(x);
+        (*this)[facei].transform(x, from, to);
     }
 }
 

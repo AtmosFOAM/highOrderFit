@@ -90,16 +90,8 @@ public:
         //               be initialised
         void decompose(List<tet>& tets) const;
         
-        //- Translate the face by vector \c x.
-        void translate(const vector x);
-
-        //- Rotate the face to align \c from with \c to.
-        //  The transformation is constrained by the quaternion rotation, so
-        //  faces cannot be rotated 180&deg; or more.
-        void rotate(const vector from, const vector to);
-
-        //- Rotate the face by the given quaternion.
-        void rotate(const quaternion& q);
+        //- Transform the cell into local coordinates.
+        void transform(const vector x, const vector from, const vector to);
 
         //- Calculate the surface moment of the given order.
         scalar moment(const order&) const;

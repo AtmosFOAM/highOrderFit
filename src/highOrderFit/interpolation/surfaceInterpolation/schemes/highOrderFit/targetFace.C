@@ -30,8 +30,7 @@ License
 
 void Foam::highOrderFit::targetFace::transform()
 {
-    face::translate(-Cf_);
-    face::rotate(unitNormal_, vector(1, 0, 0));
+    face::transform(-Cf_, unitNormal_, vector(1, 0, 0));
 }
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
