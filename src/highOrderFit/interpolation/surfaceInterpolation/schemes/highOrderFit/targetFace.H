@@ -102,11 +102,8 @@ public:
 
     // Member Functions
 
-        //- Translate the stencil such that target face centre is at the origin.
-        void translate(List<cell>&) const;
-
-        //- Rotate the stencil such that the primary direction is parallel to the target face area vector.
-        void rotate(List<cell>&) const;
+        //- Transform the stencil into local coordinates.
+        void transform(List<cell>&) const;
 
         //- Calculate a moment for the stencil's target face, divided by the face area.
         //  \sa Foam::highOrderFit::face::moment

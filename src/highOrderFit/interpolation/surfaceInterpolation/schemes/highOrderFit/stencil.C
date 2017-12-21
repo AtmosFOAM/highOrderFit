@@ -40,8 +40,7 @@ Foam::highOrderFit::stencil::stencil
 Foam::List<Foam::highOrderFit::cell>(cells),
 targetFace_(targetFace)
 {
-    targetFace_.translate(*this);
-    targetFace_.rotate(*this);
+    targetFace_.transform(*this);
 }
 
 

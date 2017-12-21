@@ -81,7 +81,7 @@ Foam::highOrderFit::targetFace::~targetFace()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-void Foam::highOrderFit::targetFace::translate
+void Foam::highOrderFit::targetFace::transform
 (
     Foam::List<Foam::highOrderFit::cell>& stencil
 ) const
@@ -89,17 +89,6 @@ void Foam::highOrderFit::targetFace::translate
     forAll(stencil, i)
     {
         stencil[i].translate(-Cf_);
-    }
-}
-
-
-void Foam::highOrderFit::targetFace::rotate
-(
-    Foam::List<Foam::highOrderFit::cell>& stencil
-) const
-{
-    forAll(stencil, i)
-    {
         stencil[i].rotate(unitNormal_, vector(1, 0, 0));
     }
 }
