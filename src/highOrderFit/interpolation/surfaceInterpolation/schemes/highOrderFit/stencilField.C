@@ -60,6 +60,7 @@ Foam::highOrderFit::stencilField::stencilField
 
         const targetFace targetFace(mesh_, facei);
         (*this)[facei] = stencil(targetFace, cells);
+        transformer.transform((*this)[facei]);
     }
 }
 

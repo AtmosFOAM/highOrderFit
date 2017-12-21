@@ -34,6 +34,8 @@ SourceFiles
 #ifndef cartesianTransformer_H
 #define cartesianTransformer_H
 
+#include "stencil.H"
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -74,6 +76,7 @@ public:
 
     // Member Functions
 
+        void transform(stencil&) const;
 };
 
 

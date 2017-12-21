@@ -39,5 +39,11 @@ Foam::highOrderFit::cartesianTransformer::~cartesianTransformer()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+void Foam::highOrderFit::cartesianTransformer::transform
+(
+    Foam::highOrderFit::stencil& stencil
+) const
+{
+}
 
 // ************************************************************************* //
