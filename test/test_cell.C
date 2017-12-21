@@ -39,6 +39,11 @@ using namespace Foam;
 namespace Test
 {
 
+void translate(highOrderFit::cell& c, const vector x)
+{
+    c.transform(x, vector(1, 0, 0), vector(1, 0, 0));
+}
+
 TEST_CASE("cell_has_six_faces_for_cuboid_cell")
 {
     const Test::testCase c("cartesian4x3Mesh");
@@ -157,7 +162,7 @@ TEST_CASE("cell_calculates_x_volume_moment_for_unit_cube_centred_at_0.5,0,0")
 {
     IFstream is("resources/unitCube");
     highOrderFit::cell cell(is);
-    cell.translate(vector(0.5, 0, 0));
+    translate(cell, vector(0.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(1, 0, 0)) == approx(0.5) );
 }
@@ -166,7 +171,7 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_0.5,0,0")
 {
     IFstream is("resources/unitCube");
     highOrderFit::cell cell(is);
-    cell.translate(vector(0.5, 0, 0));
+    translate(cell, vector(0.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(1.0/3.0) );
 }
@@ -175,7 +180,7 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-1.5,0,0")
 {
     IFstream is("resources/unitCube");
     highOrderFit::cell cell(is);
-    cell.translate(vector(-1.5, 0, 0));
+    translate(cell, vector(-1.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(7.0/3.0) );
 }
@@ -184,7 +189,7 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_1.5,0,0")
 {
     IFstream is("resources/unitCube");
     highOrderFit::cell cell(is);
-    cell.translate(vector(1.5, 0, 0));
+    translate(cell, vector(1.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(7.0/3.0) );
 }
@@ -193,7 +198,7 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_-2.5,0,0")
 {
     IFstream is("resources/unitCube");
     highOrderFit::cell cell(is);
-    cell.translate(vector(-2.5, 0, 0));
+    translate(cell, vector(-2.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(19.0/3.0) );
 }
@@ -202,7 +207,7 @@ TEST_CASE("cell_calculates_x^2_volume_moment_for_unit_cube_centred_at_2.5,0,0")
 {
     IFstream is("resources/unitCube");
     highOrderFit::cell cell(is);
-    cell.translate(vector(2.5, 0, 0));
+    translate(cell, vector(2.5, 0, 0));
 
     CHECK( cell.moment(highOrderFit::order(2, 0, 0)) == approx(19.0/3.0) );
 }

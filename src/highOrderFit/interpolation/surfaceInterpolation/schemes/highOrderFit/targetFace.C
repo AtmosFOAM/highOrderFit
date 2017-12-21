@@ -88,8 +88,7 @@ void Foam::highOrderFit::targetFace::transform
 {
     forAll(stencil, i)
     {
-        stencil[i].translate(-Cf_);
-        stencil[i].rotate(unitNormal_, vector(1, 0, 0));
+        stencil[i].transform(-Cf_, unitNormal_, vector(1, 0, 0));
     }
 }
 

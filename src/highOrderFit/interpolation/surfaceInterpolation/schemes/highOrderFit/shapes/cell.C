@@ -91,30 +91,22 @@ Foam::highOrderFit::cell::~cell()
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-void Foam::highOrderFit::cell::translate(const Foam::vector x)
-{
-    C_ += x;
-
-    forAll((*this), facei)
-    {
-        (*this)[facei].translate(x);
-    }
-}
-
-
-void Foam::highOrderFit::cell::rotate
+void Foam::highOrderFit::cell::transform
 (
+    const Foam::vector x,
     const Foam::vector from,
     const Foam::vector to
 )
 {
     const quaternion q(rotationTensor(from, to));
 
+    C_ += x;
     C_ = q.transform(C_);
 
     forAll((*this), facei)
     {
         (*this)[facei].rotate(q);
+        (*this)[facei].translate(x);
     }
 }
 

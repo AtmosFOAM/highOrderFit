@@ -92,13 +92,8 @@ public:
 
     // Member Functions
 
-        //- Translate the cell by vector \c x.
-        void translate(const vector x);
-
-        //- Rotate the cell to align \c from with \c to.
-        //  The transformation is constrained by the quaternion rotation, so
-        //  cells cannot be rotated 180&deg; or more.
-        void rotate(const vector from, const vector to);
+        //- Transform the cell into local coordinates.
+        void transform(const vector x, const vector from, const vector to);
 
         //- The volume moment of the given order.
         //  Volume moments are calculated using the method of
