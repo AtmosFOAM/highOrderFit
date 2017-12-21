@@ -54,7 +54,8 @@ owner_
     (
         stencils.ownStencil(),
         stencils.ownMap(),
-        mesh
+        mesh,
+        transformer
     ),
     moments,
     multipliers
@@ -66,7 +67,8 @@ neighbour_
     (
         stencils.neiStencil(),
         stencils.neiMap(),
-        mesh
+        mesh,
+        transformer
     ),
     moments,
     multipliers

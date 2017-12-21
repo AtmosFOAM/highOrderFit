@@ -23,6 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+#include "cartesianTransformer.H"
 #include "catch.hpp"
 #include "checks.H"
 #include "face.H"
@@ -43,12 +44,14 @@ static Approx pointApprox = Approx::custom().margin(1e-12);
 TEST_CASE("stencilField_creates_stencil_for_each_in_stencilCellsList")
 {
     const Test::interpolation highOrderFit("cartesian4x3Mesh");
+    const highOrderFit::cartesianTransformer transformer;
 
     highOrderFit::stencilField stencilField
     (
         highOrderFit.stencils().ownStencil(),
         highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
+        highOrderFit.mesh(),
+        transformer
     );
 
     CHECK( stencilField.size() == 55 );
@@ -58,12 +61,14 @@ TEST_CASE("stencilField_populates_stencil_cells")
 {
     const Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
+    const highOrderFit::cartesianTransformer transformer;
 
     highOrderFit::stencilField stencilField
     (
         highOrderFit.stencils().ownStencil(),
         highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
+        highOrderFit.mesh(),
+        transformer
     );
 
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
@@ -78,12 +83,14 @@ TEST_CASE("stencilField_translate_stencil_with_targetCf_as_origin")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
+    const highOrderFit::cartesianTransformer transformer;
 
     highOrderFit::stencilField stencilField
     (
         highOrderFit.stencils().ownStencil(),
         highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
+        highOrderFit.mesh(),
+        transformer
     );
 
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
@@ -105,12 +112,14 @@ TEST_CASE("stencilField_rotates_stencil_for_horizontal_face")
 {
     Test::interpolation highOrderFit("cartesian3x4Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
+    const highOrderFit::cartesianTransformer transformer;
 
     highOrderFit::stencilField stencilField
     (
         highOrderFit.stencils().ownStencil(),
         highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
+        highOrderFit.mesh(),
+        transformer
     );
 
     const label facei = testMesh.indexOfFaceWithCentreAt(point(1.5, 3, 0));

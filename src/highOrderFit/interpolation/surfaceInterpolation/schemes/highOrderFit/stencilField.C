@@ -33,7 +33,8 @@ Foam::highOrderFit::stencilField::stencilField
 (
     const Foam::labelListList& stencilCellsList,
     const Foam::mapDistribute& map,
-    const Foam::fvMesh& mesh
+    const Foam::fvMesh& mesh,
+    const Foam::highOrderFit::cartesianTransformer& transformer
 )
 :
     List<stencil>(stencilCellsList.size()),

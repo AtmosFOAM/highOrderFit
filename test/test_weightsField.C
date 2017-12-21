@@ -23,6 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
+#include "cartesianTransformer.H"
 #include "catch.hpp"
 #include "checks.H"
 #include "interpolation.H"
@@ -40,12 +41,14 @@ namespace Test
 TEST_CASE("weightsField_has_same_size_as_stencil_field")
 {
     Test::interpolation highOrderFit("cartesian4x3Mesh");
+    const highOrderFit::cartesianTransformer transformer;
 
     highOrderFit::stencilField stencils
     (
         highOrderFit.stencils().ownStencil(),
         highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
+        highOrderFit.mesh(),
+        transformer
     );
     const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
     const highOrderFit::uniformMultipliers multipliers;
@@ -65,12 +68,14 @@ TEST_CASE("weightsField_has_weight_for_each_cell_in_stencil")
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    const highOrderFit::cartesianTransformer transformer;
     
     highOrderFit::stencilField stencils
     (
         highOrderFit.stencils().ownStencil(),
         highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
+        highOrderFit.mesh(),
+        transformer
     );
     const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
     const highOrderFit::uniformMultipliers multipliers;
@@ -90,12 +95,14 @@ TEST_CASE("weightsField_calculates_correction_on_upwind")
     Test::interpolation highOrderFit("cartesian4x3Mesh");
     const Test::mesh testMesh(highOrderFit.mesh());
     const label facei = testMesh.indexOfFaceWithCentreAt(point(3, 1.5, 0));
+    const highOrderFit::cartesianTransformer transformer;
     
     highOrderFit::stencilField stencils
     (
         highOrderFit.stencils().ownStencil(),
         highOrderFit.stencils().ownMap(),
-        highOrderFit.mesh()
+        highOrderFit.mesh(),
+        transformer
     );
     const List<highOrderFit::order> moments({highOrderFit::order(0, 0, 0)});
     const highOrderFit::uniformMultipliers multipliers;

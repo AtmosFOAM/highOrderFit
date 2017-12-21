@@ -35,6 +35,7 @@ SourceFiles
 #ifndef stencilField_H
 #define stencilField_H
 
+#include "cartesianTransformer.H"
 #include "extendedCellToFaceStencil.H"
 #include "fvMesh.H"
 #include "List.H"
@@ -77,7 +78,8 @@ public:
         (
             const labelListList& stencilCellsList,
             const mapDistribute& map,
-            const fvMesh& mesh
+            const fvMesh& mesh,
+            const cartesianTransformer& transformer
         );
 
 
