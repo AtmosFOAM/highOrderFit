@@ -78,7 +78,7 @@ public:
         face(std::initializer_list<point> lst);
 
     //- Destructor
-    ~face();
+    virtual ~face();
 
 
     // Member Functions
@@ -91,7 +91,12 @@ public:
         void decompose(List<tet>& tets) const;
         
         //- Transform the cell into local coordinates.
-        void transform(const vector x, const vector from, const vector to);
+        virtual void transform
+        (
+            const vector x,
+            const vector from,
+            const vector to
+        );
 
         //- Calculate the surface moment of the given order.
         scalar moment(const order&) const;

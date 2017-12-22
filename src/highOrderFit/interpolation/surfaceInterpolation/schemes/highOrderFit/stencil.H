@@ -101,6 +101,23 @@ public:
 
     // Member Functions
 
+        void transform(const vector x, const vector from, const vector to);
+
+        const targetFace& target() const
+        {
+            return targetFace_;
+        }
+    
+        point origin() const
+        {
+            return targetFace_.Cf();
+        }
+
+        vector primaryDirection() const
+        {
+            return targetFace_.unitNormal();
+        }
+
         //- Calculate a moment for the stencil's target face, divided by the face area.
         //  \sa Foam::highOrderFit::targetFace::momentAverage
         scalar targetFaceMomentAverage(const order&) const;

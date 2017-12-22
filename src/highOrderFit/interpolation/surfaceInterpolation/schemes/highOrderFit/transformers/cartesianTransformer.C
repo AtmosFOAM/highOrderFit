@@ -44,6 +44,11 @@ void Foam::highOrderFit::cartesianTransformer::transform
     Foam::highOrderFit::stencil& stencil
 ) const
 {
+    const vector translation = -stencil.origin();
+    const vector from = stencil.primaryDirection();
+    const vector to(1, 0, 0);
+
+    stencil.transform(translation, from, to);
 }
 
 // ************************************************************************* //

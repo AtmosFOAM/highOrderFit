@@ -132,10 +132,4 @@ Foam::scalar Foam::highOrderFit::cell::moment
 }
 
 
-Foam::point Foam::highOrderFit::cell::centre() const
-{
-    return C_;
-}
-
-
 // ************************************************************************* //

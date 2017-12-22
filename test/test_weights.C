@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
+#include "cartesianTransformer.H"
 #include "cell.H"
 #include "checks.H"
 #include "mesh.H"
@@ -126,7 +127,9 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     cells[2] = highOrderFit::cell(c.mesh(), uuCelli);
 
     const highOrderFit::targetFace targetFace(c.mesh(), facei);
-    const highOrderFit::stencil stencil(targetFace, cells);
+    highOrderFit::stencil stencil(targetFace, cells);
+    const highOrderFit::cartesianTransformer transformer;
+    transformer.transform(stencil);
 
     const scalarList multipliers(3, 1.0);
     const highOrderFit::weights weights(moments);

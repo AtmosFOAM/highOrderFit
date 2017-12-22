@@ -67,9 +67,6 @@ class targetFace
         vector unitNormal_;
         scalar area_;
 
-    // Private Member Functions
-
-        void transform();
 
 public:
 
@@ -102,12 +99,19 @@ public:
 
     // Member Functions
 
-        //- Transform the stencil into local coordinates.
-        void transform(List<cell>&) const;
-
         //- Calculate a moment for the stencil's target face, divided by the face area.
         //  \sa Foam::highOrderFit::face::moment
         scalar momentAverage(const order&) const;
+    
+        point Cf() const
+        {
+            return Cf_;
+        }
+
+        vector unitNormal() const
+        {
+            return unitNormal_;
+        }
 
 };
 

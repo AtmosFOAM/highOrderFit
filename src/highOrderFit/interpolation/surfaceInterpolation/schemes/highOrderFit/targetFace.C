@@ -26,13 +26,6 @@ License
 #include "targetFace.H"
 #include "surfaceMesh.H"
 
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
-
-void Foam::highOrderFit::targetFace::transform()
-{
-    face::transform(-Cf_, unitNormal_, vector(1, 0, 0));
-}
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::targetFace::targetFace()
@@ -52,9 +45,7 @@ face(mesh, facei),
 Cf_(mesh.Cf()[facei]),
 unitNormal_(mesh.Sf()[facei]/mag(mesh.Sf()[facei])),
 area_(mag(mesh.Sf()[facei]))
-{
-    transform();
-}
+{}
 
 Foam::highOrderFit::targetFace::targetFace
 (
@@ -67,9 +58,7 @@ face(lst),
 Cf_(Cf),
 unitNormal_(Sf/mag(Sf)),
 area_(mag(Sf))
-{
-    transform();
-}
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
@@ -79,18 +68,6 @@ Foam::highOrderFit::targetFace::~targetFace()
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-
-void Foam::highOrderFit::targetFace::transform
-(
-    Foam::List<Foam::highOrderFit::cell>& stencil
-) const
-{
-    forAll(stencil, i)
-    {
-        stencil[i].transform(-Cf_, unitNormal_, vector(1, 0, 0));
-    }
-}
-
 
 Foam::scalar Foam::highOrderFit::targetFace::momentAverage
 (

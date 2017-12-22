@@ -102,7 +102,10 @@ public:
         scalar moment(const order& o) const;
 
         //- The cell centre as specified during construction.
-        point centre() const;
+        point centre() const
+        {
+            return C_;
+        }
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

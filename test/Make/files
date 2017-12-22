@@ -1,6 +1,7 @@
 checks.C
 interpolation.C
 mesh.C
+test_cartesianTransformer.C
 test_cell.C
 test_exponentTensor.C
 test_face.C
@@ -10,7 +11,6 @@ test_stencil.C
 test_stencilBoundaryExclusion.C
 test_stencilBoundaryInclusion.C
 test_stencilField.C
-test_targetFace.C
 test_tet.C
 test_uniformMultipliers.C
 test_weightsField.C

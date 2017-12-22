@@ -24,7 +24,9 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
+#include "cartesianTransformer.H"
 #include "checks.H"
+#include "stencil.H"
 #include "targetFace.H"
 
 using namespace Foam;
@@ -32,33 +34,68 @@ using namespace Foam;
 namespace Test
 {
 
-TEST_CASE("targetFace_translates_itself_such_that_Cf_is_origin")
+TEST_CASE("cartesianTransformer_translates_stencil_so_targetCf_is_origin")
 {
+    const highOrderFit::cartesianTransformer transformer;
     const highOrderFit::targetFace targetFace
     (
-        {point(0, 0, 0)},
-        point(2, 4, 3),
+        {point(10, 11, 12)},
+        point(1, 2, 3),
         vector(1, 0, 0)
     );
 
-    checkEqual(targetFace[0], point(-2, -4, -3));
+    const List<highOrderFit::cell> cells
+    (
+        {
+            highOrderFit::cell
+            (
+                {highOrderFit::face({point(7, 8, 9)})},
+                point(0, 0, 0)
+            )
+        }
+    );
+
+    highOrderFit::stencil stencil(targetFace, cells);
+
+    transformer.transform(stencil);
+
+    checkEqual(stencil[0].centre(), point(-1, -2, -3));
+    checkEqual(stencil[0][0][0], point(6, 6, 6));
+    checkEqual(stencil.target()[0], point(9, 9, 9));
 }
 
-TEST_CASE("targetFace_rotates_itself_such_that_primary_direction_is_downwind")
+TEST_CASE("cartesianTransformer_rotates_stencil_anticlockwise_90_degrees")
 {
+    const highOrderFit::cartesianTransformer transformer;
     const highOrderFit::targetFace targetFace
     (
-        {point(0, -1, 0)},
+        {point(1, 0, 0)},
         point(0, 0, 0),
-        vector(0, 3, 0)
+        vector(0, -1, 0)
     );
-    
-    checkEqual(targetFace[0], point(-1, 0, 0));
+
+    const List<highOrderFit::cell> cells
+    (
+        {
+            highOrderFit::cell
+            (
+                {highOrderFit::face({point(-1, 0, 0)})},
+                point(0, 1, 0)
+            )
+        }
+    );
+
+    highOrderFit::stencil stencil(targetFace, cells);
+
+    transformer.transform(stencil);
+
+    checkEqual(stencil[0].centre(), point(-1, 0, 0));
+    checkEqual(stencil[0][0][0], point(0, -1, 0));
+    checkEqual(stencil.target()[0], point(0, 1, 0));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test
-
 
 // ************************************************************************* //

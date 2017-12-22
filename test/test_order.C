@@ -102,5 +102,4 @@ TEST_CASE("order_round_trips_list_through_IOstreams")
 
 } // End namespace Test
 
-
 // ************************************************************************* //

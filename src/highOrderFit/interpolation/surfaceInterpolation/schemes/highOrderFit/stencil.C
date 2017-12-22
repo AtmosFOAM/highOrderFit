@@ -39,9 +39,7 @@ Foam::highOrderFit::stencil::stencil
 :
 Foam::List<Foam::highOrderFit::cell>(cells),
 targetFace_(targetFace)
-{
-    targetFace_.transform(*this);
-}
+{}
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
@@ -51,6 +49,21 @@ Foam::highOrderFit::stencil::~stencil()
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+void Foam::highOrderFit::stencil::transform
+(
+    const Foam::vector x,
+    const Foam::vector from,
+    const Foam::vector to
+)
+{
+    targetFace_.transform(x, from, to);
+
+    forAll((*this), celli)
+    {
+        (*this)[celli].transform(x, from, to);
+    }
+}
 
 Foam::scalar Foam::highOrderFit::stencil::targetFaceMomentAverage
 (
