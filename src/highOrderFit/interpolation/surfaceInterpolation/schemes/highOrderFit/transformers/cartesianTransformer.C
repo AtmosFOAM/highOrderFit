@@ -45,10 +45,21 @@ void Foam::highOrderFit::cartesianTransformer::transform
 ) const
 {
     const vector translation = -stencil.origin();
-    const vector from = stencil.primaryDirection();
+    vector from = stencil.primaryDirection();
     const vector to(1, 0, 0);
 
-    stencil.transform(translation, from, to);
+    const scalar s = from & to;
+    const scalar magSqrN3 = magSqr(from ^ to);
+
+    if (magSqrN3 <= SMALL && s < 0)
+    {
+        from = vector(1, 0, 0);
+        stencil.transform(translation, from, to);
+    }
+    else
+    {
+        stencil.transform(translation, from, to);
+    }
 }
 
 // ************************************************************************* //

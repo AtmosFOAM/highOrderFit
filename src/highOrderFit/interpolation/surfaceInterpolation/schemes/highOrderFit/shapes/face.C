@@ -90,14 +90,6 @@ void Foam::highOrderFit::face::transform
     const Foam::vector to
 )
 {
-    //const scalar s = from & to;
-    //const scalar magSqrN3 = magSqr(from ^ to);
-
-    //tensor t = rotationTensor(from, to);
-    //if (magSqrN3 <= SMALL && s < 0)
-    //{
-    //    t = I;
-    //}
     const quaternion q(rotationTensor(from, to));
 
     forAll((*this), pointi)

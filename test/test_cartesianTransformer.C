@@ -94,6 +94,37 @@ TEST_CASE("cartesianTransformer_rotates_stencil_anticlockwise_90_degrees")
     checkEqual(stencil.target()[0], point(0, 1, 0));
 }
 
+TEST_CASE("cartesianTransformer_does_nothing_for_contradirectional_vectors")
+{
+    const highOrderFit::cartesianTransformer transformer;
+    const highOrderFit::targetFace targetFace
+    (
+        {point(1, 0, 0)},
+        point(0, 0, 0),
+        vector(-1, 0, 0)
+    );
+
+
+    const List<highOrderFit::cell> cells
+    (
+        {
+            highOrderFit::cell
+            (
+                {highOrderFit::face({point(-1, 0, 0)})},
+                point(0, 1, 0)
+            )
+        }
+    );
+
+    highOrderFit::stencil stencil(targetFace, cells);
+
+    transformer.transform(stencil);
+
+    checkEqual(stencil[0].centre(), point(0, 1, 0));
+    checkEqual(stencil[0][0][0], point(-1, 0, 0));
+    checkEqual(stencil.target()[0], point(1, 0, 0));
+}
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Test
