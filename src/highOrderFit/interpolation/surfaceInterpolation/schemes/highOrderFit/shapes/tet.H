@@ -61,9 +61,6 @@ class tet
 
         //- Disallow default bitwise copy construct
         tet(const tet&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const tet&);
         
         scalar moment
         (

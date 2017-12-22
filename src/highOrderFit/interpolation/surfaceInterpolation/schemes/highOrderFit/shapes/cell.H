@@ -61,9 +61,6 @@ class cell
 :
     public List<face>
 {
-    // Private data
-
-        point C_;
 
 public:
 
@@ -74,11 +71,10 @@ public:
         //  @param celli an index into <tt>mesh.cells()</tt>
         cell(const fvMesh& mesh, const label celli);
 
-        //- Construct directly from a collection of faces and specified centre.
-        cell(const List<face>& faces, const point centre);
+        //- Construct directly from a collection of faces.
+        cell(const List<face>& faces);
 
         //- Construct by reading from an input stream.
-        //  The cell centre is assumed to be <tt>(0, 0, 0)</tt>.
         cell(Istream&);
 
         //- Construct an empty instance with no faces.
@@ -101,11 +97,6 @@ public:
         //  Tuzikov et al. 2003</a>.
         scalar moment(const order& o) const;
 
-        //- The cell centre as specified during construction.
-        point centre() const
-        {
-            return C_;
-        }
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

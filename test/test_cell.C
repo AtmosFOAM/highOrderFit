@@ -84,34 +84,13 @@ TEST_CASE("cell_has_face_points")
     checkEqual(firstFace[3], point(1, 0,  0.5));
 }
 
-TEST_CASE("cell_has_centre_from_mesh")
-{
-    const Test::testCase c("cartesian4x3Mesh");
-    const Test::mesh testMesh(c.mesh());
-
-    const label celli = testMesh.indexOfCellWithCentreAt(point(0.5, 0.5, 0));
-    const highOrderFit::cell cell(c.mesh(), celli);
-
-    checkEqual(cell.centre(), point(0.5, 0.5, 0)); 
-}
-
-TEST_CASE("cell_has_centre_from_explicit_constructor")
-{
-    const point expectedCentre(2, 3, 4);
-    const List<highOrderFit::face> faces;
-    const highOrderFit::cell cell(faces, expectedCentre);
-
-    checkEqual(cell.centre(), expectedCentre);
-}
-
 TEST_CASE("cell_round_trips_through_IOstreams")
 {
     List<highOrderFit::face> faces(1);
     faces[0].setSize(1);
     faces[0][0] = point(2, 3, 4);
-    const point centreNotSerialised;
 
-    const highOrderFit::cell cellOut(faces, centreNotSerialised);
+    const highOrderFit::cell cellOut(faces);
 
     OStringStream o;
     o << cellOut << endl;

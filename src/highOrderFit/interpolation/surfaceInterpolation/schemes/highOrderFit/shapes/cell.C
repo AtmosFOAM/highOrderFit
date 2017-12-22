@@ -41,8 +41,7 @@ Foam::highOrderFit::cell::cell
     const Foam::label celli
 )
 :
-List<face>(mesh.cells()[celli].size()),
-C_(mesh.C()[celli])
+List<face>(mesh.cells()[celli].size())
 {
     const labelList& faces = mesh.cells()[celli];
     forAll(faces, i)
@@ -60,18 +59,14 @@ C_(mesh.C()[celli])
 
 Foam::highOrderFit::cell::cell
 (
-    const Foam::List<Foam::highOrderFit::face>& faces,
-    const Foam::point centre
+    const Foam::List<Foam::highOrderFit::face>& faces
 )
 :
-Foam::List<Foam::highOrderFit::face>(faces),
-C_(centre)
+Foam::List<Foam::highOrderFit::face>(faces)
 {}
 
 
 Foam::highOrderFit::cell::cell(Istream& is)
-:
-C_(0, 0, 0)
 {
     // Check state of Istream
     is.check("Foam::highOrderFit::cell::cell(Foam::Istream&)");
@@ -100,9 +95,6 @@ void Foam::highOrderFit::cell::transform
 )
 {
     const quaternion q(rotationTensor(from, to));
-
-    C_ += x;
-    C_ = q.transform(C_);
 
     forAll((*this), facei)
     {

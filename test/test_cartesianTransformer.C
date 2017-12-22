@@ -47,11 +47,7 @@ TEST_CASE("cartesianTransformer_translates_stencil_so_targetCf_is_origin")
     const List<highOrderFit::cell> cells
     (
         {
-            highOrderFit::cell
-            (
-                {highOrderFit::face({point(7, 8, 9)})},
-                point(0, 0, 0)
-            )
+            highOrderFit::cell({highOrderFit::face({point(7, 8, 9)})})
         }
     );
 
@@ -59,7 +55,6 @@ TEST_CASE("cartesianTransformer_translates_stencil_so_targetCf_is_origin")
 
     transformer.transform(stencil);
 
-    checkEqual(stencil[0].centre(), point(-1, -2, -3));
     checkEqual(stencil[0][0][0], point(6, 6, 6));
     checkEqual(stencil.target()[0], point(9, 9, 9));
 }
@@ -77,11 +72,7 @@ TEST_CASE("cartesianTransformer_rotates_stencil_anticlockwise_90_degrees")
     const List<highOrderFit::cell> cells
     (
         {
-            highOrderFit::cell
-            (
-                {highOrderFit::face({point(-1, 0, 0)})},
-                point(0, 1, 0)
-            )
+            highOrderFit::cell({highOrderFit::face({point(-1, 0, 0)})})
         }
     );
 
@@ -89,7 +80,6 @@ TEST_CASE("cartesianTransformer_rotates_stencil_anticlockwise_90_degrees")
 
     transformer.transform(stencil);
 
-    checkEqual(stencil[0].centre(), point(-1, 0, 0));
     checkEqual(stencil[0][0][0], point(0, -1, 0));
     checkEqual(stencil.target()[0], point(0, 1, 0));
 }
@@ -110,8 +100,7 @@ TEST_CASE("cartesianTransformer_does_nothing_for_contradirectional_vectors")
         {
             highOrderFit::cell
             (
-                {highOrderFit::face({point(-1, 0, 0)})},
-                point(0, 1, 0)
+                highOrderFit::cell({highOrderFit::face({point(-1, 0, 0)})})
             )
         }
     );
@@ -120,7 +109,6 @@ TEST_CASE("cartesianTransformer_does_nothing_for_contradirectional_vectors")
 
     transformer.transform(stencil);
 
-    checkEqual(stencil[0].centre(), point(0, 1, 0));
     checkEqual(stencil[0][0][0], point(-1, 0, 0));
     checkEqual(stencil.target()[0], point(1, 0, 0));
 }

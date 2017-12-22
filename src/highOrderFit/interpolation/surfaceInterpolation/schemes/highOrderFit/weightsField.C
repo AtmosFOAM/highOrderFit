@@ -89,7 +89,6 @@ multipliers_(multipliers)
                 const label facei = patch.start() + i;
 
                 calculateWeightsFor(facei);
-                //std::cerr << (*this)[facei][0] << " " << (*this)[facei][1] << endl;
             }
         }
     }
