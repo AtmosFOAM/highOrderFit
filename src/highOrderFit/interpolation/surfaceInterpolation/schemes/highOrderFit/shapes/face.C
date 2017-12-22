@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "face.H"
+#include "quaternion.H"
 #include "transform.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //

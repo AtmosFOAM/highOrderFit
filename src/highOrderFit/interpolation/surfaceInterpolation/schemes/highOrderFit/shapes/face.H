@@ -39,7 +39,6 @@ SourceFiles
 #include "List.H"
 #include "order.H"
 #include "point.H"
-#include "quaternion.H"
 #include "tet.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

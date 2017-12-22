@@ -47,9 +47,10 @@ C_(mesh.C()[celli])
     const labelList& faces = mesh.cells()[celli];
     forAll(faces, i)
     {
-        (*this)[i] = face(mesh, faces[i]);
+        const label facei = faces[i];
+        (*this)[i] = face(mesh, facei);
 
-        if (mesh.neighbour()[faces[i]] == celli)
+        if (facei < mesh.nInternalFaces() && mesh.neighbour()[facei] == celli)
         {
             (*this)[i].flip();
         }
@@ -126,6 +127,14 @@ Foam::scalar Foam::highOrderFit::cell::moment
         {
             moment += faceTets[teti].volumeMoment(o);
         }
+    }
+
+    if (o == order(0, 0, 0) && moment < SMALL)
+    {
+        FatalErrorInFunction
+            << "Cell has zero volume "
+            << (*this) << endl
+            << exit(FatalError);
     }
 
     return moment;
