@@ -9,7 +9,7 @@ env:
     - AWS_DEFAULT_REGION=eu-west-1
     - DEBFULLNAME="James Shaw"
     - DEBEMAIL=js102@zepler.net
-    - SINGULARITY_VERSION=2.4
+    - SINGULARITY_VERSION=2.4.2
 
 install:
   - cd /tmp
@@ -21,7 +21,7 @@ install:
   - make
   - sudo make install
   - sudo apt-get install ruby-dev -y
-  - sudo gem install deb-s3 -v 0.8.0
+  - sudo gem install deb-s3
   - cd $TRAVIS_BUILD_DIR
 
 script: ./singularity.dist.sh 17.04 zesty
