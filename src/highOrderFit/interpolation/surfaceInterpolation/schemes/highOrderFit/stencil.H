@@ -102,18 +102,22 @@ public:
 
     // Member Functions
 
+        //- Transform the stencil's target face and stencil cells using the specified coordinates.
         void transform(const coordinateSystem&);
 
+        //- The target face through which flux is calculated.
         const targetFace& target() const
         {
             return targetFace_;
         }
     
+        //- The origin of the stencil in global coordinates.
         point origin() const
         {
             return targetFace_.Cf();
         }
 
+        //- The target face normal in global coordinates.
         vector primaryDirection() const
         {
             return targetFace_.unitNormal();

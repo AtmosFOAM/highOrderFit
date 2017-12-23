@@ -25,6 +25,8 @@ Class
     Foam::highOrderFit::cartesianTransformer
 
 Description
+    Translate and rotate stencils in Cartesian space.
+    \sa Foam::cartesianCS
 
 SourceFiles
     cartesianTransformer.C
@@ -52,7 +54,6 @@ namespace highOrderFit
 
 class cartesianTransformer
 {
-    // Private data
 
     // Private Member Functions
 
@@ -67,6 +68,7 @@ public:
 
     // Constructors
 
+        //- Construct a default instance.
         cartesianTransformer();
 
 
@@ -76,6 +78,7 @@ public:
 
     // Member Functions
 
+        //- Transform a stencil such that the target face centre is the origin and the primary direction is parallel to the target face normal.
         void transform(stencil&) const;
 };
 

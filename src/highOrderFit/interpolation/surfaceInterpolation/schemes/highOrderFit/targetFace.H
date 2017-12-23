@@ -103,11 +103,13 @@ public:
         //  \sa Foam::highOrderFit::face::moment
         scalar momentAverage(const order&) const;
     
+        //- The target face centre in global coordinates.
         point Cf() const
         {
             return Cf_;
         }
 
+        //- The face unit normal in global coordinates.
         vector unitNormal() const
         {
             return unitNormal_;
