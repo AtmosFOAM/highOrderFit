@@ -24,8 +24,6 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "face.H"
-#include "quaternion.H"
-#include "transform.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -86,18 +84,12 @@ void Foam::highOrderFit::face::decompose
 
 void Foam::highOrderFit::face::transform
 (
-    const Foam::vector x,
-    const Foam::vector from,
-    const Foam::vector to
+    const Foam::coordinateSystem& coordinates
 )
 {
-    const quaternion q(rotationTensor(from, to));
-
     forAll((*this), pointi)
     {
-        (*this)[pointi] += x;
-
-        (*this)[pointi] = q.transform((*this)[pointi]);
+        (*this)[pointi] = coordinates.localPosition((*this)[pointi]);
     }
 }
 

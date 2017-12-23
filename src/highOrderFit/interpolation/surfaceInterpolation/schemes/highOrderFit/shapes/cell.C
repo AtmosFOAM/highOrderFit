@@ -26,9 +26,7 @@ License
 #include "cell.H"
 #include "face.H"
 #include "labelList.H"
-#include "quaternion.H"
 #include "tet.H"
-#include "transform.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
@@ -89,16 +87,12 @@ Foam::highOrderFit::cell::~cell()
 
 void Foam::highOrderFit::cell::transform
 (
-    const Foam::vector x,
-    const Foam::vector from,
-    const Foam::vector to
+    const coordinateSystem& coordinates
 )
 {
-    const quaternion q(rotationTensor(from, to));
-
     forAll((*this), facei)
     {
-        (*this)[facei].transform(x, from, to);
+        (*this)[facei].transform(coordinates);
     }
 }
 

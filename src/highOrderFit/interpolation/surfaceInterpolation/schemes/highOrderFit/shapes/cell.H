@@ -35,6 +35,7 @@ SourceFiles
 #ifndef highOrderFit_cell_H
 #define highOrderFit_cell_H
 
+#include "coordinateSystem.H"
 #include "face.H"
 #include "fvMesh.H"
 #include "order.H"
@@ -89,7 +90,7 @@ public:
     // Member Functions
 
         //- Transform the cell into local coordinates.
-        void transform(const vector x, const vector from, const vector to);
+        void transform(const coordinateSystem&);
 
         //- The volume moment of the given order.
         //  Volume moments are calculated using the method of

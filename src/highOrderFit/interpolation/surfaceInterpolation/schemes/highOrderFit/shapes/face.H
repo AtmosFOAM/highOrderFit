@@ -35,6 +35,7 @@ SourceFiles
 #ifndef highOrderFit_face_H
 #define highOrderFit_face_H
 
+#include "coordinateSystem.H"
 #include "fvMesh.H"
 #include "List.H"
 #include "order.H"
@@ -90,12 +91,7 @@ public:
         void decompose(List<tet>& tets) const;
         
         //- Transform the cell into local coordinates.
-        virtual void transform
-        (
-            const vector x,
-            const vector from,
-            const vector to
-        );
+        virtual void transform(const coordinateSystem&);
 
         //- Calculate the surface moment of the given order.
         scalar moment(const order&) const;

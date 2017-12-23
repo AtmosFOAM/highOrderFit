@@ -24,6 +24,9 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "cartesianTransformer.H"
+#include "axesRotation.H"
+#include "cartesianCS.H"
+#include "transform.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -44,7 +47,6 @@ void Foam::highOrderFit::cartesianTransformer::transform
     Foam::highOrderFit::stencil& stencil
 ) const
 {
-    const vector translation = -stencil.origin();
     vector from = stencil.primaryDirection();
     const vector to(1, 0, 0);
 
@@ -54,12 +56,16 @@ void Foam::highOrderFit::cartesianTransformer::transform
     if (magSqrN3 <= SMALL && s < 0)
     {
         from = vector(1, 0, 0);
-        stencil.transform(translation, from, to);
     }
-    else
-    {
-        stencil.transform(translation, from, to);
-    }
+
+    axesRotation* rotation = new axesRotation(rotationTensor(to, from));
+    cartesianCS coordinates
+    (
+        "stencilCoordinates",
+        stencil.origin(),
+        *rotation
+    );
+    stencil.transform(coordinates);
 }
 
 // ************************************************************************* //

@@ -24,6 +24,8 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
+#include "axesRotation.H"
+#include "cartesianCS.H"
 #include "checks.H"
 #include "face.H"
 
@@ -94,7 +96,13 @@ TEST_CASE("face_calculates_1_0_0_moment_for_unit_square_centred_at_0.5_0_0")
             point(-0.5,  0.5, 0)
         }
     );
-    face.transform(vector(0.5, 0, 0), vector(1, 0, 0), vector(1, 0, 0));
+    cartesianCS coordinates
+    (
+        "faceTransform",
+        point(-0.5, 0, 0),
+        *(new axesRotation(I))
+    );
+    face.transform(coordinates);
 
     CHECK( face.moment(highOrderFit::order(1, 0, 0)) == approx(0.5) );
 }

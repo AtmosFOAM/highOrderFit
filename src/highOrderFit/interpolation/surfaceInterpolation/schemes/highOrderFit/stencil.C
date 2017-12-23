@@ -52,16 +52,14 @@ Foam::highOrderFit::stencil::~stencil()
 
 void Foam::highOrderFit::stencil::transform
 (
-    const Foam::vector x,
-    const Foam::vector from,
-    const Foam::vector to
+    const Foam::coordinateSystem& coordinates
 )
 {
-    targetFace_.transform(x, from, to);
+    targetFace_.transform(coordinates);
 
     forAll((*this), celli)
     {
-        (*this)[celli].transform(x, from, to);
+        (*this)[celli].transform(coordinates);
     }
 }
 

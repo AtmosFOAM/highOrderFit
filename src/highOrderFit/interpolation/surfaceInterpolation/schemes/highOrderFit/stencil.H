@@ -37,6 +37,7 @@ SourceFiles
 #define stencil_H
 
 #include "cell.H"
+#include "coordinateSystem.H"
 #include "label.H"
 #include "order.H"
 #include "scalarList.H"
@@ -101,7 +102,7 @@ public:
 
     // Member Functions
 
-        void transform(const vector x, const vector from, const vector to);
+        void transform(const coordinateSystem&);
 
         const targetFace& target() const
         {

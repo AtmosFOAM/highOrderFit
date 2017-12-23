@@ -24,6 +24,8 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "catch.hpp"
+#include "axesRotation.H"
+#include "cartesianCS.H"
 #include "checks.H"
 #include "cell.H"
 #include "face.H"
@@ -41,7 +43,8 @@ namespace Test
 
 void translate(highOrderFit::cell& c, const vector x)
 {
-    c.transform(x, vector(1, 0, 0), vector(1, 0, 0));
+    cartesianCS coordinates("translation", -x, *(new axesRotation(I)));
+    c.transform(coordinates);
 }
 
 TEST_CASE("cell_has_six_faces_for_cuboid_cell")
