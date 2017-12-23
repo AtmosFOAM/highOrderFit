@@ -40,7 +40,7 @@ TEST_CASE("sphericalTransformer_translates_stencil_so_targetCf_is_origin")
     const highOrderFit::targetFace targetFace
     (
         {point(10, 11, 12)},
-        point(1, 2, 3),
+        point(0, 0, 2),
         vector(1, 0, 0)
     );
 
@@ -55,8 +55,33 @@ TEST_CASE("sphericalTransformer_translates_stencil_so_targetCf_is_origin")
 
     transformer.transform(stencil);
 
-    checkEqual(stencil[0][0][0], point(6, 6, 6));
-    checkEqual(stencil.target()[0], point(9, 9, 9));
+    checkEqual(stencil[0][0][0], point(7, 8, 7));
+    checkEqual(stencil.target()[0], point(10, 11, 10));
+}
+
+TEST_CASE("sphericalTransformer_rotates_so_that_primary_direction_downwind")
+{
+    const highOrderFit::sphericalTransformer transformer;
+    const highOrderFit::targetFace targetFace
+    (
+        {point(1, 1, 0)},
+        point(1, 0, 0),
+        vector(0, 1, 0)
+    );
+
+    const List<highOrderFit::cell> cells
+    (
+        {
+            highOrderFit::cell({highOrderFit::face({point(1, -1, 0)})})
+        }
+    );
+
+    highOrderFit::stencil stencil(targetFace, cells);
+
+    transformer.transform(stencil);
+
+    checkEqual(stencil[0][0][0], point(-1, 0, 0));
+    checkEqual(stencil.target()[0], point(1, 0, 0));
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

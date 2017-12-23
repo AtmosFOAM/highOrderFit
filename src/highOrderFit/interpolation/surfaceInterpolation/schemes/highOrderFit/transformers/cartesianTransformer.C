@@ -75,8 +75,8 @@ void Foam::highOrderFit::cartesianTransformer::transform
         from = vector(1, 0, 0);
     }
 
-    axesRotation* rotation = new axesRotation(rotationTensor(to, from));
-    cartesianCS coordinates
+    const axesRotation* rotation = new axesRotation(rotationTensor(to, from));
+    const cartesianCS coordinates
     (
         "stencilCoordinates",
         stencil.origin(),

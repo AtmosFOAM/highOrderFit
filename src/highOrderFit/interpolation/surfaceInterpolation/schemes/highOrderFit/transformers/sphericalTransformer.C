@@ -64,19 +64,14 @@ void Foam::highOrderFit::sphericalTransformer::transform
     Foam::highOrderFit::stencil& stencil
 ) const
 {
-    /*vector from = stencil.primaryDirection();
-    const vector to(1, 0, 0);
+    const vector i = stencil.primaryDirection()/mag(stencil.primaryDirection());
+    const vector k = stencil.origin()/mag(stencil.origin());
+    const vector j = k ^ i;
 
-    const scalar s = from & to;
-    const scalar magSqrN3 = magSqr(from ^ to);
+    const tensor R(i, j, k);
+    const axesRotation* rotation = new axesRotation(R.T());
 
-    if (magSqrN3 <= SMALL && s < 0)
-    {
-        from = vector(1, 0, 0);
-    }*/
-
-    axesRotation* rotation = new axesRotation(I);
-    cartesianCS coordinates
+    const cartesianCS coordinates
     (
         "stencilCoordinates",
         stencil.origin(),
