@@ -36,12 +36,6 @@ namespace highOrderFit
 }
 
 
-// * * * * * * * * * * * * * Static Member Functions * * * * * * * * * * * * //
-
-
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-
 // * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
 
 Foam::autoPtr<Foam::highOrderFit::multipliers>
@@ -56,9 +50,9 @@ Foam::highOrderFit::multipliers::New
     if (cstrIter == wordConstructorTablePtr_->end())
     {
         FatalErrorInFunction
-            << "Unknown multiplier type "
+            << "Unknown multipliers type "
             << type << nl << nl
-            << "Valid multiplier types : " << endl
+            << "Valid multipliers types : " << endl
             << wordConstructorTablePtr_->sortedToc()
             << exit(FatalError);
     }

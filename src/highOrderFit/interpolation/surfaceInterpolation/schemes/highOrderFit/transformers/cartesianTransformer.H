@@ -37,6 +37,7 @@ SourceFiles
 #define cartesianTransformer_H
 
 #include "stencil.H"
+#include "transformer.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -53,6 +54,8 @@ namespace highOrderFit
 \*---------------------------------------------------------------------------*/
 
 class cartesianTransformer
+:
+    public transformer
 {
 
     // Private Member Functions
@@ -65,6 +68,10 @@ class cartesianTransformer
 
 
 public:
+
+    //- Runtime type information
+    TypeName("cartesian");
+
 
     // Constructors
 

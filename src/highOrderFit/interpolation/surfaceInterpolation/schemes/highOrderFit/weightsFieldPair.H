@@ -38,11 +38,11 @@ SourceFiles
 #ifndef weightsFieldPair_H
 #define weightsFieldPair_H
 
-#include "cartesianTransformer.H"
 #include "extendedUpwindCellToFaceStencil.H"
 #include "fvMesh.H"
 #include "MeshObject.H"
 #include "order.H"
+#include "transformer.H"
 #include "weightsField.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -86,7 +86,7 @@ public:
         (
             const fvMesh& mesh,
             const extendedUpwindCellToFaceStencil& stencils,
-            const cartesianTransformer& transformer,
+            const transformer& transformer,
             const List<order>& moments,
             const multipliers& multipliers
         );

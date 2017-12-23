@@ -24,9 +24,26 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "cartesianTransformer.H"
+#include "addToRunTimeSelectionTable.H"
 #include "axesRotation.H"
 #include "cartesianCS.H"
 #include "transform.H"
+
+namespace Foam
+{
+namespace highOrderFit
+{
+
+defineTypeNameAndDebug(cartesianTransformer, 0);
+addToRunTimeSelectionTable
+(
+    transformer,
+    cartesianTransformer,
+    word
+);
+
+}
+}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

@@ -37,7 +37,6 @@ SourceFiles
 #define highOrderFitScheme_H
 
 #include "autoPtr.H"
-#include "cartesianTransformer.H"
 #include "Diagnostic.H"
 #include "extendedUpwindCellToFaceStencil.H"
 #include "multipliers.H"
@@ -45,6 +44,7 @@ SourceFiles
 #include "stencilBoundaryPolicy.H"
 #include "stencilBoundaryExclusion.H"
 #include "stencilField.H"
+#include "transformer.H"
 #include "upwind.H"
 #include "upwindCPCCellToFaceStencilObject.H"
 #include "weightsField.H"
@@ -72,7 +72,7 @@ class highOrderFitScheme
 
         const fvMesh& mesh_;
         const extendedUpwindCellToFaceStencil& stencils_;
-        const highOrderFit::cartesianTransformer transformer_;
+        const autoPtr<highOrderFit::transformer> transformer_;
         const List<highOrderFit::order> moments_;
         const autoPtr<highOrderFit::multipliers> multipliers_;
         const highOrderFit::weightsFieldPair& weights_;
@@ -133,6 +133,7 @@ public:
             ),
             mesh_(mesh),
             stencils_(initialiseStencils()),
+            transformer_(highOrderFit::transformer::New(word(is))),
             moments_(List<highOrderFit::order>(is)),
             multipliers_(highOrderFit::multipliers::New(word(is))),
             weights_(initialiseWeights())
@@ -150,6 +151,7 @@ public:
             upwind<Type>(mesh, faceFlux),
             mesh_(mesh),
             stencils_(initialiseStencils()),
+            transformer_(highOrderFit::transformer::New(word(is))),
             moments_(List<highOrderFit::order>(is)),
             multipliers_(highOrderFit::multipliers::New(word(is))),
             weights_(initialiseWeights())

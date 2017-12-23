@@ -33,7 +33,7 @@ Foam::highOrderFit::weightsFieldPair::weightsFieldPair
 (
     const Foam::fvMesh& mesh,
     const Foam::extendedUpwindCellToFaceStencil& stencils,
-    const Foam::highOrderFit::cartesianTransformer& transformer,
+    const Foam::highOrderFit::transformer& transformer,
     const Foam::List<Foam::highOrderFit::order>& moments,
     const Foam::highOrderFit::multipliers& multipliers
 )

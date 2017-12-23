@@ -22,24 +22,20 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::stencilField
+    Foam::highOrderFit::transformer
 
 Description
-    Stencils of cells for cellToFace surface interpolation indexed by face.
 
 SourceFiles
-    stencilField.C
+    transformer.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef stencilField_H
-#define stencilField_H
+#ifndef transformer_H
+#define transformer_H
 
-#include "extendedCellToFaceStencil.H"
-#include "fvMesh.H"
-#include "List.H"
+#include "runTimeSelectionTables.H"
 #include "stencil.H"
-#include "transformer.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -51,44 +47,51 @@ namespace Foam
 namespace highOrderFit
 {
 
+
 /*---------------------------------------------------------------------------*\
-                         Class stencilField Declaration
+                         Class transformer Declaration
 \*---------------------------------------------------------------------------*/
 
-class stencilField
-:
-    public List<stencil>
+class transformer
 {
-    // Private data
-
-        const fvMesh& mesh_;
 
     // Private Member Functions
 
-        //- Disallow default bitwise assignment
-        void operator=(const stencilField&);
+        // Disallow default bitwise copy construct
+        //transformer(const transformer&);
+
+        // Disallow default bitwise assignment
+        //void operator=(const transformer&);
 
 
 public:
 
-    // Constructors
+	//- Declare run-time constructor selection table                            
 
-        //- Construct from a specified list of stencils of cell labels.
-        stencilField
+        declareRunTimeSelectionTable
         (
-            const labelListList& stencilCellsList,
-            const mapDistribute& map,
-            const fvMesh& mesh,
-            const transformer& transformer
+            autoPtr,
+            transformer,
+            word,
+            (),
+            ()
         );
 
 
+    // Selectors
+
+        //- Select transformer instance by type name.
+        static autoPtr<transformer> New(const word& type);
+
+
     //- Destructor
-    ~stencilField();
+    virtual ~transformer() {};
 
 
     // Member Functions
 
+		//- Translate and rotate the stencil from global to local coordinates.
+		virtual void transform(stencil&) const = 0;
 
 };
 

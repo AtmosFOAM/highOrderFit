@@ -23,55 +23,42 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "stencilField.H"
-#include "extendedCellToFaceStencil.H"
-#include "targetFace.H"
+#include "transformer.H"
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-Foam::highOrderFit::stencilField::stencilField
-(
-    const Foam::labelListList& stencilCellsList,
-    const Foam::mapDistribute& map,
-    const Foam::fvMesh& mesh,
-    const Foam::highOrderFit::transformer& transformer
-)
-:
-    List<stencil>(stencilCellsList.size()),
-    mesh_(mesh)
+namespace Foam
 {
-    List<cell> myCells(map.constructSize());
-    forAll(mesh_.cells(), celli)
-    {
-        myCells[celli] = cell(mesh_, celli);
-    }
-
-    map.distribute(myCells);
-
-    forAll(stencilCellsList, facei)
-    {
-        const labelList& stencilCells = stencilCellsList[facei];
-        List<cell> cells(stencilCells.size());
-
-        forAll(stencilCells, i)
-        {
-            cells[i] = myCells[stencilCells[i]];
-        }
-
-        const targetFace targetFace(mesh_, facei);
-        (*this)[facei] = stencil(targetFace, cells);
-        transformer.transform((*this)[facei]);
-    }
+namespace highOrderFit
+{   
+    defineRunTimeSelectionTable(transformer, word);
+}
 }
 
 
-// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
 
-Foam::highOrderFit::stencilField::~stencilField()
-{}
+Foam::autoPtr<Foam::highOrderFit::transformer>
+Foam::highOrderFit::transformer::New
+(
+    const Foam::word& type
+)
+{
+    wordConstructorTable::iterator cstrIter =
+        wordConstructorTablePtr_->find(type);
 
+    if (cstrIter == wordConstructorTablePtr_->end())
+    {
+        FatalErrorInFunction
+            << "Unknown transformer type "
+            << type << nl << nl
+            << "Valid transformer types : " << endl
+            << wordConstructorTablePtr_->sortedToc()
+            << exit(FatalError);
+    }
 
-// * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+    return autoPtr<transformer>(cstrIter()());
+}
 
 
 // ************************************************************************* //

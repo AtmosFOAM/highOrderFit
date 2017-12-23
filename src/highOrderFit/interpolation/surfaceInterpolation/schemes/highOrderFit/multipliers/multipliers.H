@@ -57,15 +57,6 @@ namespace highOrderFit
 class multipliers
 {
 
-    // Private Member Functions
-
-        // Disallow default bitwise copy construct
-        //multipliers(const multipliers&);
-
-        // Disallow default bitwise assignment
-        //void operator=(const multipliers&);
-
-
 public:
 
     //- Declare run-time constructor selection table
