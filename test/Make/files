@@ -7,6 +7,7 @@ test_exponentTensor.C
 test_face.C
 test_highOrderFitScheme.C
 test_order.C
+test_sphericalTransformer.C
 test_stencil.C
 test_stencilBoundaryExclusion.C
 test_stencilBoundaryInclusion.C

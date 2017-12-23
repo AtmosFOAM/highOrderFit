@@ -25,6 +25,7 @@ $(shapes)/tet.C
 
 transformers = $(highOrderFit)/transformers
 $(transformers)/cartesianTransformer.C
+$(transformers)/sphericalTransformer.C
 $(transformers)/transformer.C
 
 LIB = $(FOAM_USER_LIBBIN)/libhighOrderFit

@@ -22,25 +22,22 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::highOrderFit::transformer
+    Foam::highOrderFit::sphericalTransformer
 
 Description
-    Translates and rotates a stencil into a local coordinate system.
-
-    The target face centre is the local origin and implementating classes
-    rotate the stencil such that the primary direction is parallel with
-    the upwind-downwind direction (or downwind-upwind direction).
+    Translate and rotate stencils on spherical meshes.
+    \sa Foam::cartesianCS
 
 SourceFiles
-    transformer.C
+    sphericalTransformer.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef transformer_H
-#define transformer_H
+#ifndef sphericalTransformer_H
+#define sphericalTransformer_H
 
-#include "runTimeSelectionTables.H"
 #include "stencil.H"
+#include "transformer.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -52,52 +49,46 @@ namespace Foam
 namespace highOrderFit
 {
 
-
 /*---------------------------------------------------------------------------*\
-                         Class transformer Declaration
+                         Class sphericalTransformer Declaration
 \*---------------------------------------------------------------------------*/
 
-class transformer
+class sphericalTransformer
+:
+    public transformer
 {
 
     // Private Member Functions
 
-        // Disallow default bitwise copy construct
-        //transformer(const transformer&);
+        //- Disallow default bitwise copy construct
+        sphericalTransformer(const sphericalTransformer&);
 
-        // Disallow default bitwise assignment
-        //void operator=(const transformer&);
+        //- Disallow default bitwise assignment
+        void operator=(const sphericalTransformer&);
 
 
 public:
 
-	//- Declare run-time constructor selection table                            
-
-        declareRunTimeSelectionTable
-        (
-            autoPtr,
-            transformer,
-            word,
-            (),
-            ()
-        );
+    //- Runtime type information
+    TypeName("spherical");
 
 
-    // Selectors
+    // Constructors
 
-        //- Select transformer instance by type name.
-        static autoPtr<transformer> New(const word& type);
+        //- Construct a default instance.
+        sphericalTransformer();
 
 
     //- Destructor
-    virtual ~transformer() {};
+    ~sphericalTransformer();
 
 
     // Member Functions
 
-		//- Translate and rotate the stencil from global to local coordinates.
-		virtual void transform(stencil&) const = 0;
-
+        //- Transform a stencil such that the target face centre is the origin and the primary direction is parallel to the target face normal.
+        //  The stencil z-direction is aligned with the radial direction given
+        //  by the target face centre vector.
+        void transform(stencil&) const;
 };
 
 
