@@ -59,6 +59,7 @@ class weights
     // Private data
 
         const List<order> moments_;
+        const List<order> linearMoments_;
 
     // Private Member Functions
 
@@ -67,6 +68,8 @@ class weights
 
         //- Disallow default bitwise assignment
         void operator=(const weights&);
+
+        const List<order>& momentsFor(const stencil&) const;
 
 
 public:
