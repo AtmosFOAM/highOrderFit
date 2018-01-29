@@ -65,6 +65,7 @@ volScalarField TGhost
 );
 TGhost = ghostMesh.mapToGhost(T);
 TGhost.write();
+TGhost.oldTime();
 
 surfaceScalarField phiGhost
 (
@@ -78,8 +79,54 @@ phi.write();
 Uf.write();
 U.write();
 
+volScalarField k1
+(
+    IOobject
+    (
+        "k1",
+        runTime.timeName(),
+        ghostMesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    -fvc::div(phiGhost,TGhost)
+);
 
-// Store div(phi,T) for time-stepping
-volScalarField divPhiTGhost = fvc::div(phiGhost, TGhost);
-volScalarField divPhiT = ghostMesh.mapFromGhost(divPhiTGhost);
-divPhiT.oldTime();
+volScalarField k2
+(
+    IOobject
+    (
+        "k2",
+        runTime.timeName(),
+        ghostMesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    -fvc::div(phiGhost,TGhost)
+);
+
+volScalarField k3
+(
+    IOobject
+    (
+        "k3",
+        runTime.timeName(),
+        ghostMesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    -fvc::div(phiGhost,TGhost)
+);
+
+volScalarField k4
+(
+    IOobject
+    (
+        "k4",
+        runTime.timeName(),
+        ghostMesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    -fvc::div(phiGhost,TGhost)
+);

@@ -43,9 +43,7 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
-    // Read the number of iterations each time-step
-    const dictionary& itsDict = mesh.solutionDict().subDict("iterations");
-    const int nCorr = readLabel(itsDict.lookup("nCorr"));
+    #define dt runTime.deltaT()
 
     // Create the ghost mesh
     fvGhostMesh ghostMesh
@@ -86,20 +84,19 @@ int main(int argc, char *argv[])
         defFlow.update(phiGhost);
         #include "CourantNo.H"
 
-        for (int corr = 0; corr < nCorr; corr++)
-        {
-            fvScalarMatrix TEqn
-            (
-                fvm::ddt(T) + 0.5*divPhiT + 0.5*divPhiT.oldTime()
-            );
+		k1 = -fvc::div(phiGhost, TGhost.oldTime(), "div(phiGhost,TGhost)");
+		k2 = -fvc::div(phiGhost, TGhost.oldTime() + dt/2 * k1, "div(phiGhost,TGhost)");
+		k3 = -fvc::div(phiGhost, TGhost.oldTime() + dt/2 * k2, "div(phiGhost,TGhost)");
+		k4 = -fvc::div(phiGhost, TGhost.oldTime() + dt * k3, "div(phiGhost,TGhost)");
 
-           TEqn.solve();
-
-            // Map T to ghost mesh, calculate divergence and map back
-            TGhost = ghostMesh.mapToGhost(T);
-            divPhiTGhost = fvc::div(phiGhost, TGhost);
-            divPhiT = ghostMesh.mapFromGhost(divPhiTGhost);
-        }
+        T = T.oldTime() + dt/6 * 
+        (
+              ghostMesh.mapFromGhost(k1)
+            + 2*ghostMesh.mapFromGhost(k2)
+            + 2*ghostMesh.mapFromGhost(k3)
+            + ghostMesh.mapFromGhost(k4)
+        );
+        TGhost = ghostMesh.mapToGhost(T);
 
         Info << " T goes from " << min(T.internalField()) << " to "
              << max(T.internalField()) << nl << endl;
