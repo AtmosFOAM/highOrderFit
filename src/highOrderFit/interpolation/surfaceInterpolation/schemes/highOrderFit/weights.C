@@ -28,6 +28,22 @@ License
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
+const Foam::List<Foam::highOrderFit::order>&
+Foam::highOrderFit::weights::momentsFor
+(
+    const Foam::highOrderFit::stencil& stencil
+) const
+{
+    if (stencil.size() >= 12)
+    {
+        return moments_;
+    }
+    else
+    {
+        return linearMoments_;
+    }
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::weights::weights
@@ -35,7 +51,19 @@ Foam::highOrderFit::weights::weights
     const Foam::List<Foam::highOrderFit::order>& moments
 )
 :
-moments_(moments)
+moments_(moments),
+linearMoments_({order(0, 0, 0), order(1, 0, 0), order(0, 0, 1)})
+{}
+
+
+Foam::highOrderFit::weights::weights
+(
+    const Foam::List<Foam::highOrderFit::order>& moments,
+    const Foam::List<Foam::highOrderFit::order>& linearMoments
+)
+:
+moments_(moments),
+linearMoments_(linearMoments)
 {}
 
 
@@ -58,14 +86,15 @@ void Foam::highOrderFit::weights::calculate
         createMatrix(stencil, multipliers);
     const SVD svd(B());
     const scalarRectangularMatrix& Binv = svd.VSinvUt();
+    const List<order>& moments = momentsFor(stencil);
 
     for (label col = 0; col < Binv.n(); col++)
     {
         weights[col] = 0.0;
-        forAll(moments_, row)
+        forAll(moments, row)
         {
             weights[col] += Binv(row, col) *
-                stencil.targetFaceMomentAverage(moments_[row]);
+                stencil.targetFaceMomentAverage(moments[row]);
         }
         weights[col] *= multipliers[col];
     }
@@ -79,26 +108,28 @@ Foam::highOrderFit::weights::createMatrix
     const Foam::scalarList& multipliers
 ) const
 {
+    const List<order>& moments = momentsFor(stencil);
+
     scalarRectangularMatrix* B = new scalarRectangularMatrix
     (
         stencil.size(),
-        moments_.size()
+        moments.size()
     );
 
     for (label row = 0; row < B->m(); row++)
     {
         const scalar volume = stencil[row].moment(order(0, 0, 0));
 
-        forAll(moments_, col)
+        forAll(moments, col)
         {
-            if (moments_[col] == order(0, 0, 0))
+            if (moments[col] == order(0, 0, 0))
             {
                 (*B)(row, col) = multipliers[row];
             }
             else
             {
                 (*B)(row, col) =
-                    stencil[row].moment(moments_[col]) * multipliers[row];
+                    stencil[row].moment(moments[col]) * multipliers[row];
                 (*B)(row, col) /= volume;
             }
         }

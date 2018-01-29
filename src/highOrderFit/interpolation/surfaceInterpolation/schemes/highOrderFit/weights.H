@@ -59,6 +59,7 @@ class weights
     // Private data
 
         const List<order> moments_;
+        const List<order> linearMoments_;
 
     // Private Member Functions
 
@@ -68,6 +69,8 @@ class weights
         //- Disallow default bitwise assignment
         void operator=(const weights&);
 
+        const List<order>& momentsFor(const stencil&) const;
+
 
 public:
 
@@ -76,6 +79,8 @@ public:
         //- Construct an instance to calculate weights for the given moments.
         weights(const List<order>& moments);
 
+
+        weights(const List<order>& moments, const List<order>& linearMoments);
 
     //- Destructor
     ~weights();

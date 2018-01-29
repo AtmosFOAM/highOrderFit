@@ -96,7 +96,11 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
     const highOrderFit::inverseDistanceMultipliers multipliers;
     scalarList m(3);
     multipliers.calculate(stencil, m);
-    const highOrderFit::weights weights({highOrderFit::order(0, 0, 0)});
+    const highOrderFit::weights weights
+    (
+        {highOrderFit::order(0, 0, 0)},
+        {highOrderFit::order(0, 0, 0)}
+    );
 
     weights.calculate(w, stencil, m);
 
@@ -105,7 +109,7 @@ TEST_CASE("weights_with_inverse_distance_multipliers_fit_central_cells_closely")
     CHECK( w[downwind] == approx(0.4999992847) ); 
 }
 
-TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
+TEST_CASE("weights_populates_matrix_with_zeroth_and_first_volume_moments")
 {
     const Test::testCase c("cartesian4x3Mesh");
     const Test::mesh testMesh(c.mesh());
@@ -115,11 +119,13 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     const label dCelli = testMesh.indexOfCellWithCentreAt(point(3.5, 1.5, 0));
     const label uuCelli = testMesh.indexOfCellWithCentreAt(point(1.5, 1.5, 0));
 
-    const List<highOrderFit::order> moments(
-    {
-        highOrderFit::order(0, 0, 0),
-        highOrderFit::order(1, 0, 0)
-    });
+    const List<highOrderFit::order> moments
+    (
+        {
+            highOrderFit::order(0, 0, 0),
+            highOrderFit::order(1, 0, 0)
+        }
+    );
 
     List<highOrderFit::cell> cells(3);
     cells[0] = highOrderFit::cell(c.mesh(), uCelli);
@@ -132,7 +138,7 @@ TEST_CASE("weights_populates_matrix_with_zeroth_and_x_volume_moments")
     transformer.transform(stencil);
 
     const scalarList multipliers(3, 1.0);
-    const highOrderFit::weights weights(moments);
+    const highOrderFit::weights weights(moments, moments);
 
     autoPtr<scalarRectangularMatrix> actual =
         weights.createMatrix(stencil, multipliers);
