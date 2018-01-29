@@ -10,5 +10,6 @@ From:ubuntu:$VERSION
 	apt-get -qq update --allow-insecure-repositories
 
 	DEBIAN_FRONTEND=noninteractive \
-	apt-get install atmosfoam devscripts debhelper openfoam-dev -y --allow-unauthenticated --no-install-recommends
+	apt-get install devscripts debhelper libdistro-info-perl -y
+	apt-get install atmosfoam openfoam-dev -y --allow-unauthenticated --no-install-recommends
 
