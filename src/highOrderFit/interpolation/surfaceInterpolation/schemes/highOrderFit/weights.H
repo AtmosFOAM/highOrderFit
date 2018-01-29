@@ -80,6 +80,8 @@ public:
         weights(const List<order>& moments);
 
 
+        weights(const List<order>& moments, const List<order>& linearMoments);
+
     //- Destructor
     ~weights();
 

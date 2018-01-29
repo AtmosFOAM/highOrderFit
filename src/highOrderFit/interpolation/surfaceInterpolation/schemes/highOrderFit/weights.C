@@ -56,6 +56,17 @@ linearMoments_({order(0, 0, 0), order(1, 0, 0), order(0, 0, 1)})
 {}
 
 
+Foam::highOrderFit::weights::weights
+(
+    const Foam::List<Foam::highOrderFit::order>& moments,
+    const Foam::List<Foam::highOrderFit::order>& linearMoments
+)
+:
+moments_(moments),
+linearMoments_(linearMoments)
+{}
+
+
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 Foam::highOrderFit::weights::~weights()
