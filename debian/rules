@@ -7,8 +7,6 @@ PREFIX := /usr
 exec_prefix := $(PREFIX)
 bindir := $(exec_prefix)/bin
 libdir := $(exec_prefix)/lib
-includedir := $(exec_prefix)/include
-sharedir := $(exec_prefix)/share
 DESTDIR := debian/highorderfit
 
 export FOAM_BASHRC = /opt/openfoam-dev/etc/bashrc
@@ -35,8 +33,6 @@ override_dh_auto_test:
 override_dh_auto_install:
 	$(INSTALL) -d $(DESTDIR)$(bindir)
 	$(INSTALL) -d $(DESTDIR)$(libdir)
-	$(INSTALL) -d $(DESTDIR)$(includedir)
 	$(INSTALL_PROGRAM) -D $(FOAM_USER_APPBIN)/* $(DESTDIR)$(bindir)
 	$(INSTALL_PROGRAM) -D $(FOAM_USER_LIBBIN)/* $(DESTDIR)$(libdir)
 	$(RM) $(DESTDIR)$(bindir)/testHighOrderFit
-	debian/install_lnInclude.sh src $(DESTDIR)$(includedir)
