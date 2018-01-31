@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
         {
             Info << "facei=" << facei << ",owner,"
                  << "upwind_weight=" << w[0] + 1.0
+                 << ",stencil_size=" << w.size()
                  << ",Cf=" << mesh.Cf()[facei] << endl;
             instabilities++;
         }
@@ -81,6 +82,7 @@ int main(int argc, char *argv[])
         {
             Info << "facei=" << facei << ",owner,"
                  << "downwind_weight=" << w[1]
+                 << ",stencil_size=" << w.size()
                  << ",Cf=" << mesh.Cf()[facei] << endl;
             instabilities++;
         }
@@ -93,6 +95,7 @@ int main(int argc, char *argv[])
         {
             Info << "facei=" << facei << ",neighbour,"
                  << "upwind_weight=" << w[0] + 1.0
+                 << ",stencil_size=" << w.size()
                  << ",Cf=" << mesh.Cf()[facei] << endl;
             instabilities++;
         }
@@ -100,6 +103,7 @@ int main(int argc, char *argv[])
         {
             Info << "facei=" << facei << ",neighbour,"
                  << "downwind_weight=" << w[1]
+                 << ",stencil_size=" << w.size()
                  << ",Cf=" << mesh.Cf()[facei] << endl;
             instabilities++;
         }
