@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    diagnoseHighOrderFit
+    diagnoseHighOrderFitFace
 
 Description
 
@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "createFields.H"
 
-    ITstream& specification = mesh.interpolationScheme("diagnoseHighOrderFit");
+    ITstream& specification
+        = mesh.interpolationScheme("diagnoseHighOrderFit");
     const word schemeName(specification);
     if (schemeName != "highOrderFit")
     {

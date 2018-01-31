@@ -203,6 +203,12 @@ public:
             );
         }
 
+        //- Access stencil weights for diagnostic purposes.
+        const highOrderFit::weightsFieldPair& weights() const
+        {
+            return weights_;
+        }
+
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
