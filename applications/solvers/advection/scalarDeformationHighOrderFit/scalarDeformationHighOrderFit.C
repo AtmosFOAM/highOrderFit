@@ -85,8 +85,11 @@ int main(int argc, char *argv[])
         #include "CourantNo.H"
 
 		k1 = -fvc::div(phiGhost, TGhost.oldTime(), "div(phiGhost,TGhost)");
+        k1 = ghostMesh.mapToGhost(ghostMesh.mapFromGhost(k1));
 		k2 = -fvc::div(phiGhost, TGhost.oldTime() + dt/2 * k1, "div(phiGhost,TGhost)");
+        k2 = ghostMesh.mapToGhost(ghostMesh.mapFromGhost(k2));
 		k3 = -fvc::div(phiGhost, TGhost.oldTime() + dt/2 * k2, "div(phiGhost,TGhost)");
+        k3 = ghostMesh.mapToGhost(ghostMesh.mapFromGhost(k3));
 		k4 = -fvc::div(phiGhost, TGhost.oldTime() + dt * k3, "div(phiGhost,TGhost)");
 
         T = T.oldTime() + dt/6 * 
