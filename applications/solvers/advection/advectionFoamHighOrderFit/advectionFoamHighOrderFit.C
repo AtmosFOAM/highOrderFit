@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
     {
         #include "CourantNo.H"
         if (CoNum > maxCoNum) maxCoNum = CoNum;
+        Info<< "Time = " << runTime.timeName() << nl << endl;
 
         k1 = -fvc::div(phi, T.oldTime(), "div(phi,T)");
         k2 = -fvc::div(phi, T.oldTime() + dt/2 * k1, "div(phi,T)");
